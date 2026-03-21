@@ -97,30 +97,17 @@ export class ProductComponent implements OnInit, OnDestroy {
     } else {
       this.melhorEnvio.getShipping(this.postalCode)
         .then(result => {
-          const shippings = result;
-          const prices: number[] = [];
-          let smallPrice!: number;
+          console.log("Dados do frete Jadlog e Correios: ", result);
 
-          shippings.forEach((data: any) => {
+          this.sale.shipping = {
+            _id: result[0]?._id,
+            name: result[0]?.company?.name,
+            price: Number(result[0]?.price),
+            postalCode: postalCodeNumber?.postalCode,
+          }
 
-            if (data.price != null && (data.company.name == "Jadlog" || data.company.name == "Correios")) {
-              prices.push(data.price)
-              smallPrice = Math.min(...prices.map(Number));
-
-              if (data.price == smallPrice) {
-                this.shippings.pop();
-                this.shippings.push(data);
-
-                this.sale.shipping = {
-                  _id: data._id,
-                  name: data.name,
-                  price: Number(data.price),
-                  postalCode: postalCodeNumber?.postalCode,
-                }
-              }
-            }
-          })
-
+          console.log("Dados da venda: ", this.sale);
+          
         })
         .catch(error => {
           console.log(error);

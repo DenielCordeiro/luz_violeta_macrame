@@ -124,15 +124,19 @@
 
       .button-freight-content
         display: flex
-        flex-direction: column-reverse
+        justify-content: center
+        margin-top: 1vh
 
-        .buttons
-          width: 10vw
-          font-size: 18px
+        .button-freight
+          padding: 1vh 2vw
+          border: 1px solid colors.$pourple-light
+          cursor: pointer
 
           @include display.hd
-            width: 12vw
-            font-size: 13px
+            padding: 0.5vh 2vw
+
+          &:hover
+            border-color: colors.$pourple
 
       .price-shipping
         display: flex
