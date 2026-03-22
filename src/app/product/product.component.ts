@@ -41,19 +41,25 @@ export class ProductComponent implements OnInit, OnDestroy {
     public productsService: ProductsService,
     public melhorEnvio: MelhorEnvioService,
     public cartService: CartService,
-  ) {
-    // this.getProductSelected();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.getProductSelected();
+    this.getCurrentShipping();
     this.buildingForm();
-    this.getUserProfile();
+    // this.getUserProfile();
     this.checkIfProductIsInCart();
   }
 
   getProductSelected(): void {
-    this.product = this.productsService.getProductSelected();
+    try {
+      this.product = this.productsService.getProductSelected();
+    } catch (error) {
+      console.error({
+        "message:": "Não foi possível buscar o produto do serviço.",
+        "fail: ": error,
+      })
+    }
 
     if (!this.product) {
       console.error('Nenhum produto selecionado!');
@@ -81,6 +87,20 @@ export class ProductComponent implements OnInit, OnDestroy {
   updateModal(id: string | undefined): void {}
   deleteModal(id: string | undefined): void {}
 
+  getCurrentShipping(): void {
+      try {
+        const shipping = localStorage.getItem('shipping');
+
+        if (shipping) {
+          this.sale.shipping = JSON.parse(shipping);
+        } else {
+          console.error('Nenhum frete encontrado no localStorage.');
+        }
+      } catch (error) {
+        console.error('Nenhum frete encontrado:', error);
+      }
+  }
+
   searchShipping(): void {
     const postalCodeNumber = this.searchForm?.value;
     this.postalCode = String(postalCodeNumber?.postalCode)
@@ -92,30 +112,16 @@ export class ProductComponent implements OnInit, OnDestroy {
     } else {
       this.melhorEnvio.getShipping(this.postalCode)
         .then(result => {
-          const shippings = result;
-          const prices: number[] = [];
-          let smallPrice!: number;
+          this.sale.shipping = {
+            company: {
+              name: result[0]?.company?.name,
+              picture: result[0]?.company?.picture
+            },
+            price: Number(result[0]?.price),
+            postalCode: postalCodeNumber?.postalCode
+          };
 
-          shippings.forEach((data: any) => {
-
-            if (data.price != null && (data.company.name == "Jadlog" || data.company.name == "Correios")) {
-              prices.push(data.price)
-              smallPrice = Math.min(...prices.map(Number));
-
-              if (data.price == smallPrice) {
-                this.shippings.pop();
-                this.shippings.push(data);
-
-                this.sale.shipping = {
-                  _id: data._id,
-                  name: data.name,
-                  price: Number(data.price),
-                  postalCode: postalCodeNumber?.postalCode,
-                }
-              }
-            }
-          })
-
+          localStorage.setItem('shipping', JSON.stringify(this.sale.shipping));
         })
         .catch(error => {
           console.log(error);
@@ -126,7 +132,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   changeQuantity(action: string): number {
     if (action === 'add') {
       this.productsQuantity++;
-    } else if (action === 'reduce' && this.productsQuantity > 1) {
+    } else if (action === 'remove' && this.productsQuantity > 1) {
       this.productsQuantity--;
     }
     return this.productsQuantity;
@@ -157,7 +163,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
     loadProductsInCart.subscribe(products => {
       this.productsInCart = products;
-    })
+    });
 
     if (this.productsInCart.length > 0) {
       this.productsInCart.forEach(product => {        

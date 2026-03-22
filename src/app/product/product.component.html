@@ -43,19 +43,19 @@
             <div class="col-6">
               <form [formGroup]="searchForm">
                 <label for="postalCode">Digite o CEP:</label>
-                <input id="postalCode" type="number" class="input-postalcode" formControlName="postalCode">
+                <input id="postalCode" type="number" class="input-postalcode" formControlName="postalCode" placeholder="{{ this.sale.shipping?.postalCode }}">
               </form>
             </div>
 
             <div class="col-6 button-freight-content">
-              <div class="buttons button-send" (click)="searchShipping()">
+              <div class="button-freight" (click)="searchShipping()">
                 <span>Calcular Frete</span>
                 <i class="bi bi-airplane-engines mx-2"></i>
               </div>
             </div>
           </div>
 
-          @for (shipping of shippings; track shipping._id) {
+          @for (shipping of shippings; track shipping) {
             <div class="cards-shippings">
               <hr class="mt-5 mb-2">
               <div class="shipping row">
@@ -73,11 +73,11 @@
 
         <hr class="my-3">
 
-        <div class="productsQuantity">
-          <span>Quantidade: </span>
-          <i class="bi bi-dash-lg cart-button" (click)="changeQuantity('reduce')"></i>
+        <div class="products-quantity">
+          <span>Quantidade:</span>
+          <span class="material-symbols-outlined icon-product-quantity" (click)="changeQuantity('remove')">remove</span>
           <span class="quantity">{{ productsQuantity }}</span>
-          <i class="bi bi-plus-lg cart-button" (click)="changeQuantity('add')"></i>
+          <span class="material-symbols-outlined icon-product-quantity" (click)="changeQuantity('add')">add</span>
         </div>
 
         <div class="add-to-cart">
@@ -115,7 +115,7 @@
   </div>
 </section>
 
-<section id="mobile">
+<!-- <section id="mobile">
   @for (product of products; track product._id) {
     <div class="content-product"></div>
   }
@@ -126,4 +126,4 @@
       <span>voltar para produtos</span>
     </div>
   </div>
-</section>
+</section> -->

@@ -31,23 +31,18 @@ export abstract class CrudCartService<T extends BaseCrud>{
     return headers;
   }
 
-  public addToCart(product: Product): Promise<Product[]> {
-    if (!this.products || this.products.length === 0) {
+  public addToCart(product: Product): Promise<Product[]> {    
+    this.products = this.products || [];
+
+    const productExists = this.products.find(item => item._id === product._id);
+
+    if (productExists) {
+      console.warn({message: '[OPA!]: Produto já está no carrinho!'});
+    } else {
       this.products.push(product);
+
       localStorage.setItem('cart', JSON.stringify(this.products));
       this.cartSubject.next(this.products);
-
-    } else {
-      this.products.forEach(productInCart => {
-
-        if (productInCart._id === product._id) {
-          console.warn('Produto já está no carrinho!');
-        } else {
-          this.products.push(product);
-          localStorage.setItem('cart', JSON.stringify(this.products));
-          this.cartSubject.next(this.products);
-        }
-      });
     }
 
     return Promise.resolve(this.products);
@@ -57,7 +52,7 @@ export abstract class CrudCartService<T extends BaseCrud>{
     const products = this.getProductsInCart();
 
     if (products.length === 0) {
-      console.log('Carrinho vazio, não há produtos para remover!');
+      console.warn({ message: 'Carrinho vazio, não há produtos para remover!' });
     } else {
       this.products = products.filter(item => item._id !== product._id);
       localStorage.setItem('cart', JSON.stringify(this.products));

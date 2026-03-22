@@ -44,26 +44,22 @@ export abstract class CrudProductsService<T extends BaseCrud> {
   }
 
   public getProductSelected(): Product {
-    const productInLocalStorage = localStorage.getItem('selectedProduct');
+    const productInLocalStorage = localStorage.getItem('selectedProduct');   
 
     if (productInLocalStorage !== null) {
       const product = JSON.parse(productInLocalStorage)
       this.products.push(product)
     } else {
-      console.error("[ERRO!]: Produto não está sendo carregado do LocalStorage")
+      console.error({ "message": "[ERRO!] Produto não está sendo carregado do LocalStorage" })
     }
 
     return this.products[0];
   }
 
   public removeProductSelected(): void {
-    this.products = [];
-    localStorage.removeItem('selectedProduct');
-  }
-
-  public removeProductLocalStorage(productName: string): void {
     this.products.pop();
-    localStorage.removeItem(productName);
+    localStorage.removeItem('selectedProduct');
+    localStorage.removeItem('shipping');
   }
 
   public createProduct(model: FormData): Promise<T> {
