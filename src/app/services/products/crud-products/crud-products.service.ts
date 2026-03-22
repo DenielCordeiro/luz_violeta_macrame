@@ -44,10 +44,7 @@ export abstract class CrudProductsService<T extends BaseCrud> {
   }
 
   public getProductSelected(): Product {
-    const productInLocalStorage = localStorage.getItem('selectedProduct');
-
-    console.log('Produto selecionado: ', productInLocalStorage);
-    
+    const productInLocalStorage = localStorage.getItem('selectedProduct');   
 
     if (productInLocalStorage !== null) {
       const product = JSON.parse(productInLocalStorage)
@@ -60,13 +57,9 @@ export abstract class CrudProductsService<T extends BaseCrud> {
   }
 
   public removeProductSelected(): void {
-    this.products = [];
-    localStorage.removeItem('selectedProduct');
-  }
-
-  public removeProductLocalStorage(productName: string): void {
     this.products.pop();
-    localStorage.removeItem(productName);
+    localStorage.removeItem('selectedProduct');
+    localStorage.removeItem('shipping');
   }
 
   public createProduct(model: FormData): Promise<T> {

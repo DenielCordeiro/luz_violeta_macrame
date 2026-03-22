@@ -26,9 +26,6 @@ export class MelhorEnvioService {
     const prices: number[] = [];
     let smallPrice!: number;
 
-    console.log("fretes: ", data);
-    
-
     data.forEach((data: any) => {
 
       if (data.price != null && (data.company.name == "Jadlog" || data.company.name == "Correios")) {

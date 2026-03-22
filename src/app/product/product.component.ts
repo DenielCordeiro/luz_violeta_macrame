@@ -45,6 +45,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getProductSelected();
+    this.getCurrentShipping();
     this.buildingForm();
     // this.getUserProfile();
     this.checkIfProductIsInCart();
@@ -86,6 +87,20 @@ export class ProductComponent implements OnInit, OnDestroy {
   updateModal(id: string | undefined): void {}
   deleteModal(id: string | undefined): void {}
 
+  getCurrentShipping(): void {
+      try {
+        const shipping = localStorage.getItem('shipping');
+
+        if (shipping) {
+          this.sale.shipping = JSON.parse(shipping);
+        } else {
+          console.error('Nenhum frete encontrado no localStorage.');
+        }
+      } catch (error) {
+        console.error('Nenhum frete encontrado:', error);
+      }
+  }
+
   searchShipping(): void {
     const postalCodeNumber = this.searchForm?.value;
     this.postalCode = String(postalCodeNumber?.postalCode)
@@ -97,17 +112,16 @@ export class ProductComponent implements OnInit, OnDestroy {
     } else {
       this.melhorEnvio.getShipping(this.postalCode)
         .then(result => {
-          console.log("Dados do frete Jadlog e Correios: ", result);
-
           this.sale.shipping = {
-            _id: result[0]?._id,
-            name: result[0]?.company?.name,
+            company: {
+              name: result[0]?.company?.name,
+              picture: result[0]?.company?.picture
+            },
             price: Number(result[0]?.price),
-            postalCode: postalCodeNumber?.postalCode,
-          }
+            postalCode: postalCodeNumber?.postalCode
+          };
 
-          console.log("Dados da venda: ", this.sale);
-          
+          localStorage.setItem('shipping', JSON.stringify(this.sale.shipping));
         })
         .catch(error => {
           console.log(error);
@@ -118,7 +132,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   changeQuantity(action: string): number {
     if (action === 'add') {
       this.productsQuantity++;
-    } else if (action === 'reduce' && this.productsQuantity > 1) {
+    } else if (action === 'remove' && this.productsQuantity > 1) {
       this.productsQuantity--;
     }
     return this.productsQuantity;
