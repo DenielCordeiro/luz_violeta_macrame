@@ -1,28 +1,30 @@
-<form [formGroup]="loginForm">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Acesse sua conta</h4>
-      <span (click)="closeDialog()">X</span>
-    </div>
+<section id="form">
+	<form [formGroup]="loginForm">
+		<header>
+			<span class="title">Acesse sua conta</span>
+			<span class="material-symbols-outlined close" (click)="closeDialog()">tab_close</span>
+		</header>
 
-    <div class="modal-body row">
-      <div class="mb-3 row">
-        <label for="email" class="col-sm-2 col-form-label">E-mail:</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" value="example@example.com" formControlName="email">
-        </div>
-      </div>
+		<main>
+			<div class="mb-3 row">
+				<label for="email" class="col-sm-2 col-form-label">E-mail:</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" id="email" placeholder="example@example.com" formControlName="email">
+				</div>
+			</div>
 
-      <div class="mb-3 row">
-        <label for="password" class="col-sm-2 col-form-label">Senha:</label>
-        <div class="col-sm-10">
-          <input type="password" class="form-control" id="password" formControlName="password">
-        </div>
-      </div>
-    </div>
+			<div class="mb-3 row">
+				<label for="password" class="col-sm-2 col-form-label">Senha:</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="password"  placeholder="***" formControlName="password">
+				</div>
+			</div>
+		</main>
 
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" routerLink="/register" (click)="closeDialog()">Cadastre-se</button>
-      <button type="button" class="btn btn-secondary">Fechar</button>
-      <button type="submit" class="buttons button-send" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
-    </div>
-</form>
+		<footer>
+			<button type="button" class="btn btn-secondary" (click)="closeDialog()">Fechar</button>
+			<button type="button" class="btn btn-dark" routerLink="/register" (click)="closeDialog()">Cadastre-se</button>
+			<button type="submit" class="buttons button-send" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
+		</footer>
+	</form>
+</section>

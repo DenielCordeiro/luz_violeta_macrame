@@ -1,12 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { User } from "src/app/interfaces/user.interface";
+import { MatDialog } from "@angular/material/dialog";
 import { UsersService } from "src/app/services/users/users.service";
+import { User } from "src/app/interfaces/user.interface";
+import { RouterLink } from "@angular/router";
 
 @Component({
     selector: 'app-start',
     standalone: true,
-    imports: [ReactiveFormsModule],
+    imports: [
+        ReactiveFormsModule,
+        RouterLink
+    ],
     templateUrl: './start.component.html',
     styleUrls: ['./start.component.sass']
 })
@@ -15,7 +20,8 @@ export class StartComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private userService: UsersService
+        private userService: UsersService,
+        public dialog: MatDialog,
     ) {}
     
     ngOnInit(): void {
@@ -48,5 +54,7 @@ export class StartComponent implements OnInit {
         }
     }
 
-    closeDialog(): void {}
+    closeDialog(): void {
+        this.dialog.closeAll();
+    }
 }
