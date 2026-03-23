@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { StartComponent } from './start/start.component';
 
@@ -8,14 +8,30 @@ import { StartComponent } from './start/start.component';
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
+  imports: [RouterLink],
 })
 export class LoginComponent implements OnInit {
+  refreshToken: string | null = null;
+  isConnected: boolean = false;
+
   constructor(
     public route: ActivatedRoute,
     public dialog: MatDialog,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.verifyIsConnected();
+  }
+
+  verifyIsConnected(): boolean {
+    this.refreshToken = JSON.stringify(localStorage.getItem('refresh_token'));  
+
+    if(this.refreshToken !== null) {
+      return this.isConnected = true;
+    } else {
+      return this.isConnected = false;
+    }
+  }
 
   loginDialog(): void {
     this.dialog.open<StartComponent>(StartComponent);

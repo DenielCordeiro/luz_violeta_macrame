@@ -1,9 +1,13 @@
 <section id="buttons">
-  <div class="button-login" (click)="loginDialog()">
-    <span>Entrar</span>
-  </div>
-
-  <div class="button-my-account">
-    <span>Minha Conta</span>
-  </div>
+	@if (isConnected == true){
+		<div class="button-login" (click)="loginDialog()">
+			<span class="material-symbols-outlined">login</span> <br>
+			<span>Entrar</span>
+		</div>
+	} @else {
+		<div class="button-my-account" routerLink="/profile">
+			<span class="material-symbols-outlined">account_circle</span> <br>
+			<span>Minha Conta</span>
+		</div>
+	}
 </section>
