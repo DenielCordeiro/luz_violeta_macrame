@@ -68,18 +68,18 @@
   position: fixed
   width: 0%
   height: 100%
-  top: 5.5vh
+  top: 60px
   left: -8vw
   transition: width 800ms ease, left 800ms ease
   display: flex
   justify-content: flex-end
   background-color: colors.$white
 
-  @include display.hd
-    top: 6.8vh
+  @include display.hd 
+    top: 57px !important
 
   @include display.mobile
-    top: 45px
+    top: 61px !important
 
 .menu-open
   width: 15vw
@@ -87,7 +87,7 @@
   left: 0vw
   display: flex
   justify-content: center
-  box-shadow: 2px 2px 0px 0px colors.$pourple-gray
+  box-shadow: 1px 1px 0px 0px colors.$pourple-gray
   transition: width 800ms ease, left 800ms ease
 
   @include display.hd
