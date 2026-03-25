@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -8,66 +8,78 @@ import { Product } from '../interfaces/product.interface';
 import { User } from '../interfaces/user.interface';
 import { CartService } from '../services/cart/cart.service';
 import { MenuComponent } from './menu/menu.component';
+import { MatDialog } from '@angular/material/dialog';
+import { StartComponent } from './login/start/start.component';
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MenuComponent
-],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass'],
+	selector: 'app-header',
+	standalone: true,
+	imports: [
+		CommonModule,
+		MatIconModule,
+		MenuComponent
+	],
+	templateUrl: './header.component.html',
+	styleUrls: ['./header.component.sass'],
 })
 
-export class HeaderComponent  implements OnInit {
-  cart: Product[] = [];
-  profile: User = {};
-  productsQuantity: number = 0;
-  userId: string = "";
+export class HeaderComponent implements OnInit {
+	@ViewChild('container', { read: ViewContainerRef }) container!: ViewContainerRef; // Captura o local para inserir o template
+	@ViewChild('loginTemplate') loginTemplate!: TemplateRef<any>; // Captura o template em si
 
-  constructor(
-    public route: Router,
-    public cartService: CartService,
-  ) {}
+	cart: Product[] = [];
+	profile: User = {};
+	productsQuantity: number = 0;
+	userId: string | undefined = undefined;
 
-  ngOnInit(): void {
-    this.cartService.getProductsInCart();
-    this.getProductsInCart();
-  }
+	constructor(
+		public route: Router,
+		public cartService: CartService,
+		public dialog: MatDialog,
+	) { }
 
-  getProductsInCart(): Product[] {
-    this.cartService.productsInCart.subscribe(product => {
-      this.cart = product;
-      this.productsQuantity = this.cart.length;
-    });
+	ngOnInit(): void {
+		this.cartService.getProductsInCart();
+		this.getProductsInCart();
+	}
 
-    return this.cart;
-  }
+	getProductsInCart(): Product[] {
+		this.cartService.productsInCart.subscribe(product => {
+			this.cart = product;
+			this.productsQuantity = this.cart.length;
+		});
 
-  openCart(): void {
-    this.getUserId();
+		return this.cart;
+	}
 
-    if (this.userId == null) {
-      alert('[ Atenção ! ]: Necessário fazer login :)');
-    } else {
+	openCart(): void {
+		this.getUserId();
 
-      console.log(this.cart.length);
-      
+		if (this.userId == undefined) {
+			this.container.clear(); // Limpa o container antes de inserir para não duplicar
+			this.container.createEmbeddedView(this.loginTemplate); // Cria a view baseada no template
+		} else {
 
-      if (this.cart.length > 0) {
-        this.route.navigateByUrl("/cart/" + this.userId)
-      } else {
-        alert('[ Atenção ! ]: Carrinho vazio :)');
-      }
-    }
-  }
+			console.log(this.cart.length);
 
-  getUserId(): string {
-    this.profile = JSON.parse(localStorage.getItem('profile') || '{}');
-    this.userId = this.profile._id || "";
+			if (this.cart.length > 0) {
+				this.route.navigateByUrl("/cart/" + this.userId)
+			} else {
+				alert('[ Atenção ! ]: Carrinho vazio :)');
+			}
+		}
+	}
 
-    return this.userId;
-  }
+	getUserId(): string | undefined {
+		this.profile = JSON.parse(localStorage.getItem('profile') || '{}');
+
+		this.userId = this.profile._id;
+
+		return this.userId;
+	}
+
+	startingLogin(): void {
+		this.dialog.open<StartComponent>(StartComponent);
+		this.container.remove(0);
+	}
 }

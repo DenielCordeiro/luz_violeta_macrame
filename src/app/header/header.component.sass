@@ -2,48 +2,86 @@
 @use '../../assets/sass/display'
 
 *
-  margin: 0px
-  padding: 0px
+    margin: 0px
+    padding: 0px
 
-#header
-  .content
-    top: 0
+header
     position: fixed
+    display: flex
+    justify-content: space-around
+    top: 0
     z-index: 4
     width: 100vw
     height: 45px
     padding-top: 1.5vh
-    display: flex
-    justify-content: space-around
     box-shadow: 0px 0px 2px 0px colors.$pourple-light
 
     @include display.hd
-      height: 42px
+        height: 42px
 
     @include display.mobile
-      height: 45px
+        height: 45px
 
-    .cart
-      color: colors.$black
-      cursor: pointer
-      font-size: 30px
+.cart
+    color: colors.$black
+    cursor: pointer
+    font-size: 30px
 
-      @include display.hd
-        font-size: 25px
+    @include display.hd
+    font-size: 25px
 
-      &:hover
+    &:hover
         color: colors.$pourple
 
-      i
+    i
         position: absolute
         top: 1vh
 
-      .productsQuantity
+    .productsQuantity
         position: absolute
         top: 0.2vh
         right: 14vw
 
-        span
-          font-size: 16px
-          font-weight: 600
-          color: colors.$red
+    span
+        font-size: 16px
+        font-weight: 600
+        color: colors.$red
+
+#login
+    position: fixed
+    display: flex
+    justify-content: right
+    top: 90px
+    right: 80px
+    width: 100vw
+
+.login-box
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: colors.$yellow
+    width: 350px
+    height: 40px
+    border-radius: 8px
+    padding: 1vh 1vw
+
+    .icon-warning
+        font-size: 16px
+        margin-right: 0.3vw
+
+    .text-template
+        font-size: 16px
+        font-weight: 500
+        margin-right: 2vw
+
+    .login-button
+        cursor: pointer
+        color: colors.$pourple
+        margin-right: 2vw
+
+    .icon-close
+        cursor: pointer
+        color: colors.$black
+
+        &:hover
+            color: colors.$red
