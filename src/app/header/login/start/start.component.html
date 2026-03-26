@@ -6,25 +6,24 @@
 		</header>
 
 		<main>
-			<div class="mb-3 row">
-				<label for="email" class="col-sm-2 col-form-label">E-mail:</label>
-				<div class="col-sm-10">
-					<input type="email" class="form-control" id="email" placeholder="example@example.com" formControlName="email">
-				</div>
-			</div>
+			<mat-form-field appearance="outline">
+				<mat-label>Digite seu e-mail:</mat-label>
+				<input matInput formControlName="email" placeholder="exemplo@exemplo.com">
+			</mat-form-field>
 
-			<div class="mb-3 row">
-				<label for="password" class="col-sm-2 col-form-label">Senha:</label>
-				<div class="col-sm-10">
-					<input type="password" class="form-control" id="password"  placeholder="***" formControlName="password">
-				</div>
-			</div>
+			<mat-form-field appearance="outline">
+				<mat-label>Digite sua senha:</mat-label>
+				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+				<span class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+					{{ hidePassword() ? 'visibility' : 'visibility_off' }}
+				</span>
+			</mat-form-field>
 		</main>
 
 		<footer>
-			<button type="button" class="btn btn-secondary" (click)="closeDialog()">Fechar</button>
-			<button type="button" class="btn btn-dark" routerLink="/register" (click)="closeDialog()">Cadastre-se</button>
-			<button type="submit" class="buttons button-send" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
+			<button matButton = "elevated" (click)="closeDialog()">Fechar</button>
+			<button matButton = "elevated" routerLink="/register" (click)="closeDialog()">Cadastre-se</button>
+			<button matButton = "elevated" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
 		</footer>
 	</form>
 </section>

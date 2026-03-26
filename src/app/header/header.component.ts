@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 import { Product } from '../interfaces/product.interface';
 import { User } from '../interfaces/user.interface';
 import { CartService } from '../services/cart/cart.service';
 import { MenuComponent } from './menu/menu.component';
-import { MatDialog } from '@angular/material/dialog';
 import { StartComponent } from './login/start/start.component';
 
 @Component({
@@ -17,6 +18,7 @@ import { StartComponent } from './login/start/start.component';
 	imports: [
 		CommonModule,
 		MatIconModule,
+		MatButtonModule,
 		MenuComponent
 	],
 	templateUrl: './header.component.html',
