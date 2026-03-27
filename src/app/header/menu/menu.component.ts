@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
+import { MenuService } from 'src/app/services/menu/menu.service';
 import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
 
 @Component({
@@ -13,13 +14,9 @@ import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
   styleUrls: ['./menu.component.sass'],
 })
 export class MenuComponent {
-  isSelected: boolean = false;
+  constructor(public menuService: MenuService) {}
 
   changeIconBurguer(): void {
-    if (this.isSelected == false) {
-      this.isSelected = true;
-    } else {
-      this.isSelected = false;
-    }
+    this.menuService.toggleMenu(); 
   }
 }

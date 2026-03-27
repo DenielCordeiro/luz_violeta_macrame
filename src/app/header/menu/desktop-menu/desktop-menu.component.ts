@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
-import { MenuComponent } from '../menu.component';
-import { Router, RouterModule } from '@angular/router';
 import { UsersService } from 'src/app/services/users/users.service';
 import { LoginComponent } from '../../login/login.component';
+import { MenuService } from 'src/app/services/menu/menu.service';
 
 @Component({
     selector: 'app-desktop-menu',
     standalone: true,
-    imports: [
-        RouterModule,
-        LoginComponent,
-    ],
+    imports: [LoginComponent],
     templateUrl: './desktop-menu.component.html',
     styleUrls: ['./desktop-menu.component.sass'],
 })
@@ -22,8 +18,7 @@ export class DesktopMenuComponent {
 
     constructor(
         private userService: UsersService,
-        public menu: MenuComponent,
-        public route: Router,
+        private menuService: MenuService
     ) {
         this.getLogin();
     }
@@ -60,18 +55,10 @@ export class DesktopMenuComponent {
         const noAction: string = 'noAction';
 
         this.userService.logout();
-        this.closeMenu(noAction);
+        this.closingMenu(noAction);
     }
 
-    closeMenu(nextUrl: string): void {
-        let activeRoute = this.route.url;
-
-        if (nextUrl == 'noAction') {
-            this.menu.changeIconBurguer();
-        } else if (nextUrl == activeRoute) {
-            console.log('Você já está nesta página!');
-        } else {
-            this.menu.changeIconBurguer();
-        }
+    closingMenu(url: string): void {
+        this.menuService.closeMenu(url);
     }
 }

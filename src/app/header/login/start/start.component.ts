@@ -9,6 +9,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatIconModule } from "@angular/material/icon";
 
 import { UsersService } from "src/app/services/users/users.service";
+import { MenuService } from "src/app/services/menu/menu.service";
 import { User } from "src/app/interfaces/user.interface";
 
 @Component({
@@ -16,7 +17,6 @@ import { User } from "src/app/interfaces/user.interface";
     standalone: true,
     imports: [
         ReactiveFormsModule,
-        RouterLink,
         MatButtonModule,
         MatFormField,
         MatLabel,
@@ -32,8 +32,9 @@ export class StartComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private userService: UsersService,
         public dialog: MatDialog,
+        private userService: UsersService,
+        private menuService: MenuService        
     ) {}
     
     ngOnInit(): void {
@@ -48,27 +49,22 @@ export class StartComponent implements OnInit {
     }
 
    async makeLogin(): Promise<User | undefined> {
-        // try {
-        //     if (this.loginForm.valid) {
-        //         const userProfile = await this.userService.authUser(this.loginForm.value);
-        //         return userProfile;
-        //     } else {
-        //         return undefined; 
-        //     }
-            
-        // } catch (error) {
-        //     console.error({
-        //         fail: '[ERRO]: Não foi possível fazer login!',
-        //         message: error
-        //     });
-            
-        //     throw error; 
-        // }
+        try {
+            if (this.loginForm.valid) {
+                const userProfile = await this.userService.authUser(this.loginForm.value);
 
-        console.log("formulário: ", this.loginForm.value);
-
-        return this.loginForm.value;
-        
+                return userProfile;
+            } else {
+                return undefined; 
+            }
+        } catch (error) {
+            console.error({
+                fail: '[ERRO]: Não foi possível fazer login!',
+                message: error
+            });
+            
+            throw error; 
+        }
     }
 
     changeHidePassword(event: MouseEvent): void {
@@ -77,6 +73,11 @@ export class StartComponent implements OnInit {
     }
 
     closeDialog(): void {
+        this.dialog.closeAll();
+    }
+
+    closingMenu(url: string): void {
+        this.menuService.closeMenu(url);
         this.dialog.closeAll();
     }
 }

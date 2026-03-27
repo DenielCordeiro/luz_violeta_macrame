@@ -6,7 +6,7 @@
   }
  
 
-  <div class="default-button newsletter item" routerLink="/newsletter" (click)="closeMenu('/newsletter')">
+  <div class="default-button newsletter item" (click)="closingMenu('/newsletter')">
     <i class="bi bi-newspaper"></i>
     <span translate="no">Newsletter</span>
   </div>
@@ -22,24 +22,24 @@
 
   @if (this.isOpen == true) {
     <div class="menu-products">
-      <div class="default-button light" routerLink="/products" (click)="closeMenu('/products')">
+      <div class="default-button light" (click)="closingMenu('/products')">
         <i class="bi bi-arrow-right-short"></i>
         <span>Todos</span>
       </div>
     </div>
   }
 
-  <div class="default-button about item" routerLink="/about" (click)="closeMenu('/about')">
+  <div class="default-button about item" (click)="closingMenu('/about')">
     <i class="bi bi-person"></i>
     <span>Sobre</span>
   </div>
 
   @if (this.userId !== 0) {
-    <div class="default-button profile item" routerLink="/profile/{{ this.userId }}" (click)="closeMenu('/profile/{{ this.userId }}')">Minha Conta</div>
+    <div class="default-button profile item" (click)="closingMenu('/profile/{{ this.userId }}')">Minha Conta</div>
   }
   
   @if (this.administrator == true) {
-    <div class="default-button dashboard item" routerLink="/dashboard" (click)="closeMenu('/dashboard')">Dashboard</div>
+    <div class="default-button dashboard item" (click)="closingMenu('/dashboard')">Dashboard</div>
   }
  
   @if (this.userId !== 0) {

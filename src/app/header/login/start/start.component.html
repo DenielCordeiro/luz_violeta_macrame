@@ -22,7 +22,7 @@
 
 		<footer>
 			<button matButton = "elevated" (click)="closeDialog()">Fechar</button>
-			<button matButton = "elevated" routerLink="/register" (click)="closeDialog()">Cadastre-se</button>
+			<button matButton = "elevated" (click)="closingMenu('/register')">Cadastre-se</button>
 			<button matButton = "elevated" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
 		</footer>
 	</form>

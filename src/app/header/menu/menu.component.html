@@ -1,9 +1,9 @@
-<div class="burguer-icon" [ngClass]="this.isSelected == true ? 'selected' : ''" (click)="changeIconBurguer()">
+<div class="burguer-icon" [ngClass]="this.menuService.menuAberto()  ? 'selected' : ''" (click)="changeIconBurguer()">
   <div class="line line-one"></div>
   <div class="line line-two"></div>
   <div class="line line-three"></div>
 </div>
 
-<div class="menu" [ngClass]="this.isSelected == true ? 'menu-open' : ''">
+<div class="menu" [ngClass]="this.menuService.menuAberto() ? 'menu-open' : ''">
   <app-desktop-menu></app-desktop-menu>
 </div>
