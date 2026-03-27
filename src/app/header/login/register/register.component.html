@@ -1,128 +1,15 @@
 <section id="form">
-  <div class="content">
-    <div class="body">
-      <div class="about-form">
-        <span>Preencha seus dados com cuidado.</span> <br>
-        <span [hidden]="this.nextForm">Seu e-mail é salvo para comunicação após a compra de qualquer produto!</span>
-        <span [hidden]="!this.nextForm">Solicitamos seu endereço para envio dos produtos! <i class="bi bi-emoji-smile"></i></span>
-      </div>
+  <header>
+    
+  </header>
 
-      <form [formGroup]="registerForm">
-        <div class="row" [hidden]="this.nextForm">
-          <div class="mb-3 row">
-            <label for="name" class="col-sm-2 mb-1">Nome:</label>
-            <div class="col-sm-10">
-              <input type="name" class="form-control" id="name" formControlName="name">
-            </div>
-          </div>
+  <main>
+    <form [formGroup]="registerForm">
 
-          <div class="mb-3 row">
-            <label for="email" class="col-sm-2 mb-1">E-mail:</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" placeholder="exemplo@gmail.com" formControlName="email">
-            </div>
-          </div>
+   </form>
+  </main>
 
-          <div class="mb-3 row">
-            <label for="cellphone" class="col-sm-2 mb-1">Celular ( WhatsApp ):</label>
-            <div class="col-sm-10">
-              <input type="tel" class="form-control" id="cellphone" maxlength="11" formControlName="cellphone">
-            </div>
-          </div>
+  <footer>
 
-          <div class="row">
-            <label for="password" class="col-sm-2 mb-1">Senha:</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="password" formControlName="password">
-            </div>
-          </div>
-        </div>
-
-        <div class="address-form row" [hidden]="!this.nextForm">
-          <div class="mb-3 row">
-            <div class="col-7">
-              <label for="postalCode" class="col-sm-2 mb-1">CEP:</label>
-              <div class="col-sm-10">
-                <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
-              </div>
-            </div>
-
-            <div class="col-3">
-              <div (click)="getResidence()">
-                Buscar <i class="bi bi-search-heart"></i>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <div class="col-6">
-              <label for="state" >Estado:</label>
-              <input type="text" class="form-control" id="state" formControlName="state">
-            </div>
-
-            <div class="col-6">
-              <label for="city">Cidade: </label>
-              <input type="text" class="form-control" id="city" formControlName="city">
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <label for="neighborhood" class="col-sm-2 mb-1">Bairro:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="neighborhood" formControlName="neighborhood">
-            </div>
-          </div>
-
-          <div class="mb-3 row">
-            <label for="street" class="col-sm-2 mb-1">Rua:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="street" formControlName="street">
-            </div>
-          </div>
-
-          <div class="row">
-            <label for="houseNumber" class="col-sm-2 mb-1">Número:</label>
-            <div class="col-sm-10">
-              <input type="number" class="form-control" id="houseNumber" formControlName="houseNumber">
-            </div>
-          </div>
-        </div>
-      </form>
-
-      <div class="content-arrows">
-        <div class="row">
-          <div class="button-return col-6">
-            <button class="buttons-arrows" type="button" (click)="formAdvance()" [disabled]="!this.nextForm">
-              <i class="bi bi-arrow-left-circle"></i>
-              <span class="mx-2">Anterior</span>
-            </button>
-          </div>
-
-          <div class=" button-next col-6">
-            <button class="buttons-arrows" type="button" (click)="formAdvance()" [disabled]="this.nextForm">
-              <span class="mx-2">Próximo</span>
-              <i class="bi bi-arrow-right-circle"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <hr class="my-3">
-
-      <div class="footer-form row">
-        <div class="col-6">
-          <button type="button" class="btn btn-secondary button-close" routerLink="/newsletter">Fechar</button>
-        </div>
-        <div class="col-6">
-          @if (this.registerForm.invalid) {
-            <button class="button-one" disabled>Cadastre-se</button>
-          } @else {
-            <button type="submit" class="button-one" (click)="makeRegister()">Cadastre-se</button>
-          }
-        </div>
-      </div>
-    </div>
-  </div>
-
+  </footer>
 </section>
-

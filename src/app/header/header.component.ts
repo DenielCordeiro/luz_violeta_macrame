@@ -41,17 +41,15 @@ export class HeaderComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.cartService.getProductsInCart();
-		this.getProductsInCart();
+		this.gettingProductsInCart();
 	}
 
-	getProductsInCart(): Product[] {
-		this.cartService.productsInCart.subscribe(product => {
-			this.cart = product;
+	gettingProductsInCart(): void {
+		this.cartService.productsInCart.subscribe(products => {
+			this.cart = products;
 			this.productsQuantity = this.cart.length;
+			console.log("produtos no carrinho: ", products);
 		});
-
-		return this.cart;
 	}
 
 	openCart(): void {
@@ -82,6 +80,10 @@ export class HeaderComponent implements OnInit {
 
 	startingLogin(): void {
 		this.dialog.open<StartComponent>(StartComponent);
+		this.closeTemplate();
+	}
+
+	closeTemplate(): void {
 		this.container.remove(0);
 	}
 }
