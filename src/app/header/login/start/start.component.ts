@@ -1,13 +1,10 @@
 import { Component, OnInit, signal, Signal, WritableSignal } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { RouterLink } from "@angular/router";
 
 import { MatDialog } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField, MatLabel } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
-import { MatIconModule } from "@angular/material/icon";
-
 import { UsersService } from "src/app/services/users/users.service";
 import { MenuService } from "src/app/services/menu/menu.service";
 import { User } from "src/app/interfaces/user.interface";
@@ -21,7 +18,6 @@ import { User } from "src/app/interfaces/user.interface";
         MatFormField,
         MatLabel,
         MatInputModule,
-        MatIconModule
     ],
     templateUrl: './start.component.html',
     styleUrls: ['./start.component.sass']

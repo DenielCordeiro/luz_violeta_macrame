@@ -1,15 +1,67 @@
 <section id="form">
-  <header>
-    
-  </header>
+	<header>
+		<h2>Faça seu cadastro na Luz Violeta Macrâme</h2>
+	</header>
 
-  <main>
-    <form [formGroup]="registerForm">
+	<main>
+		<form [formGroup]="registerForm">
+			<mat-form-field appearance="outline">
+				<mat-label>Digite seu nome:</mat-label>
+				<input matInput formControlName="name" placeholder="Exemplo da Silva">
+			</mat-form-field>
 
-   </form>
-  </main>
+			<mat-form-field appearance="outline">
+				<mat-label>Digite seu e-mail:</mat-label>
+				<input matInput formControlName="email" placeholder="exemplo@exemplo.com">
+			</mat-form-field>
 
-  <footer>
+			<mat-form-field appearance="outline">
+				<mat-label>Digite sua senha:</mat-label>
+				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'" placeholder="Ex3mpl@">
+				<span class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+					{{ hidePassword() ? 'visibility' : 'visibility_off' }}
+				</span>
+			</mat-form-field>
 
-  </footer>
+			<mat-divider></mat-divider>
+
+			<mat-form-field>
+				<mat-label>Digite seu CEP:</mat-label>
+				<input matInput formControlName="postalCode" placeholder="13300***">
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Estado:</mat-label>
+				<mat-select [formControl]="stateControl">
+					@for (state of this.states; track state) {
+						<mat-option [value]="state" >{{ state }}</mat-option>
+					}
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Cidade:</mat-label>
+				<input matInput formControlName="city" placeholder="Cidade Exemplo">
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Bairro:</mat-label>
+				<input matInput formControlName="neighborhood" placeholder="Bairro Exemplo">
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Rua:</mat-label>
+				<input matInput formControlName="street" placeholder="Rua Exemplo de Texto">
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-label>Número</mat-label>
+				<input matInput formControlName="houseNumber" type="number" placeholder="0**">
+			</mat-form-field>
+		</form>
+	</main>
+
+	<footer>
+
+	</footer>
 </section>
