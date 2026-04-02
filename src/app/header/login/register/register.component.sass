@@ -13,23 +13,36 @@ header
     height: 20vh
 
     .title
-        font-size: 18px
+        font-size: 22px
         font-weight: 600
 
 main
     form
         display: flex
         justify-content: space-around
-        padding: 0px 20vw
+        padding: 0px 22vw
 
         .mandatory-data
             display: flex
-            flex-direction: column      
+            flex-direction: column 
+            width: 14vw     
         
+            .icon-input
+                cursor: pointer
+                position: absolute
+                top: 2vh
+                right: 0.2vw
+
         .address-data
             mat-form-field
-                margin-left: 2vw
-                width: 160px
+                margin-left: 3vw
+                width: 8vw
+
+            .neighborhood
+                width: 19vw
+            
+            .street
+                width: 30vw
 
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button
@@ -41,4 +54,8 @@ footer
     padding: 3vh 0px 0px 50vw
 
     p
-        margin-right: 4vw
+        margin-right: 6vw
+        
+        span
+            margin-right: 0.5vw
+            color: colors.$pourple-light
