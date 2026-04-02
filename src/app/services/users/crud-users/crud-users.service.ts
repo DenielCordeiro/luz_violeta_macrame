@@ -92,10 +92,6 @@ export abstract class CrudUsersService<T extends BaseCrud> {
             .then(result => {
                 return result;
             })
-            .catch(error => {
-                alert('[ERRO]: não foi possível dados deste CEP')
-                return error;
-            })
     }
 
     public handleResponse(response: BaseAPI<User>) {

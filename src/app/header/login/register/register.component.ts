@@ -7,7 +7,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormField, MatLabel, MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 
-import { Address } from 'src/app/interfaces/address.interface';
 import { UsersService } from 'src/app/services/users/users.service';
 
 import { brasilStates } from './register.mock';
@@ -33,7 +32,6 @@ export class RegisterComponent implements OnInit {
 	stateControl = new FormControl('SP');
 	states: string[] = brasilStates;
 	groupInfosAddress: string[] = [];
-	addressData!: Address;
 	convertedAddress: string | undefined;
 
 	constructor(
@@ -67,8 +65,19 @@ export class RegisterComponent implements OnInit {
 		this.getResidence();
 
 		if (this.registerForm.valid) {
-			this.usersService.createUser(this.registerForm.value);
-			this.registerForm.reset();
+			this.usersService.createUser(this.registerForm.value)
+				.then(result => {
+					console.log(result);
+					
+					this.registerForm.reset();
+					this.changeDetector.detectChanges();
+				}) 
+				.catch (error => {
+					console.error({
+						message: "[ERRO]: Não foi possível criar novo Usuário.",
+						fail: error
+					});
+				});
 		} else {
 			console.log(this.registerForm);
 		}
@@ -100,20 +109,24 @@ export class RegisterComponent implements OnInit {
 
 		this.usersService.searchPostalCode(postalCodeNumber)
 			.then(fullAddress => {
-				console.log("Endereço completo, buscado da API: ", fullAddress);
+				if (fullAddress?.erro == 'true') {
+					console.error({
+							message: "[ERRO]: CEP ínválido, digite novamente!",
+					});
+				} else {
+					this.registerForm.patchValue({
+						state: fullAddress.uf,
+						city: fullAddress.localidade,
+						neighborhood: fullAddress.bairro,
+						street: fullAddress.logradouro
+					});
 
-				this.registerForm.patchValue({
-					state: fullAddress.uf,
-					city: fullAddress.localidade,
-					neighborhood: fullAddress.bairro,
-					street: fullAddress.logradouro
-				});
-
-				this.changeDetector.detectChanges();
+					this.changeDetector.detectChanges();
+				}				
 			})
 			.catch(error => {
 				console.error({
-					message: "[ERRO]: Não foi possível buscar o CEP!",
+					message: "[ERRO]: Não foi possível buscar o CEP.",
 					fail: error
 				});
 			});
