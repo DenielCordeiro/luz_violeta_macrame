@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 
@@ -33,7 +33,6 @@ export class RegisterComponent implements OnInit {
 	stateControl = new FormControl('SP');
 	states: string[] = brasilStates;
 	groupInfosAddress: string[] = [];
-	nextForm: boolean = false;
 	addressData!: Address;
 	convertedAddress: string | undefined;
 
@@ -41,10 +40,12 @@ export class RegisterComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private usersService: UsersService,
 		public route: ActivatedRoute,
+		private changeDetector: ChangeDetectorRef
 	) { }
 
 	ngOnInit(): void {
 		this.buildingForm();
+		this.postalCodeObserver();
 	}
 
 	buildingForm(): void {
@@ -82,33 +83,39 @@ export class RegisterComponent implements OnInit {
 		this.searchResidence(this.registerForm.value.postalCode);
 	}
 
-	searchResidence(postalCode: string): void {
-		let postalCodeNumber = Number(postalCode);
-		let state = document.querySelector('#state') as HTMLInputElement;
-		let city = document.querySelector('#city') as HTMLInputElement;
-		let bairro = document.querySelector('#neighborhood') as HTMLInputElement;
-		let logradouro = document.querySelector('#street') as HTMLInputElement;
+	postalCodeObserver(): void {
+		this.registerForm.get('postalCode')?.valueChanges.subscribe((value: string) => {
+			// Remove caracteres não numéricos caso o usuário cole algo com máscara
+			const cleanPostalCode = value?.replace(/\D/g, '');
 
-		if (postalCode != null) {
-			this.usersService.searchPostalCode(postalCodeNumber)
-				.then(result => {
-					this.addressData = result;
-					this.registerForm.value.state = this.addressData.uf;
-					this.registerForm.value.city = this.addressData.localidade;
-					this.registerForm.value.neighborhood = this.addressData.bairro;
-					this.registerForm.value.street = this.addressData.logradouro;
-
-					state.value = this.addressData.uf ? this.addressData.uf : '';
-					city.value = this.addressData.localidade ? this.addressData.localidade : '';
-					bairro.value = this.addressData.bairro ? this.addressData.bairro : '';
-					logradouro.value = this.addressData.logradouro ? this.addressData.logradouro : '';
-				})
-		} else {
-			alert('Você não insiriu nenhum número de CEP.')
-		}
+			// Verifica se atingiu os 8 dígitos do CEP brasileiro
+			if (cleanPostalCode?.length === 8) {
+				this.searchResidence(cleanPostalCode);
+			}
+		});
 	}
 
-	formAdvance(): boolean {
-		return this.nextForm = !this.nextForm;
+	searchResidence(postalCode: string): void {
+		const postalCodeNumber = Number(postalCode);
+
+		this.usersService.searchPostalCode(postalCodeNumber)
+			.then(fullAddress => {
+				console.log("Endereço completo, buscado da API: ", fullAddress);
+
+				this.registerForm.patchValue({
+					state: fullAddress.uf,
+					city: fullAddress.localidade,
+					neighborhood: fullAddress.bairro,
+					street: fullAddress.logradouro
+				});
+
+				this.changeDetector.detectChanges();
+			})
+			.catch(error => {
+				console.error({
+					message: "[ERRO]: Não foi possível buscar o CEP!",
+					fail: error
+				});
+			});
 	}
 }
