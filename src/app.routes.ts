@@ -17,7 +17,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'register',
-    loadComponent: () => import('./app/header/register/register.component').then(module => module.RegisterComponent),
+    loadComponent: () => import('./app/header/login/register/register.component').then(module => module.RegisterComponent),
   },
   {
     path: 'profile/:user_id',

@@ -1,0 +1,41 @@
+@use '../../../../assets/sass/colors'
+
+*
+    margin: 0px
+    padding: 0px
+
+#form
+    width: 34vw
+
+    header
+        display: flex
+        justify-content: space-between
+        padding: 4vh 2vw 0px 2vw
+        
+        .title
+            font-size: 20px
+            font-weight: 500
+
+        .close
+            color: colors.$pourple-light
+            cursor: pointer
+
+            &:hover
+                color: colors.$pourple
+
+    main
+        padding: 6vh 2vw
+
+        ::ng-deep .mat-mdc-text-field-wrapper
+            width: 30vw
+
+        .icon-input
+            cursor: pointer
+            position: absolute
+            top: 2vh
+            right: 0.2vw
+    
+    footer
+        display: flex
+        justify-content: space-around
+        padding-bottom: 3vh 

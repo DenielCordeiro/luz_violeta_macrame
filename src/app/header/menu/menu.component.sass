@@ -2,98 +2,85 @@
 @use '../../../assets/sass/display'
 
 .burguer-icon
-  cursor: pointer
+	cursor: pointer
 
-  @include display.mobile
-    padding-top: 0.4vh
+	&:hover
+		.line
+			background-color: colors.$pourple
 
-  .line
-    width: 30px
-    height: 3px
-    background-color: colors.$black
-    margin: 0px 0px 7px 0px
+	.line
+		width: 30px
+		height: 3px
+		background-color: colors.$black
+		margin: 0px 0px 7px 0px
 
-    @include display.hd
-      width: 28px
-      height: 3px
-      margin: 0px 0px 5px 0px
+		@include display.hd
+			width: 28px
+			height: 3px
+			margin: 0px 0px 5px 0px
 
-    @include display.mobile
-      width: 28px
-      height: 3px
-      margin-bottom: 4px
+		@include display.mobile
+			width: 28px
+			height: 3px
+			margin-bottom: 4px
 
-  &:hover
-    .line
-      background-color: colors.$pourple
+	.line-one
+		transform: rotate(0deg)
+		transition: all 700ms
 
-  .line-one
-    transform: rotate(0deg)
-    transition: all 700ms
+	.line-two
+		transition: all 600ms
 
-  .line-two
-     transition: all 600ms
-
-  .line-three
-    transform: rotate(-0deg)
-    transition: all 700ms
+	.line-three
+		transform: rotate(-0deg)
+		transition: all 700ms
 
 .selected
-  padding-top: 11.5px
+	padding-top: 0vh
 
-  @include display.hd
-    padding-top: 1.1vh
+	.line
+		background-color: colors.$black
 
-  @include display.mobile
-    padding-top: 1.1vh
+	.line-one
+		transform: rotate(40deg)
+		transition: all 700ms
 
-  .line
-    background-color: colors.$black
+	.line-two
+		display: none
 
-  .line-one
-    transform: rotate(40deg)
-    transition: all 700ms
+	.line-three
+		position: fixed
+		transform: rotate(-40deg)
+		top: 3.4vh
 
-  .line-two
-    display: none
-
-  .line-three
-    position: fixed
-    transform: rotate(-40deg)
-    top: 2.6vh
-    transition: all 700ms
+		transition: all 700ms
 
 .menu
-  z-index: 4
-  position: fixed
-  width: 0%
-  height: 100%
-  top: 5.5vh
-  left: -8vw
-  transition: width 800ms ease, left 800ms ease
-  display: flex
-  justify-content: flex-end
-  background-color: colors.$white
-
-  @include display.hd
-    top: 6.8vh
-
-  @include display.mobile
-    top: 45px
+	position: fixed
+	z-index: 100
+	width: 0%
+	height: 100%
+	top: 0px
+	padding-top: 10vh 
+	left: -8vw
+	transition: width 800ms ease, left 800ms ease
+	display: flex
+	justify-content: flex-end
+	background-color: colors.$white
 
 .menu-open
-  width: 15vw
-  height: 100%
-  left: 0vw
-  display: flex
-  justify-content: center
-  box-shadow: 2px 2px 0px 0px colors.$pourple-gray
-  transition: width 800ms ease, left 800ms ease
+	width: 15vw
+	height: 100%
+	left: 0vw
+	display: flex
+	justify-content: center
+	box-shadow: 1px 1px 0px 0px colors.$pourple-gray
+	transition: width 800ms ease, left 800ms ease
 
-  @include display.hd
-    top: 43px
-    width: 18vw
+	@include display.hd
+		top: 43px
+		width: 18vw
 
-  @include display.mobile
-    top: 46.5px
-    width: 40vw
+	@include display.mobile
+		top: 46.5px
+		width: 40vw

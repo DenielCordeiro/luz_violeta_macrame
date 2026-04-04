@@ -1,37 +1,13 @@
-<div class="button-login" (click)="openModal(loginModal)">
-  <i class="bi bi-person-circle"></i>
-  <p class="mt-3">Entrar</p>
-</div>
-
-<form [formGroup]="loginForm">
-
-  <ng-template #loginModal let-c="close" let-d="dismiss">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Acesse sua conta</h4>
-      <div type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></div>
-    </div>
-
-    <div class="modal-body row">
-      <div class="mb-3 row">
-        <label for="email" class="col-sm-2 col-form-label">E-mail:</label>
-        <div class="col-sm-10">
-          <input type="email" class="form-control" id="email" value="example@example.com" formControlName="email">
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <label for="password" class="col-sm-2 col-form-label">Senha:</label>
-        <div class="col-sm-10">
-          <input type="password" class="form-control" id="password" formControlName="password">
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-footer">
-      <button type="button" class="btn btn-dark" routerLink="/register" (click)="closeModal()">Cadastre-se</button>
-      <button type="button" class="btn btn-secondary" (click)="d('Cross click')">Fechar</button>
-      <button type="submit" class="buttons button-send" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
-    </div>
-  </ng-template>
-
-</form>
+<section id="buttons">
+	@if (isConnected == true){
+		<div class="button-login" (click)="loginDialog()">
+			<span class="material-symbols-outlined">login</span> <br>
+			<span>Entrar</span>
+		</div>
+	} @else {
+		<div class="button-my-account" routerLink="/profile">
+			<span class="material-symbols-outlined">account_circle</span> <br>
+			<span>Minha Conta</span>
+		</div>
+	}
+</section>

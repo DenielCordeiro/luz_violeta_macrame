@@ -1,0 +1,29 @@
+<section id="form">
+	<form [formGroup]="loginForm">
+		<header>
+			<span class="title">Acesse sua conta</span>
+			<span class="material-symbols-outlined close" (click)="closeDialog()">tab_close</span>
+		</header>
+
+		<main>
+			<mat-form-field appearance="outline">
+				<mat-label>Digite seu e-mail:</mat-label>
+				<input matInput formControlName="email" placeholder="exemplo@exemplo.com">
+			</mat-form-field>
+
+			<mat-form-field appearance="outline">
+				<mat-label>Digite sua senha:</mat-label>
+				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+				<span class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+					{{ hidePassword() ? 'visibility' : 'visibility_off' }}
+				</span>
+			</mat-form-field>
+		</main>
+
+		<footer>
+			<button matButton = "elevated" (click)="closeDialog()">Fechar</button>
+			<button matButton = "elevated" (click)="closingMenu('/register')">Cadastre-se</button>
+			<button matButton = "elevated" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
+		</footer>
+	</form>
+</section>

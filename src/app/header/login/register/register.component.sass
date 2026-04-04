@@ -1,0 +1,64 @@
+@use '../../../../assets/sass/display'
+@use '../../../../assets/sass/colors'
+
+$border-radius: 12px
+
+#form
+    width: 100vw
+
+header
+    display: flex
+    justify-content: center
+    align-items: center 
+    height: 20vh
+
+    .title
+        font-size: 22px
+        font-weight: 600
+
+main
+    form
+        display: flex
+        justify-content: space-around
+        padding: 0px 22vw
+
+        .mandatory-data
+            display: flex
+            flex-direction: column 
+            width: 14vw     
+        
+            .icon-input
+                cursor: pointer
+                position: absolute
+                top: 2vh
+                right: 0.2vw
+
+        .address-data
+            mat-form-field
+                margin-left: 3vw
+                width: 8vw
+
+            .neighborhood
+                width: 19vw
+            
+            .street
+                width: 30vw
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button
+            -webkit-appearance: none
+            margin: 0
+
+footer
+    display: flex
+    justify-content: end
+    align-items: center 
+    width: 76vw
+    height: 10vh
+
+    p
+        margin-right: 6vw
+        
+        span
+            margin-right: 0.5vw
+            color: colors.$pourple-light

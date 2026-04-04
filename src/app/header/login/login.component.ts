@@ -1,47 +1,39 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, ReactiveFormsModule,  } from '@angular/forms';
-import { UsersService } from '../../services/users/users.service';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { StartComponent } from './start/start.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
+  imports: [RouterLink],
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  refreshToken: string | null = null;
+  isConnected: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private userService: UsersService,
     public route: ActivatedRoute,
+    public dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
-    this.buildingForm();
+    this.verifyIsConnected();
   }
 
-  buildingForm(): void {
-    this.loginForm = this.formBuilder.group({
-      "email": [null, [Validators.required, Validators.email]],
-      "password": [null, Validators.required]
-    });
-  }
+  verifyIsConnected(): boolean {
+    this.refreshToken = JSON.stringify(localStorage.getItem('refresh_token'));  
 
-  async makeLogin() {
-    try{
-      if (this.loginForm.valid) {
-        // await this.userService.authUser(this.loginForm.value);
-        this.closeModal();
-      }
-    } catch (error) {
-      console.error(error);
+    if(this.refreshToken !== null) {
+      return this.isConnected = true;
+    } else {
+      return this.isConnected = false;
     }
   }
 
-  openModal(loginModal: any): void {}
-
-  closeModal(): void {}
+  loginDialog(): void {
+    this.dialog.open<StartComponent>(StartComponent);
+  }
 }
