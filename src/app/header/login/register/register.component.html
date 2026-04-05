@@ -28,6 +28,11 @@
 
 			<div class="address-data">
 				<mat-form-field appearance="outline">
+					<mat-label>Celular:</mat-label>
+					<input type="number" matInput formControlName="cellphone" placeholder="(00)00000-0000">
+				</mat-form-field>
+
+				<mat-form-field appearance="outline">
 					<mat-label>CEP:</mat-label>
 					<input matInput formControlName="postalCode" placeholder="13300***">
 				</mat-form-field>
@@ -41,11 +46,6 @@
 					</mat-select>
 				</mat-form-field>
 
-				<mat-form-field appearance="outline">
-					<mat-label>Cidade:</mat-label>
-					<input matInput formControlName="city" placeholder="Cidade Exemplo">
-				</mat-form-field>
-
 				<br>
 
 				<mat-form-field class="neighborhood" appearance="outline">
@@ -53,10 +53,9 @@
 					<input matInput formControlName="neighborhood" placeholder="Bairro Exemplo">
 				</mat-form-field>
 
-				
 				<mat-form-field appearance="outline">
-					<mat-label>Número:</mat-label>
-					<input type="number" matInput formControlName="houseNumber" placeholder="0**">
+					<mat-label>Cidade:</mat-label>
+					<input matInput formControlName="city" placeholder="Cidade Exemplo">
 				</mat-form-field>
 
 				<br>
@@ -64,6 +63,11 @@
 				<mat-form-field class="street" appearance="outline">
 					<mat-label>Rua:</mat-label>
 					<input matInput formControlName="street" placeholder="Rua Exemplo de Texto">
+				</mat-form-field>
+
+				<mat-form-field class="house-number" appearance="outline">
+					<mat-label>Número:</mat-label>
+					<input type="number" matInput formControlName="houseNumber" placeholder="0**">
 				</mat-form-field>
 			</div>
 		</form>
