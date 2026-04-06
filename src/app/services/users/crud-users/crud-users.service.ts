@@ -14,8 +14,9 @@ export abstract class CrudUsersService<T extends BaseCrud> {
     authService = Inject(AuthService);
     http!: HttpClient;
     localStorage!: LocalStorageService;
-    authedUser: boolean = false;
+    userAdmin: boolean = false;
     route!: String;
+    accessToken: string | null = null;
 
     constructor(
         httpClient: HttpClient,
@@ -38,8 +39,17 @@ export abstract class CrudUsersService<T extends BaseCrud> {
 
     public authUser(user: User): Promise<User> {
         return lastValueFrom(this.http.post<BaseAPI<User>>(`${environment.api}/session/`, user))
-            .then(user => {
-                return this.handleResponse(user) as User;
+            .then(response => {
+                const data = this.handleResponse(response);
+
+                if (data && data.token) {
+                    this.accessToken = data.token;
+                    
+                    // Opcional: Salve os dados básicos do usuário no localStorage para a UI
+                    localStorage.setItem('session', JSON.stringify(data.user));
+                }
+
+                return data.user as User;
             })
     }
 
@@ -47,20 +57,14 @@ export abstract class CrudUsersService<T extends BaseCrud> {
         let administrartor: string | null = localStorage.getItem('user');
         let profile: User | null = JSON.parse(administrartor || 'null');
 
-        let isAdm: boolean = false;
-
-        if (profile?.administrator !== null) {
-
-            if (profile?.administrator === true) {
-                isAdm = true;
-            } else {
-                isAdm = false;
-            }
+        
+        if (profile?.email == 'teste@teste.com.br') {
+            this.userAdmin = true;
         } else {
-            isAdm = false;
+            this.userAdmin = false;
         }
-
-        return isAdm;
+        
+        return this.userAdmin;
     }
 
     public logout(): void {

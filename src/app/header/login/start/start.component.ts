@@ -49,6 +49,9 @@ export class StartComponent implements OnInit {
             if (this.loginForm.valid) {
                 const userProfile = await this.userService.authUser(this.loginForm.value);
 
+                console.log("Perfil do usuáio: ", userProfile);
+                
+
                 return userProfile;
             } else {
                 return undefined; 
