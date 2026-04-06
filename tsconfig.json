@@ -1,9 +1,14 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "ignoreDeprecations": "5.0",
     "baseUrl": "./",
     "rootDir": "src",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@env/*": ["src/environments/*"],
+      "*": ["src/*"]
+    },
     "outDir": "./dist/out-tsc",
     "target": "ES2022",
     "module": "ES2022",
@@ -25,7 +30,6 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true,
-    "enableIvy": false
+    "strictTemplates": true
   }
 }
