@@ -1,28 +1,63 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BaseAPI } from '../interfaces/base-api.interface';
+import { User } from '../interfaces/user.interface';
+import { lastValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  private isAuthenticated = signal<boolean>(this.hasToken());
+    http!: HttpClient;
+    accessToken: string | null = null;
 
-  constructor() {}
+    constructor(httpClient: HttpClient) {
+        this.http = httpClient;
+    }
 
-  private hasToken(): boolean {
-    return !!localStorage.getItem('auth_token');
-  }
+    public async checkSession(): Promise<void> {
+        try {
+            const response = await lastValueFrom(
+                this.http.post<BaseAPI<any>>(`${environment.api}/session/refresh`, {}, { withCredentials: true })
+            );
 
-  isLoggedIn(): boolean {
-    return this.isAuthenticated();
-  }
+            if (response.token) {
+                this.accessToken = response.token;
+            }
+        } catch (err) {
+            this.logout();
+        }
+    }
 
-  login(token: string) {
-    localStorage.setItem('auth_token', token);
-    this.isAuthenticated.set(true);
-  }
+    public authUser(user: User): Promise<User> {
+        return lastValueFrom(this.http.post<BaseAPI<User>>(`${environment.api}/session/`, user))
+            .then(response => {
+                const data = this.handleResponse(response);
 
-  logout() {
-    localStorage.removeItem('auth_token');
-    this.isAuthenticated.set(false);
-  }
+                if (data && data.token) {
+                    this.accessToken = data.token;
+
+                    // Opcional: Salve os dados básicos do usuário no localStorage para a UI
+                    localStorage.setItem('session', JSON.stringify(data.user));
+                }
+
+                return data.user as User;
+            })
+    }
+
+    public isAdministrator(): boolean {
+        return false;
+    }
+
+    public logout(): void {
+    }
+
+    public handleResponse(response: BaseAPI<User>) {
+        if (response) {
+            return response;
+        } else {
+            throw new Error("Api 200, mas success falso!");
+        }
+    }
 }

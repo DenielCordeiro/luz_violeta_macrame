@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField, MatLabel } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
-import { UsersService } from "src/app/services/users/users.service";
+import { AuthService } from "src/app/guards/auth.service";
 import { MenuService } from "src/app/services/menu/menu.service";
 import { User } from "src/app/interfaces/user.interface";
 
@@ -29,7 +29,7 @@ export class StartComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         public dialog: MatDialog,
-        private userService: UsersService,
+        private authService: AuthService,
         private menuService: MenuService        
     ) {}
     
@@ -47,7 +47,7 @@ export class StartComponent implements OnInit {
    async makeLogin(): Promise<User | undefined> {
         try {
             if (this.loginForm.valid) {
-                const userProfile = await this.userService.authUser(this.loginForm.value);
+                const userProfile = await this.authService.authUser(this.loginForm.value);
 
                 console.log("Perfil do usuáio: ", userProfile);
                 
