@@ -39,7 +39,8 @@ export class AuthService {
             return null;
         } else {
             try {
-                const userProfile = JSON.parse(sessionData) as User;
+                const parsedData = JSON.parse(sessionData);
+                const userProfile = parsedData.user ? (parsedData.user as User) : (parsedData as User);
 
                 return userProfile;
             } catch (error) {

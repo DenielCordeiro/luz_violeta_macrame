@@ -9,16 +9,27 @@ import { AuthService } from '../guards/auth.service';
 	styleUrls: ['./profile.component.sass'],
 })
 export class ProfileComponent {
-	public myProfile!: User;
+	public myProfile:  User | null = null;
 	private authService: AuthService = inject(AuthService);
 
-	constructor() { }
+	constructor() {
+		this.getMyUser();
+	 }
 
-	public getMyUser(): User {
-		return this.myProfile;
+	public getMyUser(): void {
+		this.myProfile = this.authService.getUserProfile();
+
+		if (this.myProfile == null) {
+			console.log('usuários não existe no LocalStorage');
+		} else {
+			console.log('Usuário: ', this.myProfile);
+			
+		}
 	};
 
 	public leaving(): void {
 		this.authService.logout();
-	}
+	};
+
+	public openAddressDialog(): void {};
 }
