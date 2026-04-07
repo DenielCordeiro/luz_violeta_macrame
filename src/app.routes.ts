@@ -20,9 +20,8 @@ export const appRoutes: Routes = [
     loadComponent: () => import('./app/header/login/register/register.component').then(module => module.RegisterComponent),
   },
   {
-    path: 'profile/:user_id',
-    loadComponent: () => import('./app/users/users.component').then(module => module.UsersComponent),
-    canActivate: [authGuard],
+    path: 'profile',
+    loadComponent: () => import('./app/profile/profile.component').then(module => module.ProfileComponent),
   },
   {
     path: 'cart/:user_id',

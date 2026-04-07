@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
     http!: HttpClient;
     accessToken: string | null = null;
+    route: string = environment.api;
 
     constructor(httpClient: HttpClient) {
         this.http = httpClient;
@@ -30,23 +31,43 @@ export class AuthService {
         }
     }
 
+    public getUserProfile(): User | null {
+        const sessionData = localStorage.getItem('session');
+        
+        if (sessionData == null) {
+
+            return null;
+        } else {
+            try {
+                const userProfile = JSON.parse(sessionData) as User;
+
+                return userProfile;
+            } catch (error) {
+                console.error("Erro ao converter perfil do localStorage", error);
+
+                return null;
+            }
+        }       
+    }
+
     public authUser(user: User): Promise<User> {
         return lastValueFrom(this.http.post<User>(`${environment.api}/session/`, user))
             .then(response => {
                 const userProfile = this.handleResponse(response);
 
-                if (userProfile && userProfile.token) {
+                if (userProfile && userProfile?.token) {
                     this.accessToken = userProfile.token;
 
-                    localStorage.setItem('session', JSON.stringify(userProfile));
+                    const profile = userProfile;
+
+                    delete profile.token;
+                
+
+                    localStorage.setItem('session', JSON.stringify(profile));
                 }
 
                 return userProfile;
             });
-    }
-
-    public isAdministrator(): boolean {
-        return false;
     }
 
     public logout(): Promise<void> {
