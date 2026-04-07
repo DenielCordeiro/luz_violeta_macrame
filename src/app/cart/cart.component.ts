@@ -71,7 +71,6 @@ export class CartComponent implements OnInit {
         cellphone: this.userProfile.cellphone,
         cpf: this.userProfile.cpf,
       },
-      // shipping: [],
       sold: true,
       productsQuantity: this.productsInCart.length,
       finalValue: this.finalValue,

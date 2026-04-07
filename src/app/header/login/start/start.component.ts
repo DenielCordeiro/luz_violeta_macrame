@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, Signal, WritableSignal } from "@angular/core";
+import { Component, inject, OnInit, signal, WritableSignal } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { MatDialog } from "@angular/material/dialog";
@@ -24,13 +24,13 @@ import { User } from "src/app/interfaces/user.interface";
 })
 export class StartComponent implements OnInit {
     loginForm!: FormGroup;
+    authService: AuthService = inject(AuthService);
+    menuService: MenuService = inject(MenuService);
     hidePassword: WritableSignal<boolean> = signal(true);
 
     constructor(
         private formBuilder: FormBuilder,
-        public dialog: MatDialog,
-        private authService: AuthService,
-        private menuService: MenuService        
+        public dialog: MatDialog,   
     ) {}
     
     ngOnInit(): void {

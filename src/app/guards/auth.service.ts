@@ -18,12 +18,12 @@ export class AuthService {
 
     public async checkSession(): Promise<void> {
         try {
-            const response = await lastValueFrom(
-                this.http.post<BaseAPI<any>>(`${environment.api}/session/refresh`, {}, { withCredentials: true })
+            const userProfile = await lastValueFrom(
+                this.http.post<User>(`${environment.api}/session/refresh`, {}, { withCredentials: true })
             );
 
-            if (response.token) {
-                this.accessToken = response.token;
+            if (userProfile.token) {
+                this.accessToken = userProfile.token;
             }
         } catch (err) {
             this.logout();
@@ -31,29 +31,33 @@ export class AuthService {
     }
 
     public authUser(user: User): Promise<User> {
-        return lastValueFrom(this.http.post<BaseAPI<User>>(`${environment.api}/session/`, user))
+        return lastValueFrom(this.http.post<User>(`${environment.api}/session/`, user))
             .then(response => {
-                const data = this.handleResponse(response);
+                const userProfile = this.handleResponse(response);
 
-                if (data && data.token) {
-                    this.accessToken = data.token;
+                if (userProfile && userProfile.token) {
+                    this.accessToken = userProfile.token;
 
-                    // Opcional: Salve os dados básicos do usuário no localStorage para a UI
-                    localStorage.setItem('session', JSON.stringify(data.user));
+                    localStorage.setItem('session', JSON.stringify(userProfile));
                 }
 
-                return data.user as User;
-            })
+                return userProfile;
+            });
     }
 
     public isAdministrator(): boolean {
         return false;
     }
 
-    public logout(): void {
+    public logout(): Promise<void> {
+        return lastValueFrom(this.http.post(`${environment.api}/session/logout`, {}, { withCredentials: true }))
+            .then(() => {
+                this.accessToken = null;
+                localStorage.removeItem('session');
+            });
     }
 
-    public handleResponse(response: BaseAPI<User>) {
+    public handleResponse(response: User) {
         if (response) {
             return response;
         } else {
