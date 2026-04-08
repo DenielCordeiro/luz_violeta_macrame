@@ -5,7 +5,7 @@
 			<span>Entrar</span>
 		</div>
 	} @else {
-		<div class="button-my-account" routerLink="/profile">
+		<div class="button-my-account" (click)="this.closingMenu('/profile')" >
 			<span class="material-symbols-outlined">account_circle</span> <br>
 			<span>Minha Conta</span>
 		</div>

@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/guards/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/interfaces/user.interface';
 import { StartComponent } from './start/start.component';
+import { MenuService } from 'src/app/services/menu/menu.service';
 
 @Component({
 	selector: 'app-login',
@@ -14,6 +15,7 @@ import { StartComponent } from './start/start.component';
 })
 export class LoginComponent implements OnInit {
 	authService: AuthService = inject(AuthService);
+	menuService: MenuService = inject(MenuService);
 	user: User | null = null;
 	isConnected: boolean = false;
 
@@ -37,6 +39,14 @@ export class LoginComponent implements OnInit {
 	}
 
 	loginDialog(): void {
-		this.dialog.open<StartComponent>(StartComponent);
+		if (this.isConnected == false) {
+			console.log('Usuário já está conectado!');	
+		} else {
+			this.dialog.open<StartComponent>(StartComponent);
+		}
 	}
+
+	closingMenu(url: string): void {
+        this.menuService.closeMenu(url);
+    }
 }
