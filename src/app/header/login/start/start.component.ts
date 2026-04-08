@@ -8,6 +8,7 @@ import { MatInputModule } from "@angular/material/input";
 import { AuthService } from "src/app/guards/auth.service";
 import { MenuService } from "src/app/services/menu/menu.service";
 import { User } from "src/app/interfaces/user.interface";
+import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-start',
@@ -27,10 +28,12 @@ export class StartComponent implements OnInit {
     authService: AuthService = inject(AuthService);
     menuService: MenuService = inject(MenuService);
     hidePassword: WritableSignal<boolean> = signal(true);
+    currentRoute: string = "";
 
     constructor(
         private formBuilder: FormBuilder,
         public dialog: MatDialog,   
+        private router: Router
     ) {}
     
     ngOnInit(): void {
@@ -44,17 +47,15 @@ export class StartComponent implements OnInit {
         });
     }
 
-   async makeLogin(): Promise<User | undefined> {
+    async makeLogin(): Promise<void> {
         try {
             if (this.loginForm.valid) {
-                const userProfile = await this.authService.authUser(this.loginForm.value);
+                await this.authService.authUser(this.loginForm.value);
 
-                console.log("Perfil do usuáio: ", userProfile);
-                
-
-                return userProfile;
+                this.currentRoute = this.router.url;
+                this.closingMenu(this.currentRoute);                
             } else {
-                return undefined; 
+                console.log('[ERRO]: Formulário inválido!')
             }
         } catch (error) {
             console.error({
