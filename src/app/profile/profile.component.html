@@ -1,5 +1,74 @@
 <header>
-	<div class="user-name">
-		<h2>{{ this.myProfile?.name }}</h2>
+	<div class="title-icon">
+		<span class="material-symbols-outlined icon">person_2</span>
+	</div>
+
+	<div class="title-name">
+		<span class="title">{{ this.myProfile?.name }}</span>
 	</div>
 </header>
+
+<main>
+	<div class="personal-data">
+		<span class="personal-title">Dados pessoais</span>
+
+		<div class="update-person-data">
+			<button class="button-update-person-data" (click)="this.updatingProfile()">
+				<span class="material-symbols-outlined">edit_square</span>
+				<span>Atualizar</span>
+			</button>
+		</div>
+
+		<p>
+			<span>Nome: {{ this.myProfile?.name }}</span>
+			<span>CPF: {{ this.myProfile?.cpf }}</span>
+			<span>Celular: {{ this.myProfile?.cellphone }}</span>
+			<span>E-mail: {{ this.myProfile?.email }}</span>
+		</p>
+	</div>
+
+	<div class="address">
+		<span class="address-title">Endereço</span>
+
+		<div class="update-address-data">
+			<button class="button-update-address-data" (click)="this.updatingProfile()">
+				<span class="material-symbols-outlined">edit_square</span>
+				<span>Atualizar</span>
+			</button>
+		</div>
+
+		<p>
+			<span>CEP: {{ this.myProfile?.postalCode }}</span>
+			<span>Estado: {{ this.myProfile?.state }}</span>
+			<span>Cidade: {{ this.myProfile?.city }}</span>
+			<span>Bairro: {{ this.myProfile?.neighborhood }}</span>
+			<span>Rua: {{ this.myProfile?.street }}</span>
+			<span>Número: {{ this.myProfile?.houseNumber }}</span>
+		</p>
+	</div>
+</main>
+
+<footer>
+	<div class="content-buttons">
+		<div class="products-in-cart">
+			<button (click)="this.openCart()">
+				<span class="material-symbols-outlined">shopping_cart</span>
+				<span>Carrinho</span>
+			</button>
+		</div>
+
+		<div class="logout">
+			<button (click)="this.leaving()">
+				<span class="material-symbols-outlined">door_open</span>
+				<span>Sair</span>
+			</button>
+		</div>
+	</div>
+
+	<div class="delete-account">
+		<div class="button-delete" (click)="this.deletingAccount()">
+			<span class="material-symbols-outlined">delete_forever</span>
+			<span>Excluir Conta</span>
+		</div>
+	</div>
+</footer>

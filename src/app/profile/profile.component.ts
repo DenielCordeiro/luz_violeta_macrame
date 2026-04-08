@@ -14,7 +14,7 @@ export class ProfileComponent {
 
 	constructor() {
 		this.getMyUser();
-	 }
+	};
 
 	public getMyUser(): void {
 		this.myProfile = this.authService.getUserProfile();
@@ -27,9 +27,15 @@ export class ProfileComponent {
 		}
 	};
 
+	public updatingProfile(): void {}
+
 	public leaving(): void {
 		this.authService.logout();
 	};
 
 	public openAddressDialog(): void {};
+
+	public openCart(): void {};
+
+	public deletingAccount(): void {};
 }
