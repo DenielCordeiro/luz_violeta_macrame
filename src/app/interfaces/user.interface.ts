@@ -15,7 +15,7 @@ export interface User {
   neighborhood?: string,
   houseNumber?: number,
   user_id?: number,
-  token?: string,
   administrator?: boolean,
   productsCart?: Product[],
+  token?: string,
 };

@@ -1,28 +1,89 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { BaseAPI } from '../interfaces/base-api.interface';
+import { User } from '../interfaces/user.interface';
+import { lastValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  private isAuthenticated = signal<boolean>(this.hasToken());
+    http!: HttpClient;
+    accessToken: string | null = null;
+    route: string = environment.api;
 
-  constructor() {}
+    constructor(httpClient: HttpClient) {
+        this.http = httpClient;
+    }
 
-  private hasToken(): boolean {
-    return !!localStorage.getItem('auth_token');
-  }
+    public async checkSession(): Promise<void> {
+        try {
+            const userProfile = await lastValueFrom(
+                this.http.post<User>(`${environment.api}/session/refresh`, {}, { withCredentials: true })
+            );
 
-  isLoggedIn(): boolean {
-    return this.isAuthenticated();
-  }
+            if (userProfile.token) {
+                this.accessToken = userProfile.token;
+            }
+        } catch (err) {
+            this.logout();
+        }
+    }
 
-  login(token: string) {
-    localStorage.setItem('auth_token', token);
-    this.isAuthenticated.set(true);
-  }
+    public getUserProfile(): User | null {
+        const sessionData = localStorage.getItem('session');
+        
+        if (sessionData == null) {
 
-  logout() {
-    localStorage.removeItem('auth_token');
-    this.isAuthenticated.set(false);
-  }
+            return null;
+        } else {
+            try {
+                const parsedData = JSON.parse(sessionData);
+                const userProfile = parsedData.user ? (parsedData.user as User) : (parsedData as User);
+
+                return userProfile;
+            } catch (error) {
+                console.error("Erro ao converter perfil do localStorage", error);
+
+                return null;
+            }
+        }       
+    }
+
+    public authUser(user: User): Promise<User> {
+        return lastValueFrom(this.http.post<User>(`${environment.api}/session/`, user))
+            .then(response => {
+                const userProfile = this.handleResponse(response);
+
+                if (userProfile && userProfile?.token) {
+                    this.accessToken = userProfile.token;
+
+                    const profile = userProfile;
+
+                    delete profile.token;
+                
+
+                    localStorage.setItem('session', JSON.stringify(profile));
+                }
+
+                return userProfile;
+            });
+    }
+
+    public logout(): Promise<void> {
+        return lastValueFrom(this.http.post(`${environment.api}/session/logout`, {}, { withCredentials: true }))
+            .then(() => {
+                this.accessToken = null;
+                localStorage.removeItem('session');
+            });
+    }
+
+    public handleResponse(response: User) {
+        if (response) {
+            return response;
+        } else {
+            throw new Error("Api 200, mas success falso!");
+        }
+    }
 }
