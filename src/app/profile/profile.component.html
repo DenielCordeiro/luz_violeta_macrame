@@ -1,43 +1,44 @@
 <header>
-	<div class="title-icon">
-		<span class="material-symbols-outlined icon">person_2</span>
-	</div>
+	<div class="content-header">
+		<div class="title-icon">
+			<span class="material-symbols-outlined icon">person_2</span>
+		</div>
 
-	<div class="title-name">
-		<span class="title">{{ this.myProfile?.name }}</span>
+		<div class="title-name">
+			<span class="title">{{ this.firstName }}</span>
+		</div>
 	</div>
 </header>
 
 <main>
-	<div class="personal-data">
-		<span class="personal-title">Dados pessoais</span>
+	<div class="content-main">
+		<div class="title-person-data">
+			<span class="personal-title">Dados pessoais</span>
 
-		<div class="update-person-data">
-			<button class="button-update-person-data" (click)="this.updatingProfile()">
+			<button class="update-person-data" (click)="this.updatingProfile()">
 				<span class="material-symbols-outlined">edit_square</span>
 				<span>Atualizar</span>
 			</button>
 		</div>
 
-		<p>
+		<p class="personal-data">
 			<span>Nome: {{ this.myProfile?.name }}</span>
 			<span>CPF: {{ this.myProfile?.cpf }}</span>
 			<span>Celular: {{ this.myProfile?.cellphone }}</span>
 			<span>E-mail: {{ this.myProfile?.email }}</span>
 		</p>
-	</div>
 
-	<div class="address">
-		<span class="address-title">Endereço</span>
+		
+		<div class="title-address-data">
+			<span class="address-title">Endereço</span>
 
-		<div class="update-address-data">
-			<button class="button-update-address-data" (click)="this.updatingProfile()">
+			<button class="update-address-data" (click)="this.updatingProfile()">
 				<span class="material-symbols-outlined">edit_square</span>
 				<span>Atualizar</span>
 			</button>
 		</div>
 
-		<p>
+		<p class="address-data">
 			<span>CEP: {{ this.myProfile?.postalCode }}</span>
 			<span>Estado: {{ this.myProfile?.state }}</span>
 			<span>Cidade: {{ this.myProfile?.city }}</span>

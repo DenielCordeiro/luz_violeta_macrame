@@ -11,6 +11,7 @@ import { AuthService } from '../guards/auth.service';
 export class ProfileComponent {
 	public myProfile:  User | null = null;
 	private authService: AuthService = inject(AuthService);
+	public firstName: string | undefined = undefined;
 
 	constructor() {
 		this.getMyUser();
@@ -22,8 +23,8 @@ export class ProfileComponent {
 		if (this.myProfile == null) {
 			console.log('usuários não existe no LocalStorage');
 		} else {
+			this.firstName = this.myProfile.name?.split(' ')[0];
 			console.log('Usuário: ', this.myProfile);
-			
 		}
 	};
 

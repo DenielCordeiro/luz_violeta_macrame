@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
 	menuService: MenuService = inject(MenuService);
 	user: User | null = null;
 	isConnected: boolean = false;
+	firstName: string | undefined = undefined;
 
 	constructor(
 		public route: ActivatedRoute,
@@ -31,10 +32,20 @@ export class LoginComponent implements OnInit {
 	verifyIsConnected(): boolean {
 		this.user = this.authService.getUserProfile();
 
-		if (this.user !== null) {
-			return this.isConnected = false;
+		if (this.user) {
+			if (this.user?.name) {
+				this.firstName = this.user.name.split(' ')[0];
+			} else {
+				this.firstName = undefined;
+			}
+
+			this.isConnected = false;
+
+			return this.isConnected;
 		} else {
-			return this.isConnected = true;
+			this.isConnected = true;
+
+			return this.isConnected;
 		}
 	}
 
