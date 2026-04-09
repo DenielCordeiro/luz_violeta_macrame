@@ -15,7 +15,7 @@
 		<div class="title-person-data">
 			<span class="personal-title"><b>Dados pessoais</b></span>
 
-			<button matButton = "elevated" class="update-person-data" (click)="this.updatingProfile()">
+			<button matButton = "elevated" class="update-person-data" (click)="this.updatingProfile('personal')">
 				<mat-icon class="material-symbols-outlined">edit_square</mat-icon>
 				<span>Atualizar</span>
 			</button>
@@ -32,7 +32,7 @@
 		<div class="title-address-data">
 			<span class="address-title"><b>Endereço: </b></span>
 
-			<button matButton = "elevated" class="update-address-data" (click)="this.updatingProfile()">
+			<button matButton = "elevated" class="update-address-data" (click)="this.updatingProfile('address')">
 				<mat-icon class="material-symbols-outlined">edit_square</mat-icon>
 				<span>Atualizar</span>
 			</button>
