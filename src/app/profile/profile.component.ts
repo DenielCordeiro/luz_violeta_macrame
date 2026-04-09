@@ -1,10 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { User } from '../interfaces/user.interface';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
 import { AuthService } from '../guards/auth.service';
+
+import { User } from '../interfaces/user.interface'; 
 
 @Component({
 	selector: 'app-users',
 	standalone: true,
+	imports: [
+		MatButtonModule,
+		MatIconModule,
+	],
 	templateUrl: './profile.component.html',
 	styleUrls: ['./profile.component.sass'],
 })

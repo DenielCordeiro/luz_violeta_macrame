@@ -1,7 +1,7 @@
 <header>
 	<div class="content-header">
 		<div class="title-icon">
-			<span class="material-symbols-outlined icon">person_2</span>
+			<mat-icon class="material-symbols-outlined icon">person_3</mat-icon>
 		</div>
 
 		<div class="title-name">
@@ -13,63 +13,63 @@
 <main>
 	<div class="content-main">
 		<div class="title-person-data">
-			<span class="personal-title">Dados pessoais</span>
+			<span class="personal-title"><b>Dados pessoais</b></span>
 
-			<button class="update-person-data" (click)="this.updatingProfile()">
-				<span class="material-symbols-outlined">edit_square</span>
+			<button matButton = "elevated" class="update-person-data" (click)="this.updatingProfile()">
+				<mat-icon class="material-symbols-outlined">edit_square</mat-icon>
 				<span>Atualizar</span>
 			</button>
 		</div>
 
 		<p class="personal-data">
-			<span>Nome: {{ this.myProfile?.name }}</span>
-			<span>CPF: {{ this.myProfile?.cpf }}</span>
-			<span>Celular: {{ this.myProfile?.cellphone }}</span>
-			<span>E-mail: {{ this.myProfile?.email }}</span>
+			<span><b>Nome: </b>{{ this.myProfile?.name }}</span>
+			<span><b>CPF: </b>{{ this.myProfile?.cpf }}</span>
+			<span><b>Celular: </b>{{ this.myProfile?.cellphone }}</span>
+			<span><b>E-mail: </b>{{ this.myProfile?.email }}</span>
 		</p>
 
 		
 		<div class="title-address-data">
-			<span class="address-title">Endereço</span>
+			<span class="address-title"><b>Endereço: </b></span>
 
-			<button class="update-address-data" (click)="this.updatingProfile()">
-				<span class="material-symbols-outlined">edit_square</span>
+			<button matButton = "elevated" class="update-address-data" (click)="this.updatingProfile()">
+				<mat-icon class="material-symbols-outlined">edit_square</mat-icon>
 				<span>Atualizar</span>
 			</button>
 		</div>
 
 		<p class="address-data">
-			<span>CEP: {{ this.myProfile?.postalCode }}</span>
-			<span>Estado: {{ this.myProfile?.state }}</span>
-			<span>Cidade: {{ this.myProfile?.city }}</span>
-			<span>Bairro: {{ this.myProfile?.neighborhood }}</span>
-			<span>Rua: {{ this.myProfile?.street }}</span>
-			<span>Número: {{ this.myProfile?.houseNumber }}</span>
+			<span><b>CEP: </b>{{ this.myProfile?.postalCode }}</span>
+			<span><b>Estado: </b>{{ this.myProfile?.state }}</span>
+			<span><b>Cidade: </b>{{ this.myProfile?.city }}</span>
+			<span><b>Bairro: </b>{{ this.myProfile?.neighborhood }}</span>
+			<span><b>Rua: </b>{{ this.myProfile?.street }}</span>
+			<span><b>Número: </b>{{ this.myProfile?.houseNumber }}</span>
 		</p>
 	</div>
 </main>
 
 <footer>
-	<div class="content-buttons">
-		<div class="products-in-cart">
-			<button (click)="this.openCart()">
-				<span class="material-symbols-outlined">shopping_cart</span>
-				<span>Carrinho</span>
-			</button>
+	<div class="content-footer">
+		<div class="delete-account">
+			<div class="button-delete" (click)="this.deletingAccount()">
+				<mat-icon class="material-symbols-outlined">delete_forever</mat-icon>
+				<span>Excluir Conta</span>
+			</div>
 		</div>
 
 		<div class="logout">
-			<button (click)="this.leaving()">
-				<span class="material-symbols-outlined">door_open</span>
+			<button matButton = "elevated" (click)="this.leaving()">
+				<mat-icon class="material-symbols-outlined">door_open</mat-icon>
 				<span>Sair</span>
 			</button>
 		</div>
-	</div>
 
-	<div class="delete-account">
-		<div class="button-delete" (click)="this.deletingAccount()">
-			<span class="material-symbols-outlined">delete_forever</span>
-			<span>Excluir Conta</span>
+		<div class="products-in-cart">
+			<button matButton = "elevated" (click)="this.openCart()">
+				<mat-icon class="material-symbols-outlined">shopping_cart</mat-icon>
+				<span>Carrinho</span>
+			</button>
 		</div>
-	</div>
+	</div>	
 </footer>

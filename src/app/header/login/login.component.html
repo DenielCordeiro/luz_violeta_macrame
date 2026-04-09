@@ -1,12 +1,12 @@
 <section id="buttons">
 	@if (isConnected == true){
 		<div class="button-login" (click)="loginDialog()">
-			<span class="material-symbols-outlined">login</span> <br>
+			<mat-icon class="material-symbols-outlined">login</mat-icon> <br>
 			<span>Entrar</span>
 		</div>
 	} @else {
 		<div class="button-my-account" (click)="this.closingMenu('/profile')" >
-			<span class="material-symbols-outlined">account_circle</span> <br>
+			<mat-icon class="material-symbols-outlined">account_circle</mat-icon> <br>
 			<span>{{ this.firstName }}</span>
 		</div>
 	}
