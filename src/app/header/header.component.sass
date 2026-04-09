@@ -1,51 +1,49 @@
 @use '../../assets/sass/colors'
 @use '../../assets/sass/display'
 
-*
-    margin: 0px
-    padding: 0px
-
 header
+    position: fixed
     display: flex
     justify-content: space-around
-    align-items: center
-    position: fixed
-    z-index: 10
+    background-color: colors.$white
+    z-index: 1000
     width: 100vw
-    height: 45px
-    padding-top: 1.5vh
-    box-shadow: 0px 0px 2px 0px colors.$pourple-light
+    height: 60px
+    box-shadow: 0px 0px 1.5px 1.5px colors.$pourple-light
 
-    @include display.hd
-        height: 42px
+    .menu, .title, .cart
+        padding-top: 2.2vh
 
-    @include display.mobile
-        height: 45px
+        @include display.mobile
+            padding-top: 2.5vh
 
-.cart
-    color: colors.$black
-    cursor: pointer
-    font-size: 30px
+    .title
+        margin-left: -1vw
 
-    @include display.hd
-        font-size: 25px
+    .cart
+        color: colors.$black
+        cursor: pointer
+        font-size: 30px
 
-    &:hover
-        color: colors.$pourple
+        @include display.hd
+            font-size: 25px
 
-    i
-        position: absolute
-        top: 1vh
+        &:hover
+            color: colors.$pourple
 
-    .productsQuantity
-        position: absolute
-        top: 0.2vh
-        right: 14vw
+        i
+            position: absolute
+            top: 1vh
 
-    span
-        font-size: 16px
-        font-weight: 600
-        color: colors.$red
+        .productsQuantity
+            position: absolute
+            top: 0.2vh
+            right: 14vw
+
+        span
+            font-size: 16px
+            font-weight: 600
+            color: colors.$red
 
 #login
     position: fixed

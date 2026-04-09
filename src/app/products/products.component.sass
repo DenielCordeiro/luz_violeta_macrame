@@ -1,124 +1,31 @@
 @use '../../assets/sass/display'
 @use '../../assets/sass/colors'
 
-*
-  margin: 0
-  padding: 0
+header
+	display: flex
+	justify-content: space-between
+	max-width: 100vw
 
-#content-header
-  display: flex
-  justify-content: center
+main
+	display: flex
+	justify-content: center
 
-  .button-add
-    width: 150px
+	.products
+		display: flex
+		justify-content: center
+		flex-wrap: wrap
+		width: 60vw
+		gap: 2vh 2vw
 
-    .bi-plus-circle-dotted
-      display: none
-
-    &:hover
-      .bi-plus-circle-dotted
-        display: inline
-
-      .bi-plus
-        display: none
-
-.content
-  width: 100%
-  display: flex
-  justify-content: center
-
-  .products
-    width: 74vw
-    display: flex
-    justify-content: center
-    flex-wrap: wrap
-
-    @include display.hd
-      width: 70vw
-
-    @include display.mobile
-      width: 90vw
-
-    .buttons-crud
-      text-align: end
-
-    .product
-      width: 13vw
-      margin: 2vh 1vw
-
-      @include display.hd
-        width: 15vw
-
-      @include display.mobile
-        margin: 1.5vh 3vw
-        width: 35vw
-
-      .icon
-        color: colors.$white
-        font-size: 33px
-
-      .icon-selected
-        color: colors.$pourple
-
-      .change-product
-        display: flex
-        justify-content: space-around
-
-        .update-and-delete-buttons
-          cursor: pointer
-          padding: 5px
-          border-bottom: 1px solid colors.$black
-
-          &:hover
-            boder: none
-            border-radius: 4px
-
-          i
-            margin-left: 4px
-
-        .update-product
-          &:hover
-            color: colors.$pourple
-            border-color: colors.$pourple-light
-
-        .delete-product
-          &:hover
-            box-shadow: 10px colors.$green
-            color: colors.$green
-            border-color: colors.$green-light
-
-      .card
-        cursor: pointer
-        align-items: center
-        padding-top: 1vh
-        margin-top: 1vh
-        background-color: colors.$blue-pourple
-
-        img
-          width: 12vw
-          height: 250px
-          border-radius: 5px
-
-          @include display.hd
-            width: 14vw
-            height: 200px
-
-          @include display.mobile
-            height: 16vh
-
-.loading
-  max-width: 100vw
-  padding: 30px 25vw 30px 25vw
-  display: flex
-  justify-content: center
-  align-items: center
-
-  .google-loading
-    top: 65px
-    left: 0
-    width: 100%
-    height: 3px !important
-    z-index: 9999
-    position: fixed
-    transition: opacity 0.5s ease
-    --mdc-linear-progress-active-indicator-color: colors.$blue
+		.product-buttons
+			display: flex
+			justify-content: space-around
+	
+	.google-loading
+		position: fixed
+		transition: opacity 0.5s ease
+		--mdc-linear-progress-active-indicator-color: colors.$blue
+		top: 60px
+		left: 0
+		width: 100%
+		z-index: 9999

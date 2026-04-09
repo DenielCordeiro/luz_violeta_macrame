@@ -14,8 +14,8 @@
           </div>
 
           <div class="icons-edit-or-delete">
-            <i class="bi bi-pencil-fill" (click)="updateModal(product?._id)"></i>
-            <i class="bi bi-trash3-fill icon-trash" (click)="deleteModal(product?._id)"></i>
+            <mat-icon class="material-symbols-outlined" (click)="updateModal(product)">edit_square</mat-icon>
+            <mat-icon class="material-symbols-outlined" (click)="deleteModal(product?._id)">delete</mat-icon>
           </div>
         </div>
 
@@ -114,16 +114,3 @@
     </div>
   </div>
 </section>
-
-<!-- <section id="mobile">
-  @for (product of products; track product._id) {
-    <div class="content-product"></div>
-  }
-
-  <div class="return">
-    <div class="button-return" routerLink="/products">
-      <i class="bi bi-arrow-left"></i>
-      <span>voltar para produtos</span>
-    </div>
-  </div>
-</section> -->

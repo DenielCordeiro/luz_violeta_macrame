@@ -1,46 +1,38 @@
-<section id="content-header">
-  <div class="buttons button-send button-add" (click)="modalCreate(null)">
-      <span class="mx-2">Adicionar</span>
-      <i class="bi bi-plus"></i>
-      <i class="bi bi-plus-circle-dotted"></i>
-  </div>
-</section>
+<header>
+	<button matButton="elevated" (click)="modalCreate(null)">
+		<span>Adicionar</span>
+		<mat-icon class="material-symbols-outlined">add_box</mat-icon>
+	</button>
+</header>
 
-<section id="cards">
-  <div class="content">
-    <div class="products">
-      @for (product of products; track product._id) {
-        <div class="product">
-          <div class="change-product my-2">
-            <div class="update-and-delete-buttons update-product" (click)="modalCreate(product)">
-              <span>Editar</span>
-              <i class="bi bi-pencil-fill"></i>
-            </div>
-  
-            <div class="update-and-delete-buttons delete-product" (click)="modalDelete(product)">
-              <span>Excluir</span>
-              <i class="bi bi-trash3-fill"></i>
-            </div>
-          </div>
-  
-          <div class="card" (click)="setProductInLocalStorage(product)" routerLink="/product/{{ product._id }}">
-            <img src="{{ product?.file?.url }}" alt="...">
-            <p class="itemTitle" >{{ product?.name }}</p>
-            <p class="itemValor">R$ {{ product?.valor }}</p>
-          </div>
-        </div>
-      }
-    </div>    
-  </div>
+<main>
+	<div class="products">
+		@for (product of products; track product._id) {
+			<div class="product">
+				<div class="product-buttons">
+					<div class="update-and-delete-buttons update-product" (click)="modalCreate(product)">
+						<span>Editar</span>
+						<i class="bi bi-pencil-fill"></i>
+					</div>
 
-  @if (isLoading) {
-    <div class="loading">
-       <mat-progress-bar class="google-loading" mode="indeterminate" [style.opacity]="isLoading ? 1 : 0">  </mat-progress-bar>
-    </div>
-  }
+					<div class="update-and-delete-buttons delete-product" (click)="modalDelete(product)">
+						<span>Excluir</span>
+						<i class="bi bi-trash3-fill"></i>
+					</div>
+				</div>
 
-  <div #scrollAnchor></div>
-</section>
+				<div class="card" (click)="setProductInLocalStorage(product)" routerLink="/product/{{ product._id }}">
+					<img src="{{ product?.file?.url }}" alt="...">
+					<p class="itemTitle" >{{ product?.name }}</p>
+					<p class="itemValor">R$ {{ product?.valor }}</p>
+				</div>
+			</div>
+		}
+	</div>  
 
+	@if (isLoading) {
+		<mat-progress-bar class="google-loading" mode="indeterminate" [style.opacity]="isLoading ? 1 : 0"></mat-progress-bar>
+	}
 
-
+	<div #scrollAnchor></div>
+</main>
