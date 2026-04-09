@@ -1,12 +1,20 @@
+@use '../../assets/sass/colors'
+
 header
     display: flex
     justify-content: center
     width: 100vw
-    padding-top: 4vh
+    margin-top: 10vh
 
     .content-header
         display: flex
+        justify-content: center
         align-items: center
+        background-color: colors.$pourple-gray
+        width: 44vw
+        padding-top: 2vh
+        border-top-left-radius: 10px
+        border-top-right-radius: 10px
 
         .title-icon
             .icon
@@ -24,9 +32,10 @@ main
     justify-content: center
     width: 100vw
   
-
     .content-main
+        background-color: colors.$pourple-gray
         width: 40vw
+        padding: 2vh 2vw
 
     .title-person-data, .title-address-data
         display: flex
@@ -37,17 +46,29 @@ main
     .personal-data, .address-data
         display: flex
         flex-direction: column
-
     
 footer
     display: flex
     justify-content: center
     width: 100vw
-    padding-top: 4vh
+    
 
     .content-footer
         display: flex
         justify-content: space-around
         align-items: center
-        width: 40vw
-    
+        background-color: colors.$pourple-light
+        width: 44vw
+        height: 7vh
+        border-bottom-left-radius: 10px
+        border-bottom-right-radius: 10px
+
+        .button-delete
+            display: flex
+            justify-content: center
+            align-items: center
+            cursor: pointer
+            color: colors.$pourple-gray
+
+            &:hover
+                color: colors.$light-red
