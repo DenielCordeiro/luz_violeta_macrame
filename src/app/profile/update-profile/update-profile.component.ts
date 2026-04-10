@@ -120,20 +120,28 @@ export class UpdateProfileComponent implements OnInit {
 	}
 
     public updatingProfileUser(): void {
-        this.usersService.updateUser(this.registerForm.value)
-            .then(result => {
-                console.log(result);
-                
-                this.registerForm.reset();
-                this.changeDetector.detectChanges();
-                this.diaalogRef.close();
-            }) 
-            .catch (error => {
-                console.error({
-                    message: "[ERRO]: Não foi possível criar novo Usuário.",
-                    fail: error
+        if (this.registerForm.valid) {
+            this.usersService.updateUser(this.registerForm.value)
+                .then(result => {
+                    console.log(result);
+                }) 
+                .catch (error => {
+                    console.error({
+                        message: "[ERRO]: Não foi possível criar novo Usuário.",
+                        fail: error
+                    });
+                })
+                .finally(() => {
+                    this.registerForm.reset();
+                    this.changeDetector.detectChanges();
+                    this.diaalogRef.close();
                 });
+        } else {
+            console.error({
+                message: "[ERRO]: Formulário inválido!",
+                form: this.registerForm
             });
+        }
     }
 
     public closeDialog(): void {

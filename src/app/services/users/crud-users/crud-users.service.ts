@@ -53,6 +53,17 @@ export abstract class CrudUsersService<T extends BaseCrud> {
             })
     }
 
+    public deleteUser(user_id: number): Promise<{ status: number, message: string }> {
+        return lastValueFrom(this.http.delete<BaseAPI<T>>(`${this.route}/${user_id}`))
+            .then(result => {
+                return result as unknown as { status: number, message: string };
+            })
+            .catch(error => {
+                alert('Não foi possível deletar seu perfil!')
+                return error;
+            })
+    }
+
     public searchPostalCode(postalCode: number): Promise<Address> {
         return lastValueFrom(this.http.get<Address>(`${environment.viaCepAPI}/${postalCode}/json`))
             .then(result => {

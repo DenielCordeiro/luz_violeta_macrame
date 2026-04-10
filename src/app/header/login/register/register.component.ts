@@ -68,16 +68,17 @@ export class RegisterComponent implements OnInit {
 			this.usersService.createUser(this.registerForm.value)
 				.then(result => {
 					console.log(result);
-					
-					this.registerForm.reset();
-					this.changeDetector.detectChanges();
 				}) 
 				.catch (error => {
 					console.error({
 						message: "[ERRO]: Não foi possível criar novo Usuário.",
 						fail: error
 					});
-				});
+				})
+				.finally(() => {
+                    this.registerForm.reset();
+                    this.changeDetector.detectChanges();
+                });
 		} else {
 			console.error({
 				message: "[ERRO]: Formulário inválido!",

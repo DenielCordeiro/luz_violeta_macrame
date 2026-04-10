@@ -1,6 +1,9 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject, Inject } from "@angular/core";
+
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+
+import { UsersService } from "src/app/services/users/users.service";
 
 @Component({
     selector: 'app-delete-profile',
@@ -9,6 +12,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
     styleUrls: ['./delete-profile.component.sass'],
 })
 export class DeleteProfileComponent {
+    private userService: UsersService = inject(UsersService);
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { profileName: string, profileId: number },
         private dialogRef: MatDialogRef<DeleteProfileComponent>
@@ -18,8 +23,19 @@ export class DeleteProfileComponent {
     }
 
     onDelete(): void {
-        // Implement the delete logic here
-        this.dialogRef.close();
+        this.userService.deleteUser(this.data.profileId)
+            .then(result => {
+                console.log(result.message);
+            })
+            .catch(error => {
+                console.error({
+                    message: 'Não foi possível deletar seu perfil!',
+                    fail: error
+                });
+            })
+             .finally(() => {
+                 this.closeDialog();
+             });
     }
 
     closeDialog(): void {
