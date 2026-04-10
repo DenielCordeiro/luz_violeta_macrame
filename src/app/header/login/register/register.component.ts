@@ -29,7 +29,7 @@ import { brasilStates } from './register.mock';
 export class RegisterComponent implements OnInit {
 	registerForm!: FormGroup;
 	hidePassword: WritableSignal<boolean> = signal(true);
-	stateControl = new FormControl('SP');
+	stateControl: FormControl = new FormControl('SP');
 	states: string[] = brasilStates;
 	groupInfosAddress: string[] = [];
 	convertedAddress: string | undefined;
@@ -79,7 +79,10 @@ export class RegisterComponent implements OnInit {
 					});
 				});
 		} else {
-			console.log(this.registerForm);
+			console.error({
+				message: "[ERRO]: Formulário inválido!",
+				form: this.registerForm
+			});
 		}
 	}
 
