@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { ProductsService } from '../services/products/products.service';
@@ -22,6 +23,7 @@ import { MOCK_PRODUCTS } from './products.mock';
     CommonModule,
     RouterModule,
     MatButtonModule,
+    MatIconModule,
     MatProgressBarModule
   ],
   templateUrl: './products.component.html',
@@ -46,7 +48,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     // this.gettingProducts();
-    this.setPageSize();
     this.loadProducts();
     this.clearProductLocalStorage();
   }
@@ -54,8 +55,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     window.addEventListener('resize', () => {
       const oldPageSize = this.pageSize;
-
-      this.setPageSize();
 
       if (oldPageSize !== this.pageSize) {
         this.resetAndReload();
@@ -128,18 +127,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   clearProductLocalStorage(): void {
     this.productsService.removeProductSelected();
-  }
-
-  setPageSize(): void {
-    const width = window.innerWidth;
-
-    if (width <= 768) {
-      this.pageSize = 6;   // Mobile
-    } else if (width <= 1024) {
-      this.pageSize = 9;   // Tablet (opcional)
-    } else {
-      this.pageSize = 12;   // Desktop
-    }
   }
 
   gettingProducts(): void {

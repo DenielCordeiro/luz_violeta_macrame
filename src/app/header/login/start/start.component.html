@@ -2,7 +2,7 @@
 	<form [formGroup]="loginForm">
 		<header>
 			<span class="title">Acesse sua conta</span>
-			<span class="material-symbols-outlined close" (click)="closeDialog()">tab_close</span>
+			<mat-icon class="material-symbols-outlined close" (click)="closeDialog()">tab_close</mat-icon>
 		</header>
 
 		<main>
@@ -14,9 +14,9 @@
 			<mat-form-field appearance="outline">
 				<mat-label>Digite sua senha:</mat-label>
 				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
-				<span class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+				<mat-icon class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
 					{{ hidePassword() ? 'visibility' : 'visibility_off' }}
-				</span>
+				</mat-icon>
 			</mat-form-field>
 		</main>
 

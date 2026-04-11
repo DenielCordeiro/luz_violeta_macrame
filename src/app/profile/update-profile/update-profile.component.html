@@ -1,0 +1,78 @@
+<header>
+    <h3>Atualizar Perfil</h3>
+    <mat-icon class="material-symbols-outlined" (click)="closeDialog()">tab_close_inactive</mat-icon>
+</header>
+
+<main>
+    <form id="registerForm" [formGroup]="this.registerForm">
+
+        @if (this.personalForm == true) {
+            <div class="personal-data">
+                <mat-form-field appearance="outline">
+                    <mat-label>Digite seu nome:</mat-label>
+                    <input matInput formControlName="name" placeholder="Exemplo da Silva">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Celular:</mat-label>
+                    <input type="number" matInput formControlName="cellphone" placeholder="(00) 00000-0000">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Digite seu e-mail:</mat-label>
+                    <input matInput formControlName="email" placeholder="exemplo@exemplo.com">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Digite sua senha:</mat-label>
+                    <input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'" placeholder="Ex3mpl@">
+                    <span class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
+                        {{ hidePassword() ? 'visibility' : 'visibility_off' }}
+                    </span>
+                </mat-form-field>
+            </div>
+        } @else if (this.addressForm == true) {
+            <div class="address-data">
+                <mat-form-field appearance="outline">
+                    <mat-label>CEP:</mat-label>
+                    <input matInput formControlName="postalCode" placeholder="13300***">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Estado:</mat-label>
+                    <mat-select [formControl]="this.stateControl">
+                        @for (state of this.states; track state) {
+                            <mat-option [value]="state" >{{ state }}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="neighborhood" appearance="outline">
+                    <mat-label>Bairro:</mat-label>
+                    <input matInput formControlName="neighborhood" placeholder="Bairro Exemplo">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Cidade:</mat-label>
+                    <input matInput formControlName="city" placeholder="Cidade Exemplo">
+                </mat-form-field>
+
+                <mat-form-field class="street" appearance="outline">
+                    <mat-label>Rua:</mat-label>
+                    <input matInput formControlName="street" placeholder="Rua Exemplo de Texto">
+                </mat-form-field>
+
+                <mat-form-field class="house-number" appearance="outline">
+                    <mat-label>Número:</mat-label>
+                    <input type="number" matInput formControlName="houseNumber" placeholder="0**">
+                </mat-form-field>
+            </div>
+        }
+
+    </form>
+</main>
+
+<footer>
+    <button mat-button="elevated" (click)="closeDialog()">Cancelar</button>
+    <button matButton="elevated" (click)="updatingProfileUser()">Salvar</button>
+</footer>

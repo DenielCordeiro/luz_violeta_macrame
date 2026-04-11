@@ -1,0 +1,13 @@
+<header>
+    <h2>Excluir Perfil</h2>
+
+</header>
+
+<main>
+    <h4>Tem certeza que deseja excluir o perfil de {{ data.profileName }}?</h4>
+</main>
+
+<footer>
+    <button mat-button="elevated" (click)="closeDialog()">Cancelar</button>
+    <button matButton="elevated" (click)="onDelete()">Excluir</button>
+</footer>

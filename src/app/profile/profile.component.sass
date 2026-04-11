@@ -1,17 +1,26 @@
+@use '../../assets/sass/colors'
+
 header
     display: flex
     justify-content: center
     width: 100vw
+    margin-top: 10vh
 
     .content-header
         display: flex
+        justify-content: center
         align-items: center
+        background-color: colors.$light-pourple
+        width: 44vw
+        padding-top: 2vh
+        border-top-left-radius: 10px
+        border-top-right-radius: 10px
 
-
-    .title-icon
-        .icon
-            font-size: 40px
-            font-weight: 550
+        .title-icon
+            .icon
+                width: 3vw
+                height: 40px
+                font-size: 40px
 
     .title-name
         font-size: 25px
@@ -23,16 +32,43 @@ main
     justify-content: center
     width: 100vw
   
-
     .content-main
+        background-color: colors.$light-pourple
         width: 40vw
+        padding: 2vh 2vw
 
     .title-person-data, .title-address-data
         display: flex
         justify-content: space-between
+        padding-top: 4vh
         
 
     .personal-data, .address-data
         display: flex
         flex-direction: column
-        
+    
+footer
+    display: flex
+    justify-content: center
+    width: 100vw
+    
+
+    .content-footer
+        display: flex
+        justify-content: space-around
+        align-items: center
+        background-color: colors.$pourple-gray
+        width: 44vw
+        height: 7vh
+        border-bottom-left-radius: 10px
+        border-bottom-right-radius: 10px
+
+        .button-delete
+            display: flex
+            justify-content: center
+            align-items: center
+            cursor: pointer
+            color: colors.$red2
+
+            &:hover
+                color: colors.$light-red

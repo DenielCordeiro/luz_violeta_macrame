@@ -1,12 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { LoginComponent } from '../../login/login.component';
+
+import { MatIconModule } from '@angular/material/icon';
+
 import { MenuService } from 'src/app/services/menu/menu.service';
 import { AuthService } from 'src/app/guards/auth.service';
+
+import { LoginComponent } from '../../login/login.component'; 
+
 
 @Component({
     selector: 'app-desktop-menu',
     standalone: true,
-    imports: [LoginComponent],
+    imports: [
+        LoginComponent,
+        MatIconModule,
+    ],
     templateUrl: './desktop-menu.component.html',
     styleUrls: ['./desktop-menu.component.sass'],
 })

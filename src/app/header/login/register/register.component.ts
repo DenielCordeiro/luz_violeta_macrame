@@ -29,7 +29,7 @@ import { brasilStates } from './register.mock';
 export class RegisterComponent implements OnInit {
 	registerForm!: FormGroup;
 	hidePassword: WritableSignal<boolean> = signal(true);
-	stateControl = new FormControl('SP');
+	stateControl: FormControl = new FormControl('SP');
 	states: string[] = brasilStates;
 	groupInfosAddress: string[] = [];
 	convertedAddress: string | undefined;
@@ -68,18 +68,22 @@ export class RegisterComponent implements OnInit {
 			this.usersService.createUser(this.registerForm.value)
 				.then(result => {
 					console.log(result);
-					
-					this.registerForm.reset();
-					this.changeDetector.detectChanges();
 				}) 
 				.catch (error => {
 					console.error({
 						message: "[ERRO]: Não foi possível criar novo Usuário.",
 						fail: error
 					});
-				});
+				})
+				.finally(() => {
+                    this.registerForm.reset();
+                    this.changeDetector.detectChanges();
+                });
 		} else {
-			console.log(this.registerForm);
+			console.error({
+				message: "[ERRO]: Formulário inválido!",
+				form: this.registerForm
+			});
 		}
 	}
 

@@ -1,14 +1,15 @@
 import { Component, inject, OnInit, signal, WritableSignal } from "@angular/core";
+import { Router } from "@angular/router";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 
 import { MatDialog } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { MatFormField, MatLabel } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
+
 import { AuthService } from "src/app/guards/auth.service";
 import { MenuService } from "src/app/services/menu/menu.service";
-import { User } from "src/app/interfaces/user.interface";
-import { Router } from "@angular/router";
 
 @Component({
     selector: 'app-start',
@@ -19,6 +20,7 @@ import { Router } from "@angular/router";
         MatFormField,
         MatLabel,
         MatInputModule,
+        MatIconModule
     ],
     templateUrl: './start.component.html',
     styleUrls: ['./start.component.sass']

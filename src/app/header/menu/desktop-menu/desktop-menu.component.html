@@ -7,15 +7,15 @@
  
 
   <div class="default-button newsletter item" (click)="closingMenu('/newsletter')">
-    <i class="bi bi-newspaper"></i>
+     <mat-icon class="material-symbols-outlined">newspaper</mat-icon>
     <span translate="no">Newsletter</span>
   </div>
 
   <div class="default-button item" (click)="changeMenuProducts()">
     @if (this.isOpen == false) {
-      <i class="bi bi-arrow-bar-down"></i>
+      <mat-icon class="material-symbols-outlined">arrow_drop_down</mat-icon>
     } @else {
-      <i class="bi bi-arrow-bar-right"></i>
+      <mat-icon class="material-symbols-outlined">arrow_drop_up</mat-icon>
     }
     <span>Acessórios</span>
   </div>
@@ -30,7 +30,7 @@
   }
 
   <div class="default-button about item" (click)="closingMenu('/about')">
-    <i class="bi bi-person"></i>
+    <mat-icon class="material-symbols-outlined">article_person</mat-icon>
     <span>Sobre</span>
   </div>
 

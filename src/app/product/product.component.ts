@@ -1,21 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 import { MatDialog } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+
 import { StorageService } from '../services/storage/storage.service';
 import { ProductsService } from './../services/products/products.service';
 import { MelhorEnvioService } from '../services/melhor-envio/melhor-envio.service';
 import { CartService } from '../services/cart/cart.service';
+
 import { Product } from '../interfaces/product.interface';
 import { Shipping } from '../interfaces/shipping.interface';
 import { Sale } from '../interfaces/sale.interface';
 import { User } from '../interfaces/user.interface';
+import { DeleteProductComponent } from '../products/delete-product/delete-product.component';
+import { AddOrEditProductComponent } from '../products/add-or-edit-product/add-or-edit-product.component';
 
 @Component({
   selector: 'app-product',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.sass',
@@ -83,9 +90,6 @@ export class ProductComponent implements OnInit, OnDestroy {
       "postalCode": [null],
     });
   }
-
-  updateModal(id: string | undefined): void {}
-  deleteModal(id: string | undefined): void {}
 
   getCurrentShipping(): void {
       try {
@@ -180,6 +184,26 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   goToCart(): void {
     this.route.navigate(['/cart/', this.userProfile._id]);
+  }
+
+  updateModal(product: Product | undefined): void {
+    if (product) {
+      this.dialog.open<AddOrEditProductComponent>(AddOrEditProductComponent, {
+        data:  product,
+      });
+    } else {
+      console.error('ID do produto não encontrado para atualização.');
+    }
+  }
+  
+  deleteModal(id: string | undefined): void {
+     if (id) {
+      this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
+        data: { productId: id },
+      });
+    } else {
+      console.error('ID do produto não encontrado para excluir.');
+    }
   }
 
   ngOnDestroy(): void {
