@@ -12,6 +12,7 @@ import { UsersService } from "src/app/services/users/users.service";
 import { User } from "src/app/interfaces/user.interface";
 
 import { brasilStates } from "src/app/header/login/register/register.mock";
+import { id } from "@swimlane/ngx-charts";
 
 @Component({
     selector: 'app-update-profile',
@@ -35,6 +36,7 @@ export class UpdateProfileComponent implements OnInit {
     public hidePassword: WritableSignal<boolean> = signal(true);
     public personalForm!: boolean;
     public addressForm!: boolean;
+    public userId: string | undefined = undefined; 
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { profile: User, formType: string },
@@ -64,9 +66,10 @@ export class UpdateProfileComponent implements OnInit {
     
     public buildingForm(): void {
 		this.registerForm = this.formBuilder.group({
+            "user_id": null,
 			"name":  [null, Validators.required],
 			"email":[null, [Validators.required, Validators.email]],
-			"password": null,
+			"password": [null, Validators.required],
 			"cellphone": null,
 			"postalCode": null,
 			"state": null,
@@ -77,6 +80,7 @@ export class UpdateProfileComponent implements OnInit {
 		});
 
         this.registerForm.patchValue(this.data.profile);
+        this.registerForm.patchValue({ user_id: this.data.profile._id });
 	}
 
     postalCodeObserver(): void {
@@ -119,8 +123,8 @@ export class UpdateProfileComponent implements OnInit {
 			});
 	}
 
-    public updatingProfileUser(): void {
-        if (this.registerForm.valid) {
+    public updatingProfileUser(): void {               
+        if (this.registerForm.valid) {            
             this.usersService.updateUser(this.registerForm.value)
                 .then(result => {
                     console.log(result);

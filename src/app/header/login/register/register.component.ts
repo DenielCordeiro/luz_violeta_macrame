@@ -62,12 +62,11 @@ export class RegisterComponent implements OnInit {
 	}
 
 	makeRegister() {
-		this.getResidence();
-
 		if (this.registerForm.valid) {
 			this.usersService.createUser(this.registerForm.value)
 				.then(result => {
-					console.log(result);
+					console.log("restultado", result);
+					this.registerForm.reset();
 				}) 
 				.catch (error => {
 					console.error({
@@ -76,7 +75,6 @@ export class RegisterComponent implements OnInit {
 					});
 				})
 				.finally(() => {
-                    this.registerForm.reset();
                     this.changeDetector.detectChanges();
                 });
 		} else {

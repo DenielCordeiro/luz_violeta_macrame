@@ -24,26 +24,15 @@ export abstract class CrudUsersService<T extends BaseCrud> {
         this.route = environment.api + route;
     }
 
-    public createUser(user: User): Promise<T> {
-        return lastValueFrom(this.http.post<BaseAPI<T>>(`${this.route}`, user))
+    public createUser(userProfile: User): Promise<T> {
+        return lastValueFrom(this.http.post<BaseAPI<T>>(`${this.route}`, userProfile))
             .then(result => {
                 return this.handleResponse(result) as unknown as T;
             });
     }
 
-    public getProfile(user_id: number): Promise<User> {
-        return lastValueFrom(this.http.get<BaseAPI<User>>(`${this.route}/${user_id}`))
-            .then(result => {
-                return this.handleResponse(result) as unknown as User;
-            })
-            .catch(error => {
-                alert('Não foi possível retornar dados de seu perfil!')
-                return error;
-            })
-    }
-
-    public updateUser(user: User): Promise<User> {
-        return lastValueFrom(this.http.put<BaseAPI<User>>(`${this.route}/${user.user_id}`, user))
+    public updateUser(userProfile: User): Promise<User> {                  
+        return lastValueFrom(this.http.put<BaseAPI<User>>(`${this.route}/update`, userProfile))
             .then(result => {
                 return this.handleResponse(result) as unknown as User;
             })
