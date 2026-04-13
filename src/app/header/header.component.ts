@@ -42,48 +42,21 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.gettingProductsInCart();
+
+		console.log(this.productsQuantity);
+		
 	}
 
 	gettingProductsInCart(): void {
-		this.cartService.productsInCart.subscribe(products => {
-			this.cart = products;
-			this.productsQuantity = this.cart.length;
-			console.log("produtos no carrinho: ", products);
-		});
+		this.cartService.productsInCart.subscribe(() => {
+			const cart = localStorage.getItem('cart');
+			const productsIncart = JSON.parse(cart || '[]');
+
+			this.productsQuantity = productsIncart.length;
+
+			console.log(this.productsQuantity);
+		});		
 	}
 
-	openCart(): void {
-		this.getUserId();
-
-		if (this.userId == undefined) {
-			this.container.clear(); // Limpa o container antes de inserir para não duplicar
-			this.container.createEmbeddedView(this.loginTemplate); // Cria a view baseada no template
-		} else {
-
-			console.log(this.cart.length);
-
-			if (this.cart.length > 0) {
-				this.route.navigateByUrl("/cart/" + this.userId)
-			} else {
-				alert('[ Atenção ! ]: Carrinho vazio :)');
-			}
-		}
-	}
-
-	getUserId(): string | undefined {
-		this.profile = JSON.parse(localStorage.getItem('profile') || '{}');
-
-		this.userId = this.profile._id;
-
-		return this.userId;
-	}
-
-	startingLogin(): void {
-		this.dialog.open<StartComponent>(StartComponent);
-		this.closeTemplate();
-	}
-
-	closeTemplate(): void {
-		this.container.remove(0);
-	}
+	openCart(): void {}
 }

@@ -7,26 +7,13 @@
         <span>LV</span>
     </div>
 
-    <div class="cart" (click)="openCart()">
-        <mat-icon class="material-symbols-outlined">shopping_cart</mat-icon>
+    <div class="cart">
+         <mat-icon class="material-symbols-outlined" (click)="openCart()">shopping_cart</mat-icon>
 
-        @if (this.productsQuantity != 0) {
+         @if (this.productsQuantity != 0) {
             <div class="productsQuantity">
                 <span>{{ this.productsQuantity }}</span>
             </div>
         }
     </div>
 </header>
-
-<ng-container #container></ng-container>
-
-<ng-template #loginTemplate>
-    <section id="login">
-        <div class="login-box">
-            <span class="material-symbols-outlined icon-warning">warning</span>
-            <span class="text-template">Necessário realizar login!</span>
-            <button matButton = "elevated" class="login-button" (click)="startingLogin()">Entrar</button>
-            <span class="material-symbols-outlined icon-close" (click)="closeTemplate()">close_small</span>
-        </div>
-    </section>
-</ng-template>
