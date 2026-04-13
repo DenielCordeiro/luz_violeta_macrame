@@ -67,9 +67,9 @@ export class UpdateProfileComponent implements OnInit {
     public buildingForm(): void {
 		this.registerForm = this.formBuilder.group({
             "user_id": null,
-			"name":  [null, Validators.required],
-			"email":[null, [Validators.required, Validators.email]],
-			"password": [null, Validators.required],
+			"name": null,
+			"email": [null,  Validators.email],
+			"password": null,
 			"cellphone": null,
 			"postalCode": null,
 			"state": null,
@@ -123,22 +123,22 @@ export class UpdateProfileComponent implements OnInit {
 			});
 	}
 
-    public updatingProfileUser(): void {               
+    public updatingProfileUser(): void {            
         if (this.registerForm.valid) {            
             this.usersService.updateUser(this.registerForm.value)
                 .then(result => {
                     console.log(result);
+                    this.registerForm.reset();
+                    this.diaalogRef.close();
                 }) 
                 .catch (error => {
                     console.error({
-                        message: "[ERRO]: Não foi possível criar novo Usuário.",
+                        message: "[ERRO]: Não foi possível atualizar o perfil do usuário.",
                         fail: error
                     });
                 })
                 .finally(() => {
-                    this.registerForm.reset();
                     this.changeDetector.detectChanges();
-                    this.diaalogRef.close();
                 });
         } else {
             console.error({

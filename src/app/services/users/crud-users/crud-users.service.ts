@@ -36,10 +36,6 @@ export abstract class CrudUsersService<T extends BaseCrud> {
             .then(result => {
                 return this.handleResponse(result) as unknown as User;
             })
-            .catch(error => {
-                alert('Não foi possível retornar dados de seu perfil!')
-                return error;
-            })
     }
 
     public deleteUser(user_id: number): Promise<{ status: number, message: string }> {
