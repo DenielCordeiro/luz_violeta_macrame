@@ -31,12 +31,15 @@ import { id } from "@swimlane/ngx-charts";
 export class UpdateProfileComponent implements OnInit {
     public registerForm!: FormGroup;
     public stateControl: FormControl = new FormControl('SP');
+
     private usersService: UsersService = inject(UsersService);
+
     public states: string[] = brasilStates;
-    public hidePassword: WritableSignal<boolean> = signal(true);
+    public userId: string | undefined = undefined; 
+
     public personalForm!: boolean;
     public addressForm!: boolean;
-    public userId: string | undefined = undefined; 
+    public hidePassword: WritableSignal<boolean> = signal(true);
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { profile: User, formType: string },
@@ -83,7 +86,7 @@ export class UpdateProfileComponent implements OnInit {
         this.registerForm.patchValue({ user_id: this.data.profile._id });
 	}
 
-    postalCodeObserver(): void {
+    public postalCodeObserver(): void {
 		this.registerForm.get('postalCode')?.valueChanges.subscribe((value: string) => {
 			// Remove caracteres não numéricos caso o usuário cole algo com máscara
 			const cleanPostalCode = value?.replace(/\D/g, '');
@@ -95,7 +98,7 @@ export class UpdateProfileComponent implements OnInit {
 		});
 	}
 
-    searchResidence(postalCode: string): void {
+    public searchResidence(postalCode: string): void {
 		const postalCodeNumber = Number(postalCode);
 
 		this.usersService.searchPostalCode(postalCodeNumber)

@@ -1,7 +1,9 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSelect, MatOption } from "@angular/material/select";
+
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Product } from 'src/app/interfaces/product.interface';
 
@@ -17,27 +19,30 @@ import { Product } from 'src/app/interfaces/product.interface';
   styleUrls: ['./add-or-edit-product.component.sass'],
 })
 export class AddOrEditProductComponent implements OnInit {
-  form!: FormGroup;
-  files!: Set<File>;
-  product!: Product;
-  categories: string[] = ['Colares', 'Pulseiras', 'Gargatilhas', 'Braceletes', 'Aneis'];
-  groups: string[] = ['Verão', 'Outono', 'Inverno', 'Primavera'];
-  newOrExistCategory: string = 'Nova';
-  newOrExistGroups: string = 'Nova';
+  public form!: FormGroup;
+
+  private productService: ProductsService = inject(ProductsService);
+
+  public product!: Product;
+  public files!: Set<File>;
+
+  public categories: string[] = ['Colares', 'Pulseiras', 'Gargatilhas', 'Braceletes', 'Aneis'];
+  public groups: string[] = ['Verão', 'Outono', 'Inverno', 'Primavera'];
+  public newOrExistCategory: string = 'Nova';
+  public newOrExistGroups: string = 'Nova';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public updateData: Product[],
     public dialog: MatDialog,
     public dialogAddOrEdit: MatDialogRef<AddOrEditProductComponent>,
     private formBuilder: FormBuilder,
-    public productService: ProductsService,
   ) {}
 
   ngOnInit(): void {
     this.buildingForm();
   }
 
-  buildingForm(): void {
+  public buildingForm(): void {
     if(this.updateData !== null) {
       this.updateData.forEach(product => {
         this.form = this.formBuilder.group({
@@ -62,7 +67,7 @@ export class AddOrEditProductComponent implements OnInit {
     };
   }
 
-  onChangeFile(event: any): void {
+  public onChangeFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const selectFiles = <FileList>event.srcElement.files;
       const fileNames = [];
@@ -83,7 +88,7 @@ export class AddOrEditProductComponent implements OnInit {
     };
   }
 
-  buildFormData(): FormData {
+  public buildFormData(): FormData {
     const formData = new FormData();
 
     formData.append('type', this.form.value.type);
@@ -96,7 +101,7 @@ export class AddOrEditProductComponent implements OnInit {
     return formData;
   }
 
-  addOrEditProduct(): void {
+  public addOrEditProduct(): void {
     const formData = this.buildFormData();
 
     if (this.updateData !== null) {
@@ -128,7 +133,7 @@ export class AddOrEditProductComponent implements OnInit {
     };
   }
 
-  changeOptionCategories(): boolean {
+  public changeOptionCategories(): boolean {
     if (this.newOrExistCategory == "Nova") {
       this.newOrExistCategory = "Existente";
     } else {
@@ -138,7 +143,7 @@ export class AddOrEditProductComponent implements OnInit {
     return true;
   }
 
-  changeOptionGroups(): boolean {
+  public changeOptionGroups(): boolean {
     if (this.newOrExistGroups == "Nova") {
       this.newOrExistGroups = "Existente";
     } else {
@@ -148,7 +153,7 @@ export class AddOrEditProductComponent implements OnInit {
     return true;
   }
 
-  closeModal(): void {
+  public closeModal(): void {
     this.dialog.closeAll();
   }
 }

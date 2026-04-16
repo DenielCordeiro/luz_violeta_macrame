@@ -12,8 +12,8 @@ import { News } from 'src/app/interfaces/news.interface';
   styleUrls: ['./add-or-edit-image.component.sass'],
 })
 export class AddOrEditImageComponent implements OnInit {
-  form!: FormGroup;
-  files!: Set<File>;
+  public form!: FormGroup;
+  public files!: Set<File>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public updateData: News,
@@ -27,7 +27,7 @@ export class AddOrEditImageComponent implements OnInit {
     this.buildingForm();
   }
 
-  buildingForm(): void {
+  public buildingForm(): void {
     if(this.updateData._id !== undefined) {
       this.form = this.formBuilder.group({
         "id": this.updateData._id,
@@ -44,7 +44,7 @@ export class AddOrEditImageComponent implements OnInit {
     }
   }
 
-  onChangeFile(event: any): void {
+  public onChangeFile(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const selectFiles = <FileList>event.srcElement.files;
       const fileNames = [];
@@ -65,7 +65,7 @@ export class AddOrEditImageComponent implements OnInit {
     };
   }
 
-  buildFormData(): FormData {
+  public buildFormData(): FormData {
     const formData = new FormData();
 
     formData.append('type', this.form.value.type);
@@ -77,7 +77,7 @@ export class AddOrEditImageComponent implements OnInit {
     return formData;
   }
 
-  addOrEditImage(): void {
+  public addOrEditImage(): void {
     const formData = this.buildFormData();
 
     if (this.updateData._id !== undefined) {
@@ -109,7 +109,7 @@ export class AddOrEditImageComponent implements OnInit {
     }
   }
 
-  closeModal(): void {
+  public closeModal(): void {
     this.dialog.closeAll();
   }
 }

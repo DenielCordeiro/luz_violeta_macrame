@@ -22,7 +22,7 @@ export class DeleteProfileComponent {
         console.log("ID: ", this.data.profileId);
     }
 
-    onDelete(): void {
+    public onDelete(): void {
         this.userService.deleteUser(this.data.profileId)
             .then(result => {
                 console.log(result.message);
@@ -38,7 +38,7 @@ export class DeleteProfileComponent {
              });
     }
 
-    closeDialog(): void {
+    public closeDialog(): void {
         this.dialogRef.close();
     }
 }

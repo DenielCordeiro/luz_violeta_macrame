@@ -10,7 +10,7 @@ import { NewsletterService } from 'src/app/services/newsletter/newsletter.servic
   styleUrls: ['./delete-image.component.sass'],
 })
 export class DeleteImageComponent {
-  imageUrl: string | undefined = undefined;
+ public imageUrl: string | undefined = undefined;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public image: News,
@@ -25,7 +25,7 @@ export class DeleteImageComponent {
     }
   }
 
-  delettingImage(): void {
+  public delettingImage(): void {
     if (this.image._id == undefined) {
       console.log('[ERRO!], não foi possivel buscar o id da imagem!');
     } else {
@@ -44,7 +44,7 @@ export class DeleteImageComponent {
     }
   }
 
-  closeModal(): void {
+  public closeModal(): void {
     this.dialog.closeAll();
   }
 }

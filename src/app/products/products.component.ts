@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -30,24 +30,24 @@ import { MOCK_PRODUCTS } from './products.mock';
   styleUrls: ['./products.component.sass'],
 })
 export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('scrollAnchor') anchor!: ElementRef;
-  observer!: IntersectionObserver;
+  @ViewChild('scrollAnchor') public anchor!: ElementRef;
+  public observer!: IntersectionObserver;
 
-  productId: number | undefined;
-  title: string = 'Trabalhos disponíveis';
-  products: Product[] = [];
-  currentPage: number = 1;
-  pageSize: number = 9;
-  hasNextPage: boolean = true;
-  isLoading: boolean = false;
+  private productsService: ProductsService = inject(ProductsService);
 
-  constructor(
-    public dialog: MatDialog,
-    public productsService: ProductsService
-  ) {}
+  public products: Product[] = [];
+
+  public productId: number | undefined;
+  public currentPage: number = 1;
+  public pageSize: number = 9;
+
+  public title: string = 'Trabalhos disponíveis';
+  public hasNextPage: boolean = true;
+  public isLoading: boolean = false;
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // this.gettingProducts();
     this.loadProducts();
     this.clearProductLocalStorage();
   }
@@ -64,20 +64,14 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.createObserver();
   }
 
-  resetAndReload(): void {
+  public resetAndReload(): void {
     this.products = [];
     this.currentPage = 1;
     this.hasNextPage = true;
     this.loadProducts();
   }
 
-  ngOnDestroy(): void {
-    if (this.observer) {
-      this.observer.disconnect();
-    }
-  }
-
-  createObserver() {
+  public createObserver() {
     this.observer = new IntersectionObserver((entries) => {
       const entry = entries[0];
 
@@ -99,7 +93,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.observer.observe(this.anchor.nativeElement);
   }
 
-  loadProducts(page: number = 1): void {
+  public loadProducts(page: number = 1): void {
     if (this.isLoading || !this.hasNextPage) return;
 
     this.isLoading = true;
@@ -125,11 +119,11 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 3000);
   }
 
-  clearProductLocalStorage(): void {
+  public clearProductLocalStorage(): void {
     this.productsService.removeProductSelected();
   }
 
-  gettingProducts(): void {
+  public gettingProducts(): void {
     this.productsService.getProducts()
       .then(loadedProducts => {        
         if(loadedProducts == null || loadedProducts == undefined) {
@@ -144,11 +138,11 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
       })
   }
 
-  setProductInLocalStorage(product: Product): void {
+  public setProductInLocalStorage(product: Product): void {
     this.productsService.addProductLocalStorage(product);
   }
 
-  modalCreate(product: Product | null): void {
+  public modalCreate(product: Product | null): void {
     const products: Product[] = [];
 
     if(product !== null) {
@@ -162,7 +156,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  modalDelete(product: Product | null): void {
+  public modalDelete(product: Product | null): void {
     const products: Product[] = [];
 
     if (product !== null) {
@@ -176,7 +170,13 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  filter(newTitle: string): void {
+  public filter(newTitle: string): void {
     this.title = newTitle;
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+    }
   }
 }
