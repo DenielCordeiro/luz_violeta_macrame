@@ -15,7 +15,7 @@ export class DeleteProfileComponent {
     private userService: UsersService = inject(UsersService);
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: { profileName: string, profileId: number },
+        @Inject(MAT_DIALOG_DATA) public data: { profileName: string, profileId: string },
         private dialogRef: MatDialogRef<DeleteProfileComponent>
     ) {
         console.log("Nome: ", this.data.profileName);
