@@ -20,7 +20,7 @@ export class CreateProductComponent implements OnInit {
     private productService: ProductsService = inject(ProductsService);
     public files!: Set<File>;
     public categories: string[] = [];
-    public groups: string[] = [];
+    public collections: string[] = [];
     public newOrExistCategory: string = "Existente";
     public newOrExistGroups: string = "Existente";
 
@@ -38,8 +38,8 @@ export class CreateProductComponent implements OnInit {
             "name": [null],
             "description": [null],
             "valor": [null],
-            "type": [null],
-            "groups": [null],
+            "category": [null],
+            "collection": [null],
             "file": [null]
         });
     }
@@ -68,11 +68,11 @@ export class CreateProductComponent implements OnInit {
     public buildFormData(): FormData {
         const formData = new FormData();
 
-        formData.append('type', this.form.value.type);
         formData.append('valor', this.form.value.valor);
         formData.append('name', this.form.value.name);
         formData.append('description', this.form.value.description);
-        formData.append('groups', this.form.value.groups);
+        formData.append('category', this.form.value.category);
+        formData.append('collection', this.form.value.collection);
         formData.append('file', this.form.value.file);
 
         return formData;
