@@ -15,8 +15,8 @@ import { Shipping } from '../interfaces/shipping.interface';
 import { Sale } from '../interfaces/sale.interface';
 import { User } from '../interfaces/user.interface';
 
+import { UpdateProductComponent } from '../products/update-product/update-product.component';
 import { DeleteProductComponent } from '../products/delete-product/delete-product.component';
-import { AddOrEditProductComponent } from '../products/add-or-edit-product/add-or-edit-product.component';
 
 @Component({
   selector: 'app-product',
@@ -191,7 +191,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   public updateModal(product: Product | undefined): void {
     if (product) {
-      this.dialog.open<AddOrEditProductComponent>(AddOrEditProductComponent, {
+      this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
         data:  product,
       });
     } else {
