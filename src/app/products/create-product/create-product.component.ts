@@ -1,10 +1,17 @@
 import { Component, inject, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
+
+import { MATERIAL_IMPORTS } from "src/app/shared/material.imports";
 import { MatDialogRef } from "@angular/material/dialog";
+
 import { ProductsService } from "src/app/services/products/products.service";
 
 @Component({
     selector: 'app-create-product',
+    imports: [
+		ReactiveFormsModule,
+        MATERIAL_IMPORTS
+	],
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.sass'],
 })

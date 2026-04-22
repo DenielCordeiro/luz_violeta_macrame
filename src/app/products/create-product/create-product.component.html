@@ -1,0 +1,17 @@
+<header>
+    <h3>Criar Produto</h3>
+</header>
+
+<main>
+    <form id="registerForm" [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nome do Produto:</mat-label>
+            <input matInput formControlName="name" placeholder="Cortina Exemplo">
+        </mat-form-field>
+    </form>
+</main>
+
+<footer>
+    <button matButton="elevated" type="submit" form="form" (click)="this.closeDialog()">Cancelar</button>
+    <button matButton="elevated" type="submit" form="form" (click)="this.creatingProduct()">Criar</button>
+</footer>
