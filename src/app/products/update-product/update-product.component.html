@@ -1,0 +1,42 @@
+<header>
+    <h3>Atualizar Produto</h3>
+</header>
+
+<main>
+    <form id="registerForm" [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Nome:</mat-label>
+            <input matInput formControlName="name" placeholder="Cortina Exemplo">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>valor:</mat-label>
+            <input matInput formControlName="valor" placeholder="R$ 599,99 ">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Categoria:</mat-label>
+            <input matInput formControlName="category" placeholder="Porta copos">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Coleção:</mat-label>
+            <input matInput formControlName="collection" placeholder="Inverno">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Descrição:</mat-label>
+            <input matInput formControlName="description" placeholder="Cortina Exemplo">
+        </mat-form-field>
+
+         <div>
+            <label>Arquivo:</label>
+            <input type="file" (change)="onChangeFile($event)">
+        </div>
+    </form>
+</main>
+
+<footer>
+    <button matButton="elevated" type="submit" form="form" (click)="this.closeDialog()">Cancelar</button>
+    <button matButton="elevated" type="submit" form="form" (click)="this.updatingProduct()">Atualizar</button>
+</footer>

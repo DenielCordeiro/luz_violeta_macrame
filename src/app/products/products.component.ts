@@ -15,7 +15,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { DeleteProductComponent } from './delete-product/delete-product.component';
 
-import { MOCK_PRODUCTS } from './products.mock';
+import { PRODUCTS_MOCK } from './products.mock';
 
 @Component({
   selector: 'app-products',
@@ -100,7 +100,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
 
     setTimeout(() => {
-      const allProducts = MOCK_PRODUCTS;
+      const allProducts = PRODUCTS_MOCK;
 
       const limit = this.pageSize;
       const startIndex = (page - 1) * limit;
