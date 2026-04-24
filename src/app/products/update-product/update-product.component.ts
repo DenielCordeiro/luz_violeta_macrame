@@ -38,8 +38,8 @@ export class UpdateProductComponent implements OnInit {
                 "name": product.name,
                 "description": product.description,
                 "valor": product.valor,
-                "type": product.type,
-                "groups": product.groups,
+                "type": product.category,
+                "groups": product.collection,
                 "file": product.file
             });
         });
