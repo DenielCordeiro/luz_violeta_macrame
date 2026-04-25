@@ -41,10 +41,7 @@ export class HeaderComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.gettingProductsInCart();
-
-		console.log(this.productsQuantity);
-		
+		this.gettingProductsInCart();	
 	}
 
 	gettingProductsInCart(): void {
