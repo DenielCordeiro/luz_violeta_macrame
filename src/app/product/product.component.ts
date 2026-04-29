@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -14,8 +14,9 @@ import { Product } from '../interfaces/product.interface';
 import { Shipping } from '../interfaces/shipping.interface';
 import { Sale } from '../interfaces/sale.interface';
 import { User } from '../interfaces/user.interface';
+
+import { UpdateProductComponent } from '../products/update-product/update-product.component';
 import { DeleteProductComponent } from '../products/delete-product/delete-product.component';
-import { AddOrEditProductComponent } from '../products/add-or-edit-product/add-or-edit-product.component';
 
 @Component({
   selector: 'app-product',
@@ -28,37 +29,40 @@ import { AddOrEditProductComponent } from '../products/add-or-edit-product/add-o
   styleUrl: './product.component.sass',
 })
 export class ProductComponent implements OnInit, OnDestroy {
-  searchForm!: FormGroup;
-  productsInCart: Product[] = [];
-  shippings: Shipping[] = [];
-  products: Product[] = [];
-  product: Product = {};
-  sale: Sale = {};
-  userProfile: User = {};
-  postalCode: string = '';
-  productsQuantity: number = 1;
-  productIsInCart: boolean = false;
-  productAddedToCart: boolean = true;
+  public searchForm!: FormGroup;
+
+  private storage: StorageService = inject(StorageService);
+  private productsService: ProductsService = inject(ProductsService);
+  private melhorEnvio: MelhorEnvioService = inject(MelhorEnvioService);
+  private cartService: CartService = inject(CartService);
+
+  public productsInCart: Product[] = [];
+  public shippings: Shipping[] = [];
+  public products: Product[] = [];
+
+  public product: Product = {};
+  public sale: Sale = {};
+  public userProfile: User = {};
+
+  public postalCode: string = '';
+  public productsQuantity: number = 1;
+  public productIsInCart: boolean = false;
+  public productAddedToCart: boolean = true;
 
   constructor(
     public route: Router,
     private formBuilder: FormBuilder,
-    public dialog: MatDialog,
-    public storage: StorageService,
-    public productsService: ProductsService,
-    public melhorEnvio: MelhorEnvioService,
-    public cartService: CartService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.getProductSelected();
     this.getCurrentShipping();
     this.buildingForm();
-    // this.getUserProfile();
     this.checkIfProductIsInCart();
   }
 
-  getProductSelected(): void {
+  public getProductSelected(): void {
     try {
       this.product = this.productsService.getProductSelected();
     } catch (error) {
@@ -76,7 +80,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  getUserProfile(): void {
+  public getUserProfile(): void {
     try {
       this.userProfile = this.storage.get('profile', {});
     } catch (error) {
@@ -84,14 +88,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  buildingForm(): void {
+  public buildingForm(): void {
     this.searchForm = this.formBuilder.group({
       "postalCode": [null],
     });
   }
 
-  getCurrentShipping(): void {
+  public getCurrentShipping(): void {
       try {
         const shipping = localStorage.getItem('shipping');
 
@@ -105,7 +108,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       }
   }
 
-  searchShipping(): void {
+  public searchShipping(): void {
     const postalCodeNumber = this.searchForm?.value;
     this.postalCode = String(postalCodeNumber?.postalCode)
 
@@ -133,7 +136,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     };
   };
 
-  changeQuantity(action: string): number {
+  public changeQuantity(action: string): number {
     if (action === 'add') {
       this.productsQuantity++;
     } else if (action === 'remove' && this.productsQuantity > 1) {
@@ -142,7 +145,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     return this.productsQuantity;
   }
 
-  addingToCart(): void {
+  public addingToCart(): void {
     this.cartService.addToCart(this.product)
       .then(() => {
         this.checkIfProductIsInCart();
@@ -152,7 +155,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       });
   }
 
-  removingProductFromCart(): void {
+  public removingProductFromCart(): void {
     this.cartService.removeProductFromCart(this.product)
       .then(() => {
         this.checkIfProductIsInCart();
@@ -162,7 +165,7 @@ export class ProductComponent implements OnInit, OnDestroy {
       });
   }
 
-  checkIfProductIsInCart(): void {
+  public checkIfProductIsInCart(): void {
     const loadProductsInCart = this.cartService.productsInCart;
 
     loadProductsInCart.subscribe(products => {
@@ -182,13 +185,13 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
 
-  goToCart(): void {
+  public goToCart(): void {
     this.route.navigate(['/cart/', this.userProfile._id]);
   }
 
-  updateModal(product: Product | undefined): void {
+  public updateModal(product: Product | undefined): void {
     if (product) {
-      this.dialog.open<AddOrEditProductComponent>(AddOrEditProductComponent, {
+      this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
         data:  product,
       });
     } else {
@@ -196,7 +199,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     }
   }
   
-  deleteModal(id: string | undefined): void {
+  public deleteModal(id: string | undefined): void {
      if (id) {
       this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
         data: { productId: id },

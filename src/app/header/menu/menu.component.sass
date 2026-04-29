@@ -2,6 +2,8 @@
 @use '../../../assets/sass/display'
 
 .burguer-icon
+	position: fixed
+	z-index: 100
 	cursor: pointer
 	
 	&:hover
@@ -58,24 +60,23 @@
 	display: flex
 	justify-content: flex-end
 	background-color: colors.$white
-	z-index: 1
+	z-index: -1
+	top: 62px
 	width: 0%
 	height: 100%
-	top: 0px
 	left: -1px
-	padding-top: 10vh 
 	transition: width 800ms ease, left 800ms ease
 
 .menu-open
 	position: fixed
 	display: flex
 	justify-content: center
-	box-shadow: 1px 1px 0px 0px colors.$pourple-gray
-	transition: width 800ms ease, left 800ms ease
 	z-index: 1
 	width: 260px
 	height: 100%
 	left: -1px
+	box-shadow: 1px 1px 0px 0px colors.$pourple-gray
+	transition: width 800ms ease, left 800ms ease
 
 	@include display.hd
 		width: 210px

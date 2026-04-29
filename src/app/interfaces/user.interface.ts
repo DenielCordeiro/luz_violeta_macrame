@@ -2,6 +2,7 @@ import { Product } from "./product.interface";
 
 export interface User {
   _id?: string,
+  user_id?: string,
   key?: string,
   name?: string,
   email?: string,
@@ -14,8 +15,6 @@ export interface User {
   street?: string,
   neighborhood?: string,
   houseNumber?: number,
-  user_id?: number,
-  administrator?: boolean,
   productsCart?: Product[],
   token?: string,
 };

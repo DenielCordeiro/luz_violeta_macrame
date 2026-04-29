@@ -15,14 +15,14 @@ export class DeleteProfileComponent {
     private userService: UsersService = inject(UsersService);
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public data: { profileName: string, profileId: number },
+        @Inject(MAT_DIALOG_DATA) public data: { profileName: string, profileId: string },
         private dialogRef: MatDialogRef<DeleteProfileComponent>
     ) {
         console.log("Nome: ", this.data.profileName);
         console.log("ID: ", this.data.profileId);
     }
 
-    onDelete(): void {
+    public onDelete(): void {
         this.userService.deleteUser(this.data.profileId)
             .then(result => {
                 console.log(result.message);
@@ -38,7 +38,7 @@ export class DeleteProfileComponent {
              });
     }
 
-    closeDialog(): void {
+    public closeDialog(): void {
         this.dialogRef.close();
     }
 }

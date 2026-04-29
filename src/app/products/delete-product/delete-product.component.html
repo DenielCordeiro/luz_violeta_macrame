@@ -1,28 +1,13 @@
+<header>
+  <h4>{{ product.name }}</h4>
+  <span></span>
+</header>
 
-@for (product of loadedProduct; track product._id) {
-  <div class="card-Product">
-    <div class="title">
-      <h1>{{ product.name }}</h1>
-    </div>
+<main>
+  <img src="{{ product?.file?.url }}" alt="image-product">
+</main>
 
-    <div class="image">
-      <img src="{{ product.file?.url }}" alt="image">
-    </div>
-
-    <div class="description">
-      <p class="valor">{{ product.valor }}</p>
-      <p class="valor">{{ product.groups }}</p>
-      <p class="valor">{{ product.type }}</p>
-    </div>
-
-    <div class="buttons rows">
-      <div class="col-6"></div>
-
-      <div class="col-6">
-        <div class="delete-product button-one" (click)="deletingProduct(product._id)">
-          <span>Excluir</span>
-        </div>
-      </div>
-    </div>
-  </div>
-}
+<footer>
+  <button matButton="elevated" type="button" class="button-cancel" (click)="this.closeDialog()">Cancelar</button>
+  <button matButton="elevated" type="button" class="button-delete" (click)="this.deletingProduct(product?._id)">Excluir</button>
+</footer>

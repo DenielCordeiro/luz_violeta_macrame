@@ -26,11 +26,11 @@ import { MenuService } from "src/app/services/menu/menu.service";
     styleUrls: ['./start.component.sass']
 })
 export class StartComponent implements OnInit {
-    loginForm!: FormGroup;
-    authService: AuthService = inject(AuthService);
-    menuService: MenuService = inject(MenuService);
-    hidePassword: WritableSignal<boolean> = signal(true);
-    currentRoute: string = "";
+    public loginForm!: FormGroup;
+    private authService: AuthService = inject(AuthService);
+    private menuService: MenuService = inject(MenuService);
+    public hidePassword: WritableSignal<boolean> = signal(true);
+    public currentRoute: string = "";
 
     constructor(
         private formBuilder: FormBuilder,
@@ -40,21 +40,21 @@ export class StartComponent implements OnInit {
     
     ngOnInit(): void {
         this.buildingForm();
+        this.currentRoute = this.router.url;
     }
 
-    buildingForm(): void {
+    public buildingForm(): void {
         this.loginForm = this.formBuilder.group({
             "email": [null, [Validators.required, Validators.email]],
             "password": [null, Validators.required]
         });
     }
 
-    async makeLogin(): Promise<void> {
+    public async makeLogin(): Promise<void> {
         try {
             if (this.loginForm.valid) {
                 await this.authService.authUser(this.loginForm.value);
 
-                this.currentRoute = this.router.url;
                 this.closingMenu(this.currentRoute);                
             } else {
                 console.log('[ERRO]: Formulário inválido!')
@@ -69,16 +69,22 @@ export class StartComponent implements OnInit {
         }
     }
 
-    changeHidePassword(event: MouseEvent): void {
+    public changeHidePassword(event: MouseEvent): void {
         this.hidePassword.set(!this.hidePassword());
         event.stopPropagation();
     }
 
-    closeDialog(): void {
+    public closeDialog(): void {
+        this.dialog.closeAll();
+    }
+    
+    public registering(nextUrl: string): void {
+        this.menuService.saveCurrentUrl(this.currentRoute);
+        this.menuService.closeMenu(nextUrl);
         this.dialog.closeAll();
     }
 
-    closingMenu(url: string): void {
+    public closingMenu(url: string): void {
         this.menuService.closeMenu(url);
         this.dialog.closeAll();
     }

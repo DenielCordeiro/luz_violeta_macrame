@@ -1,0 +1,42 @@
+<header>
+    <h3>Criar Produto</h3>
+</header>
+
+<main>
+    <form id="registerForm" [formGroup]="form">
+        <mat-form-field appearance="outline" class="inputs-in-left">
+            <mat-label>Nome:</mat-label>
+            <input matInput formControlName="name" placeholder="Cortina Exemplo">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>valor:</mat-label>
+            <input matInput formControlName="valor" placeholder="R$ 599,99 ">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="inputs-in-left">
+            <mat-label>Categoria:</mat-label>
+            <input matInput formControlName="category" placeholder="Porta copos">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Coleção:</mat-label>
+            <input matInput formControlName="collection" placeholder="Inverno">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="inputs-in-left">
+            <mat-label>Descrição:</mat-label>
+            <input matInput formControlName="description" placeholder="Cortina Exemplo">
+        </mat-form-field>
+
+         <mat-form-field appearance="outline">
+            <mat-label>Arquivo:</mat-label>
+            <input type="search" matInput formControlName="file" placeholder="Pesquisar">
+        </mat-form-field>
+    </form>
+</main>
+
+<footer>
+    <button matButton="elevated" type="button" (click)="this.closeDialog()">Cancelar</button>
+    <button matButton="elevated" type="submit" form="form" (click)="this.creatingProduct()">Criar</button>
+</footer>

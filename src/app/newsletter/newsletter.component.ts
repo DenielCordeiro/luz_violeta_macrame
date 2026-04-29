@@ -13,7 +13,7 @@ import { CarouselComponent } from './carousel/carousel.component';
   styleUrls: ['./newsletter.component.sass'],
 })
 export class NewsletterComponent implements OnInit {
-  carousel: News[] = [];
+  public carousel: News[] = [];
 
   constructor(
     private newsletterService: NewsletterService,
@@ -23,5 +23,5 @@ export class NewsletterComponent implements OnInit {
     this.gettingImages();
   }
   
-  gettingImages(): void {}
+  public gettingImages(): void {}
 }

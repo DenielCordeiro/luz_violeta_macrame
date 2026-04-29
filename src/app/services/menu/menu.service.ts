@@ -6,7 +6,8 @@ import { Router } from "@angular/router";
 })
 export class MenuService {
     private _menuAberto = signal(false);
-    menuAberto = this._menuAberto.asReadonly();
+    public menuAberto = this._menuAberto.asReadonly();
+    public lastUrl = signal('');
 
     constructor(private router: Router) { }
 
@@ -25,5 +26,24 @@ export class MenuService {
             this._menuAberto.set(false);
             this.router.navigate([nextUrl]);
         }
+    }
+
+    public saveCurrentUrl(url: string): string {
+        this.lastUrl.set(url);
+        localStorage.setItem('lastUrl', url);
+
+        return this.lastUrl();
+    }
+
+    returnLastUrl(): string {
+        const lastUrl = localStorage.getItem('lastUrl');
+
+        if (lastUrl) {
+            this.lastUrl.set(lastUrl);
+        }
+
+        this.router.navigate([this.lastUrl()]);
+
+        return this.lastUrl();
     }
 }

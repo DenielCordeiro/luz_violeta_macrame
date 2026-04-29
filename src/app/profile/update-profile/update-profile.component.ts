@@ -12,6 +12,7 @@ import { UsersService } from "src/app/services/users/users.service";
 import { User } from "src/app/interfaces/user.interface";
 
 import { brasilStates } from "src/app/header/login/register/register.mock";
+import { id } from "@swimlane/ngx-charts";
 
 @Component({
     selector: 'app-update-profile',
@@ -30,11 +31,15 @@ import { brasilStates } from "src/app/header/login/register/register.mock";
 export class UpdateProfileComponent implements OnInit {
     public registerForm!: FormGroup;
     public stateControl: FormControl = new FormControl('SP');
+
     private usersService: UsersService = inject(UsersService);
+
     public states: string[] = brasilStates;
-    public hidePassword: WritableSignal<boolean> = signal(true);
+    public userId: string | undefined = undefined; 
+
     public personalForm!: boolean;
     public addressForm!: boolean;
+    public hidePassword: WritableSignal<boolean> = signal(true);
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: { profile: User, formType: string },
@@ -64,8 +69,9 @@ export class UpdateProfileComponent implements OnInit {
     
     public buildingForm(): void {
 		this.registerForm = this.formBuilder.group({
-			"name":  [null, Validators.required],
-			"email":[null, [Validators.required, Validators.email]],
+            "user_id": null,
+			"name": null,
+			"email": [null,  Validators.email],
 			"password": null,
 			"cellphone": null,
 			"postalCode": null,
@@ -77,9 +83,10 @@ export class UpdateProfileComponent implements OnInit {
 		});
 
         this.registerForm.patchValue(this.data.profile);
+        this.registerForm.patchValue({ user_id: this.data.profile._id });
 	}
 
-    postalCodeObserver(): void {
+    public postalCodeObserver(): void {
 		this.registerForm.get('postalCode')?.valueChanges.subscribe((value: string) => {
 			// Remove caracteres não numéricos caso o usuário cole algo com máscara
 			const cleanPostalCode = value?.replace(/\D/g, '');
@@ -91,7 +98,7 @@ export class UpdateProfileComponent implements OnInit {
 		});
 	}
 
-    searchResidence(postalCode: string): void {
+    public searchResidence(postalCode: string): void {
 		const postalCodeNumber = Number(postalCode);
 
 		this.usersService.searchPostalCode(postalCodeNumber)
@@ -119,22 +126,22 @@ export class UpdateProfileComponent implements OnInit {
 			});
 	}
 
-    public updatingProfileUser(): void {
-        if (this.registerForm.valid) {
+    public updatingProfileUser(): void {            
+        if (this.registerForm.valid) {            
             this.usersService.updateUser(this.registerForm.value)
                 .then(result => {
                     console.log(result);
+                    this.registerForm.reset();
+                    this.diaalogRef.close();
                 }) 
                 .catch (error => {
                     console.error({
-                        message: "[ERRO]: Não foi possível criar novo Usuário.",
+                        message: "[ERRO]: Não foi possível atualizar o perfil do usuário.",
                         fail: error
                     });
                 })
                 .finally(() => {
-                    this.registerForm.reset();
                     this.changeDetector.detectChanges();
-                    this.diaalogRef.close();
                 });
         } else {
             console.error({

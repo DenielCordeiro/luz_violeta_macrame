@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -19,19 +19,23 @@ import { StartComponent } from './start/start.component';
 	styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit {
-	authService: AuthService = inject(AuthService);
-	menuService: MenuService = inject(MenuService);
-	user: User | null = null;
-	isConnected: boolean = false;
-	firstName: string | undefined = undefined;
+	private authService: AuthService = inject(AuthService);
+	private menuService: MenuService = inject(MenuService);
+
+	public user: User | null = null;
+	public isConnected: boolean = false;
+
+	public firstName: string | undefined = undefined;
+	public currentRoute: string | undefined = undefined;
 
 	constructor(
-		public route: ActivatedRoute,
+		public router: Router,
 		public dialog: MatDialog,
 	) { }
 
 	ngOnInit(): void {
 		this.verifyIsConnected();
+		this.currentRoute = this.router.url;
 	}
 
 	verifyIsConnected(): boolean {
@@ -63,6 +67,13 @@ export class LoginComponent implements OnInit {
 	}
 
 	closingMenu(url: string): void {
-        this.menuService.closeMenu(url);
+		if (this.currentRoute) {
+			this.menuService.saveCurrentUrl(this.currentRoute);
+		} else {
+			console.log("Rota anterior não adicionada!");
+			
+		}
+		
+		this.menuService.closeMenu(url);
     }
 }
