@@ -4,7 +4,7 @@ export interface Product {
   description?: string,
   valor?: number,
   type?: string,
-  groups?: string,
+  category?: string,
   selection?: boolean,
   file?: {
     name?: string,

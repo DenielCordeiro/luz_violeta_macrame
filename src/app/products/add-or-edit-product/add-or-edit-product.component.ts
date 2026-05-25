@@ -2,158 +2,128 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSelect, MatOption } from "@angular/material/select";
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from "@angular/material/select";
+import { MatButtonModule } from '@angular/material/button';
 
 import { ProductsService } from 'src/app/services/products/products.service';
 import { Product } from 'src/app/interfaces/product.interface';
 
 @Component({
-  selector: 'app-add-or-edit-product',
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    MatSelect,
-    MatOption
-  ],
-  templateUrl: './add-or-edit-product.component.html',
-  styleUrls: ['./add-or-edit-product.component.sass'],
+    selector: 'app-add-or-edit-product',
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule
+    ],
+    templateUrl: './add-or-edit-product.component.html',
+    styleUrls: ['./add-or-edit-product.component.sass'],
 })
 export class AddOrEditProductComponent implements OnInit {
-  public form!: FormGroup;
+    public createForm!: FormGroup;
+    private productService: ProductsService = inject(ProductsService);
 
-  private productService: ProductsService = inject(ProductsService);
+    public product!: Product;
+    public files!: Set<File>;
 
-  public product!: Product;
-  public files!: Set<File>;
+    public categories: string[] = ['Colares', 'Pulseiras', 'Gargatilhas', 'Braceletes', 'Aneis'];
+    public groups: string[] = ['Verão', 'Outono', 'Inverno', 'Primavera'];
+    
+    constructor(
+        // Se o Dialog envia apenas UM produto para edição, o ideal é receber como Product e não Product[]
+        @Inject(MAT_DIALOG_DATA) public updateData: Product | Product[], 
+        public dialog: MatDialog,
+        public dialogAddOrEdit: MatDialogRef<AddOrEditProductComponent>,
+        private formBuilder: FormBuilder,
+    ) { }
 
-  public categories: string[] = ['Colares', 'Pulseiras', 'Gargatilhas', 'Braceletes', 'Aneis'];
-  public groups: string[] = ['Verão', 'Outono', 'Inverno', 'Primavera'];
-  public newOrExistCategory: string = 'Nova';
-  public newOrExistGroups: string = 'Nova';
-
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public updateData: Product[],
-    public dialog: MatDialog,
-    public dialogAddOrEdit: MatDialogRef<AddOrEditProductComponent>,
-    private formBuilder: FormBuilder,
-  ) {}
-
-  ngOnInit(): void {
-    this.buildingForm();
-  }
-
-  public buildingForm(): void {
-    if(this.updateData !== null) {
-      this.updateData.forEach(product => {
-        this.form = this.formBuilder.group({
-          "id": product._id,
-          "name": product.name,
-          "description": product.description,
-          "valor": product.valor,
-          "type": product.type,
-          "groups": product.groups,
-          "file": product.file
-        });
-      });
-    } else {
-      this.form = this.formBuilder.group({
-        "name": [null],
-        "description": [null],
-        "valor": [null],
-        "type": [null],
-        "groups": [null],
-        "file": [null]
-      });
-    };
-  }
-
-  public onChangeFile(event: any): void {
-    if (event.target.files && event.target.files[0]) {
-      const selectFiles = <FileList>event.srcElement.files;
-      const fileNames = [];
-      this.files = new Set();
-
-      for (let i = 0; i < selectFiles.length; i++) {
-        fileNames.push(selectFiles[i].name);
-        this.files.add(selectFiles[i]);
-      }
-
-      this.files.forEach(file => {
-        this.form.patchValue({
-          file: file
-        });
-      });
-
-      this.form.get('file')?.updateValueAndValidity();
-    };
-  }
-
-  public buildFormData(): FormData {
-    const formData = new FormData();
-
-    formData.append('type', this.form.value.type);
-    formData.append('valor', this.form.value.valor);
-    formData.append('name', this.form.value.name);
-    formData.append('description', this.form.value.description);
-    formData.append('groups', this.form.value.groups);
-    formData.append('file', this.form.value.file);
-
-    return formData;
-  }
-
-  public addOrEditProduct(): void {
-    const formData = this.buildFormData();
-
-    if (this.updateData !== null) {
-      this.productService.updateProduct(formData, this.form.value.id)
-        .then(data => {
-          this.dialogAddOrEdit.close(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          this.dialogAddOrEdit.afterClosed().subscribe(result => {
-            console.log('Finalizou, resultado: ', result);
-          });
-        });
-    } else {
-      this.productService.createProduct(formData)
-        .then(data => {
-          this.dialogAddOrEdit.close(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          this.dialogAddOrEdit.afterClosed().subscribe(result => {
-            console.log('Finalizou, resultado: ', result);
-          });
-        });
-    };
-  }
-
-  public changeOptionCategories(): boolean {
-    if (this.newOrExistCategory == "Nova") {
-      this.newOrExistCategory = "Existente";
-    } else {
-      this.newOrExistCategory = "Nova"
+    ngOnInit(): void {
+        this.buildingForm();
     }
 
-    return true;
-  }
+    public buildingForm(): void {
+        // 1. Inicializa o formulário com a estrutura padrão vazia (evita que o HTML quebre)
+        this.createForm = this.formBuilder.group({
+            id: [null],
+            name: [null],
+            description: [null],
+            valor: [null],
+            category: [null], // Padronizado para 'category' no singular
+            file: [null]
+        });
 
-  public changeOptionGroups(): boolean {
-    if (this.newOrExistGroups == "Nova") {
-      this.newOrExistGroups = "Existente";
-    } else {
-      this.newOrExistGroups = "Nova"
+        // 2. Se houver dados de update, aplica os valores usando patchValue
+        if (this.updateData !== null) {
+            // Tratativa caso venha como Array ou Objeto único
+            const product = Array.isArray(this.updateData) ? this.updateData[0] : this.updateData;
+            
+            if (product) {
+                this.createForm.patchValue({
+                    id: product._id,
+                    name: product.name,
+                    description: product.description,
+                    valor: product.valor,
+                    category: product.category,
+                    file: product.file
+                });
+            }
+        }
     }
 
-    return true;
-  }
+    public onChangeFile(event: any): void {
+        if (event.target.files && event.target.files[0]) {
+            const selectFiles = <FileList>event.target.files;
+            this.files = new Set();
 
-  public closeModal(): void {
-    this.dialog.closeAll();
-  }
+            for (let i = 0; i < selectFiles.length; i++) {
+                this.files.add(selectFiles[i]);
+            }
+
+            // Pega o primeiro arquivo para o formulário
+            this.createForm.patchValue({
+                file: selectFiles[0]
+            });
+            this.createForm.get('file')?.updateValueAndValidity();
+        }
+    }
+
+    public buildFormData(): FormData {
+        const formData = new FormData();
+        // Adiciona segurança caso o ID seja nulo (em criações)
+        if (this.createForm.value.id) {
+            formData.append('id', this.createForm.value.id);
+        }
+        formData.append('name', this.createForm.value.name ?? '');
+        formData.append('valor', this.createForm.value.valor ?? '');
+        formData.append('description', this.createForm.value.description ?? '');
+        formData.append('category', this.createForm.value.category ?? '');
+        formData.append('file', this.createForm.value.file);
+
+        return formData;
+    }
+
+    public creatingProduct(): void {
+        const formData = this.buildFormData();
+        const productId = this.createForm.value.id;
+
+        if (productId) {
+            // Modo Edição
+            this.productService.updateProduct(formData, productId)
+                .then(data => this.dialogAddOrEdit.close(data))
+                .catch(error => console.error(error));
+        } else {
+            // Modo Criação
+            this.productService.createProduct(formData)
+                .then(data => this.dialogAddOrEdit.close(data))
+                .catch(error => console.error(error));
+        }
+    }
+
+    public closeModal(): void {
+        this.dialogAddOrEdit.close();
+    }
 }

@@ -1,75 +1,57 @@
-<section id="form">
-  <div class="container">
-    <div class="content-header">
-      <div class="row">
-        <div class="title col-11">
-          <span>Adinionar Produto</span>
-          <span>Editar Produto</span>
-        </div>
-
-        <div mat-dialog-actions class="close-window col-1">
-          <button mat-button (click)="closeModal()">X</button>
-        </div>
-      </div>
+<header>
+    <div class="title">
+        <h3>{{ createForm.value.id ? 'Editar Produto' : 'Novo Produto' }}</h3>
     </div>
+    <div class="close">
+        <span (click)="closeModal()">X</span>
+    </div>
+</header>
 
-    <form [formGroup]="form" class="row">
-      <div class="col-6 my-2">
-        <label for="name" class="form-label">Nome:</label>
-        <input mat-input type="text" formControlName="name" class="form-control" id="name">
-      </div>
+<main>
+    <form id="createForm" [formGroup]="createForm">
+        <div class="line-one">
+            <mat-form-field appearance="outline">
+                <mat-label>Nome:</mat-label>
+                <input matInput formControlName="name" placeholder="Luminária de Azul">
+            </mat-form-field>
 
-      <div class="col-6 my-2">
-        <label for="description" class="form-label">Descrição:</label>
-        <input type="text" formControlName="description" class="form-control" id="description">
-      </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Valor:</mat-label>
+                <input matInput formControlName="valor" placeholder="R$ 580,40">
+            </mat-form-field>
 
-      <div class="col-4 my-2">
-        <label for="valor" class="form-label">Valor:</label>
-        <input type="number" formControlName="valor" class="form-control" id="valor">
-      </div>
-
-      <div class="col-4 my-2">
-        <label for="type" class="form-label">Categorias:</label>
-
-        <button class="button-change-select" (click)="changeOptionCategories()">{{ newOrExistCategory }}</button>
-
-        @if (newOrExistCategory == 'Existente') {
-          <input type="text" formControlName="type" class="form-control" id="type">
-        }
-
-        @if (newOrExistCategory == 'Nova') {
-          <mat-select formControlName="type">
-            @for (type of categories; track type) {
-              <mat-option [value]="type">{{ type }}</mat-option>
-            }
-          </mat-select>
-        }
+            <mat-form-field appearance="outline">
+                <mat-label>Imagem:</mat-label>
+                <input type="file" (change)="onChangeFile($event)">
+                <input matInput formControlName="file" style="display: none;">
+            </mat-form-field>
+        </div>
         
-      </div>
+        <div class="line-two">
+            <mat-form-field appearance="outline">
+                <mat-label>Categoria:</mat-label>
+                <mat-select formControlName="category">
+                    @for (category of categories; track category) {
+                        <mat-option [value]="category">{{ category }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+        </div>
 
-      <div class="col-4 my-2">
-        <label for="productCollection" class="form-label">Coleção:</label>
-
-        <button class="button-change-select" (click)="changeOptionGroups()">{{ newOrExistGroups }}</button>
-
-        @if (newOrExistGroups == 'Existente') {
-          <input type="text" formControlName="groups" class="form-control" id="groups">
-        } @else if (newOrExistGroups == 'Nova') {
-          <mat-select formControlName="groups">
-            <mat-option *ngFor="let group of groups" [value]="group" selected>{{ group }}</mat-option>
-          </mat-select>
-        }
-      </div>
-
-      <div class="col-12">
-        <label for="file">Imagem:</label>
-        <input type="file" class="form-control" (change)="onChangeFile($event)">
-      </div>
-
-      <div class="button-add" >
-        <button class="btn btn-primary" (click)="addOrEditProduct()">adicionar produto</button>
-      </div>
+        <div class="line-three">
+            <mat-form-field appearance="outline">
+                <mat-label>Descrição:</mat-label>
+                <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+        </div>
     </form>
-  </div>
-</section>
+</main>
+
+<footer>
+    <div class="actions-buttons">
+        <button matButton="outlined" (click)="creatingProduct()">
+            {{ createForm.value.id ? 'Salvar Alterações' : 'Cadastrar' }}
+        </button>
+        <button mat-button="outlined" (click)="closeModal()">Fechar</button>
+    </div>
+</footer>
