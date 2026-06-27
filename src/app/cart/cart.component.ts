@@ -8,76 +8,78 @@ import { User } from '../interfaces/user.interface';
 import { PaymentsComponent } from './payments/payments.component';
 
 @Component({
-  selector: 'app-cart',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.sass'],
+	selector: 'app-cart',
+	standalone: true,
+	imports: [CommonModule],
+	templateUrl: './cart.component.html',
+	styleUrls: ['./cart.component.sass'],
 })
 export class CartComponent implements OnInit {
-  productsInCart: Product[] = [];
-  buildedSale: Sale = {};
-  userProfile: User = {};
-  finalValue: number = 0;
+	productsInCart: Product[] = [];
+	buildedSale: Sale = {};
+	userProfile: User = {};
+	finalValue: number = 0;
 
-  constructor(
-    private cartService: CartService,
-    public dialog: MatDialog
-  ) {}
+	constructor(
+		private cartService: CartService,
+		public dialog: MatDialog
+	) { }
 
-  ngOnInit(): void {
-    this.getProductsInCart();
-  }
+	ngOnInit(): void {
+		this.getProductsInCart();
+	}
 
-  getProductsInCart(): Product[] {
-    this.cartService.productsInCart.subscribe(products => {
-      this.productsInCart = products;
-      this.calculateFinalValue();
-    });
+	getProductsInCart(): void {
+		this.cartService.getProductsInCart()
+			.then((products: Product[]) => {
+				this.productsInCart = products;
+				this.calculateFinalValue(this.productsInCart);
+			});
+	}
 
-    return this.productsInCart;
-  }
+	calculateFinalValue(products: Product[]): number {
+		const total = products.reduce((accumulator, product) => {
+			const productPrice = product.valor || 0;
 
-  calculateFinalValue(): number {
-    const total = this.productsInCart.reduce((accumulator, product) => {
-      const productPrice = product.valor || 0;
-      return accumulator + productPrice;
-    }, 0);
+			return accumulator + productPrice;
+		}, 0);
 
-    this.finalValue = total;
+		this.finalValue = total;
 
-    return this.finalValue;
-  }
+		return this.finalValue;
+	}
 
-  removeFromCart(product: Product): void {
-    this.cartService.removeProductFromCart(product);
-  }
+	removeFromCart(product: Product): void {
+		// this.cartService.removeProductFromCart(product);
+	}
 
-  cartCleaning(): void {
-    this.cartService.clearCart();
-  }
+	cartCleaning(): void {
+		this.cartService.clearCart();
+		this.productsInCart = [];
+		this.finalValue = 0;
+	}
 
-  savingCart(): void {}
+	savingCart(): void { }
 
-  completePurchase(): void {
-    this.userProfile = this.cartService.getUserProfile();
+	completePurchase(): void {
+		this.userProfile = this.cartService.getUserProfile();
 
-    this.buildedSale = {
-      products: [...this.productsInCart],
-      userProfile: {
-        _id: this.userProfile._id,
-        name: this.userProfile.name,
-        email: this.userProfile.email,
-        cellphone: this.userProfile.cellphone,
-        cpf: this.userProfile.cpf,
-      },
-      sold: true,
-      productsQuantity: this.productsInCart.length,
-      finalValue: this.finalValue,
-    }
+		this.buildedSale = {
+			products: [...this.productsInCart],
+			userProfile: {
+				_id: this.userProfile._id,
+				name: this.userProfile.name,
+				email: this.userProfile.email,
+				cellphone: this.userProfile.cellphone,
+				cpf: this.userProfile.cpf,
+			},
+			sold: true,
+			productsQuantity: this.productsInCart.length,
+			finalValue: this.finalValue,
+		}
 
-    this.dialog.open<PaymentsComponent>(PaymentsComponent, {
-      data: this.buildedSale
-    });
-  }
+		this.dialog.open<PaymentsComponent>(PaymentsComponent, {
+			data: this.buildedSale
+		});
+	}
 }

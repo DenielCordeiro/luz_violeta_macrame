@@ -24,7 +24,7 @@ export const appRoutes: Routes = [
     loadComponent: () => import('./app/profile/profile.component').then(module => module.ProfileComponent),
   },
   {
-    path: 'cart/:user_id',
+    path: 'cart',
     loadComponent: () => import('./app/cart/cart.component').then(module => module.CartComponent),
   },
   {
