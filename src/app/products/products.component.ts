@@ -11,10 +11,11 @@ import { ProductsService } from '../services/products/products.service';
 
 import { Product } from '../interfaces/product.interface';
 
-import { AddOrEditProductComponent } from './add-or-edit-product/add-or-edit-product.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
 import { DeleteProductComponent } from './delete-product/delete-product.component';
 
-import { MOCK_PRODUCTS } from './products.mock';
+import { PRODUCTS_MOCK } from './products.mock';
 
 @Component({
   selector: 'app-products',
@@ -99,7 +100,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = true;
 
     setTimeout(() => {
-      const allProducts = MOCK_PRODUCTS;
+      const allProducts = PRODUCTS_MOCK;
 
       const limit = this.pageSize;
       const startIndex = (page - 1) * limit;
@@ -148,11 +149,11 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     if(product !== null) {
       products.push(product);
 
-      this.dialog.open<AddOrEditProductComponent>(AddOrEditProductComponent, {
+      this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
         data: products
       });
     } else {
-      this.dialog.open<AddOrEditProductComponent>(AddOrEditProductComponent);
+      this.dialog.open<CreateProductComponent>(CreateProductComponent);
     };
   }
 

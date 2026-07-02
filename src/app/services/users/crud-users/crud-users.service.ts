@@ -38,7 +38,7 @@ export abstract class CrudUsersService<T extends BaseCrud> {
             })
     }
 
-    public deleteUser(user_id: number): Promise<{ status: number, message: string }> {
+    public deleteUser(user_id: string): Promise<{ status: number, message: string }> {
         return lastValueFrom(this.http.delete<BaseAPI<T>>(`${this.route}/${user_id}`))
             .then(result => {
                 return result as unknown as { status: number, message: string };

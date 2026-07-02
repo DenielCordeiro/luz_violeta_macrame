@@ -1,32 +1,144 @@
-export const MOCK_PRODUCTS = [
-  { "_id": "1", "name": "Produto 1", "valor": 10, "file": { "url": "https://picsum.photos/200?1" } },
-  { "_id": "2", "name": "Produto 2", "valor": 20, "file": { "url": "https://picsum.photos/200?2" } },
-  { "_id": "3", "name": "Produto 3", "valor": 30, "file": { "url": "https://picsum.photos/200?3" } },
-  { "_id": "4", "name": "Produto 4", "valor": 40, "file": { "url": "https://picsum.photos/200?4" } },
-  { "_id": "5", "name": "Produto 5", "valor": 50, "file": { "url": "https://picsum.photos/200?5" } },
-  { "_id": "6", "name": "Produto 6", "valor": 60, "file": { "url": "https://picsum.photos/200?6" } },
-  { "_id": "7", "name": "Produto 7", "valor": 70, "file": { "url": "https://picsum.photos/200?7" } },
-  { "_id": "8", "name": "Produto 8", "valor": 80, "file": { "url": "https://picsum.photos/200?8" } },
-  { "_id": "9", "name": "Produto 9", "valor": 90, "file": { "url": "https://picsum.photos/200?9" } },
-  { "_id": "10", "name": "Produto 10", "valor": 100, "file": { "url": "https://picsum.photos/200?10" } },
-  { "_id": "11", "name": "Produto 11", "valor": 110, "file": { "url": "https://picsum.photos/200?11" } },
-  { "_id": "12", "name": "Produto 12", "valor": 120, "file": { "url": "https://picsum.photos/200?12" } },
-  { "_id": "13", "name": "Produto 13", "valor": 130, "file": { "url": "https://picsum.photos/200?13" } },
-  { "_id": "14", "name": "Produto 14", "valor": 140, "file": { "url": "https://picsum.photos/200?14" } },
-  { "_id": "15", "name": "Produto 15", "valor": 150, "file": { "url": "https://picsum.photos/200?15" } },
-  { "_id": "16", "name": "Produto 16", "valor": 160, "file": { "url": "https://picsum.photos/200?16" } },
-  { "_id": "17", "name": "Produto 17", "valor": 170, "file": { "url": "https://picsum.photos/200?17" } },
-  { "_id": "18", "name": "Produto 18", "valor": 180, "file": { "url": "https://picsum.photos/200?18" } },
-  { "_id": "19", "name": "Produto 19", "valor": 190, "file": { "url": "https://picsum.photos/200?19" } },
-  { "_id": "20", "name": "Produto 20", "valor": 200, "file": { "url": "https://picsum.photos/200?20" } },
-  { "_id": "21", "name": "Produto 21", "valor": 210, "file": { "url": "https://picsum.photos/200?21" } },
-  { "_id": "22", "name": "Produto 22", "valor": 220, "file": { "url": "https://picsum.photos/200?22" } },
-  { "_id": "23", "name": "Produto 23", "valor": 230, "file": { "url": "https://picsum.photos/200?23" } },
-  { "_id": "24", "name": "Produto 24", "valor": 240, "file": { "url": "https://picsum.photos/200?24" } },
-  { "_id": "25", "name": "Produto 25", "valor": 250, "file": { "url": "https://picsum.photos/200?25" } },
-  { "_id": "26", "name": "Produto 26", "valor": 260, "file": { "url": "https://picsum.photos/200?26" } },
-  { "_id": "27", "name": "Produto 27", "valor": 270, "file": { "url": "https://picsum.photos/200?27" } },
-  { "_id": "28", "name": "Produto 28", "valor": 280, "file": { "url": "https://picsum.photos/200?28" } },
-  { "_id": "29", "name": "Produto 29", "valor": 290, "file": { "url": "https://picsum.photos/200?29" } },
-  { "_id": "30", "name": "Produto 30", "valor": 300, "file": { "url": "https://picsum.photos/200?30" } }
+import { Product } from "../interfaces/product.interface";
+
+export const PRODUCTS_MOCK: Product[] = [
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j001",
+    name: "Painel Macramê Boho Chic",
+    description: "Painel decorativo grande feito com cordão de algodão cru e galho natural.",
+    valor: 250.00,
+    category: "Decoração de Parede",
+    collection: "Raízes",
+    file: {
+      name: "painel-boho.jpg",
+      size: 102450,
+      url: "https://picsum.photos/seed/painel/800/600",
+      createdAt: { default: new Date("2024-01-10T10:00:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j002",
+    name: "Suporte de Planta Suspenso",
+    description: "Suporte reforçado para vasos médios com detalhes em madeira.",
+    valor: 45.90,
+    category: "Jardim",
+    collection: "Urban Jungle",
+    file: {
+      name: "suporte-planta.jpg",
+      size: 85000,
+      url: "https://picsum.photos/seed/planta/800/600",
+      createdAt: { default: new Date("2024-01-15T14:30:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j003",
+    name: "Bolsa de Ombro em Macramê",
+    description: "Bolsa artesanal com forro de linho e alças resistentes.",
+    valor: 180.00,
+    category: "Acessórios",
+    collection: "Verão 2024",
+    file: {
+      name: "bolsa-macrame.jpg",
+      size: 120000,
+      url: "https://picsum.photos/seed/bolsa/800/600",
+      createdAt: { default: new Date("2024-02-01T09:15:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j004",
+    name: "Luminária Pendente Trama",
+    description: "Cúpula para luminária feita em técnica de macro macramê.",
+    valor: 320.00,
+    category: "Iluminação",
+    collection: "Luz Violeta",
+    file: {
+      name: "luminaria.jpg",
+      size: 200000,
+      url: "https://picsum.photos/seed/luz/800/600",
+      createdAt: { default: new Date("2024-02-10T18:00:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j005",
+    name: "Caminho de Mesa Elegance",
+    description: "Caminho de mesa com franjas longas para mesas de até 6 lugares.",
+    valor: 140.00,
+    category: "Mesa Posta",
+    collection: "Clássicos",
+    file: {
+      name: "caminho-mesa.jpg",
+      size: 98000,
+      url: "https://picsum.photos/seed/mesa/800/600",
+      createdAt: { default: new Date("2024-02-15T11:20:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j006",
+    name: "Chaveiro Folha Boho",
+    description: "Kit com 3 chaveiros em formato de folha de macramê.",
+    valor: 35.00,
+    category: "Acessórios",
+    collection: "Mimos",
+    file: {
+      name: "chaveiros.jpg",
+      size: 45000,
+      url: "https://picsum.photos/seed/folha/800/600",
+      createdAt: { default: new Date("2024-03-01T08:45:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j007",
+    name: "Espelho Decorativo Sol",
+    description: "Moldura em macramê para espelho circular.",
+    valor: 110.00,
+    category: "Decoração de Parede",
+    collection: "Raízes",
+    file: {
+      name: "espelho.jpg",
+      size: 135000,
+      url: "https://picsum.photos/seed/espelho/800/600",
+      createdAt: { default: new Date("2024-03-05T15:10:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j008",
+    name: "Cortina Divisória de Ambientes",
+    description: "Cortina em macramê ideal para separar ambientes com leveza.",
+    valor: 450.00,
+    category: "Decoração",
+    collection: "Macro Macramê",
+    file: {
+      name: "cortina.jpg",
+      size: 350000,
+      url: "https://picsum.photos/seed/cortina/800/600",
+      createdAt: { default: new Date("2024-03-12T13:00:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j009",
+    name: "Cesto Organizador Trama",
+    description: "Cesto estruturado para mantas ou brinquedos.",
+    valor: 195.00,
+    category: "Organização",
+    collection: "Luz Violeta",
+    file: {
+      name: "cesto.jpg",
+      size: 180000,
+      url: "https://picsum.photos/seed/cesto/800/600",
+      createdAt: { default: new Date("2024-03-20T10:30:00Z") }
+    }
+  },
+  {
+    _id: "65a1b2c3d4e5f6g7h8i9j010",
+    name: "Almofada Nó Celta",
+    description: "Capa de almofada com trabalho frontal em nós complexos.",
+    valor: 85.00,
+    category: "Decoração",
+    collection: "Conforto",
+    file: {
+      name: "almofada.jpg",
+      size: 92000,
+      url: "https://picsum.photos/seed/almofada/800/600",
+      createdAt: { default: new Date("2024-03-25T16:50:00Z") }
+    }
+  }
 ];
