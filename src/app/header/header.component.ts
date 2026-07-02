@@ -10,7 +10,6 @@ import { Product } from '../interfaces/product.interface';
 import { User } from '../interfaces/user.interface';
 import { CartService } from '../services/cart/cart.service';
 import { MenuComponent } from './menu/menu.component';
-import { StartComponent } from './login/start/start.component';
 
 @Component({
 	selector: 'app-header',
@@ -32,7 +31,6 @@ export class HeaderComponent implements OnInit {
 	cart: Product[] = [];
 	profile: User = {};
 	productsQuantity: number = 0;
-	userId: string | undefined = undefined;
 
 	constructor(
 		public route: Router,
@@ -41,7 +39,8 @@ export class HeaderComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.gettingProductsInCart();	
+		this.gettingProductsInCart();		
+		this.gettingProfile();
 	}
 
 	gettingProductsInCart(): void {
@@ -50,10 +49,19 @@ export class HeaderComponent implements OnInit {
 			const productsIncart = JSON.parse(cart || '[]');
 
 			this.productsQuantity = productsIncart.length;
-
-			console.log(this.productsQuantity);
 		});		
 	}
 
-	openCart(): void {}
+	gettingProfile(): void {
+		const profile = localStorage.getItem('profile');
+		this.profile = JSON.parse(profile || '{}');
+	}
+
+	openCart(): void {
+		if (!this.profile._id) {
+			alert('Você precisa estar logado para acessar o carrinho de compras.');
+		} else {
+			this.route.navigate(['/cart']);
+		} 
+	}
 }

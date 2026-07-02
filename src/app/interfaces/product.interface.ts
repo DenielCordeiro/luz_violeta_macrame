@@ -3,8 +3,9 @@ export interface Product {
   name?: string,
   description?: string,
   valor?: number,
+  type?: string,
   category?: string,
-  collection?: string,
+  selection?: boolean,
   file?: {
     name?: string,
     size?: number,

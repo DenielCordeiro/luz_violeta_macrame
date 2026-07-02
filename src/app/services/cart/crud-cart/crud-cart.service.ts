@@ -47,41 +47,49 @@ export abstract class CrudCartService<T extends BaseCrud> {
 	}
 
 	public removeProductFromCart(product: Product): Promise<Product[]> {
-		const products = this.getProductsInCart();
+		// const products = this.getProductsInCart();
 
-		if (products.length === 0) {
-			console.warn({ message: 'Carrinho vazio, não há produtos para remover!' });
+		// if (products.length === 0) {
+		// 	console.warn({ message: 'Carrinho vazio, não há produtos para remover!' });
+		// } else {
+		// 	this.products = products.filter(item => item._id !== product._id);
+		// 	localStorage.setItem('cart', JSON.stringify(this.products));
+		// 	this.cartSubject.next(this.products);
+		// }
+
+		return Promise.resolve(this.products);
+	}
+
+	public getProductsInCart(): Promise<Product[]> {
+		const profileUser = this.getUserProfile();
+		const cartLocal = this.getLocalCartProducts() || [];
+
+		if (profileUser.productsCart !== undefined) {
+			const mergedProducts = [...(profileUser.productsCart || []), ...cartLocal];
+
+			this.products = mergedProducts.filter((value, index, self) => {
+				index === self.findIndex((product) => product._id === value._id)
+			});			
+		} else if (profileUser.productsCart == undefined && cartLocal.length > 0) {
+			this.products = cartLocal;
 		} else {
-			this.products = products.filter(item => item._id !== product._id);
-			localStorage.setItem('cart', JSON.stringify(this.products));
-			this.cartSubject.next(this.products);
+			this.products = [];
 		}
 
 		return Promise.resolve(this.products);
 	}
 
-	public getProductsInCart(): Product[] {
-		const profileUser = this.getUserProfile();
-		const cartLocal = this.getCartProducts() || [];
-		const mergedProducts = [...(profileUser.productsCart || []), ...cartLocal];
-
-		this.products = mergedProducts.filter((value, index, self) => {
-			index === self.findIndex((product) => product._id === value._id)
-		});
-
-		this.cartSubject.next(this.products);
-
-		return this.products;
-	}
-
 	public getUserProfile(): User {
-		const localLoadingUser = localStorage.getItem('profile');
-		this.profile = JSON.parse(localLoadingUser!);
+		const localLoadingUser: string | null = localStorage.getItem('profile');
+
+		if (localLoadingUser !== null) {
+			this.profile = JSON.parse(localLoadingUser);
+		}
 
 		return this.profile;
 	}
 
-	public getCartProducts(): Product[] {
+	public getLocalCartProducts(): Product[] {
 		const localData = localStorage.getItem('cart');
 
 		if (localData == null) {
@@ -106,6 +114,7 @@ export abstract class CrudCartService<T extends BaseCrud> {
 	}
 
 	public clearCart(): Promise<T> {
+		localStorage.removeItem('cart');
 		this.profile = this.getUserProfile();
 
 		return lastValueFrom(this.http.put<BaseAPI<T>>(`${this.route}/clear_cart/${this.profile._id}`, this.products))

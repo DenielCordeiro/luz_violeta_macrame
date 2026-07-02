@@ -1,19 +1,16 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "ignoreDeprecations": "5.0",
-    "baseUrl": "./",
-    "rootDir": "src",
+    "rootDir": ".",
     "paths": {
-      "src/*": ["src/*"],
-      "@app/*": ["src/app/*"],
-      "@env/*": ["src/environments/*"],
-      "*": ["src/*"]
+      "src/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@env/*": ["./src/environments/*"]
     },
     "outDir": "./dist/out-tsc",
     "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "lib": ["ES2022", "dom"],
     "declaration": false,
     "experimentalDecorators": true,
@@ -32,5 +29,6 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "include": ["src/**/*"]
 }
