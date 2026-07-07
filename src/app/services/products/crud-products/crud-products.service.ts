@@ -62,15 +62,15 @@ export abstract class CrudProductsService<T extends BaseCrud> {
     localStorage.removeItem('shipping');
   }
 
-  public createProduct(model: FormData): Promise<T> {
-    return lastValueFrom(this.http.post<BaseProduct<T>>(this.route, model, { headers: this.header }))
+  public createProduct(product: FormData): Promise<T> {
+    return lastValueFrom(this.http.post<BaseProduct<T>>(this.route, product, { headers: this.header }))
       .then(result => {
       return this.handleResponse(result) as unknown as T;
     });
   }
 
-  public updateProduct(model: FormData, productId: number | undefined): Promise<T> {
-    return lastValueFrom(this.http.put<BaseProduct<T>>(`${this.route}/${productId}`, model, { headers: this.header }))
+  public updateProduct(product: FormData, productId: number | undefined): Promise<T> {
+    return lastValueFrom(this.http.put<BaseProduct<T>>(`${this.route}/${productId}`, product, { headers: this.header }))
       .then(result => {
         return this.handleResponse(result) as unknown as T;
       })

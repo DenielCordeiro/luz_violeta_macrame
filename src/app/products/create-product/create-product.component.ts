@@ -20,9 +20,9 @@ export class CreateProductComponent implements OnInit {
     private productService: ProductsService = inject(ProductsService);
     public files!: Set<File>;
     public categories: string[] = [];
-    public collections: string[] = [];
+    public types: string[] = [];
     public newOrExistCategory: string = "Existente";
-    public newOrExistGroups: string = "Existente";
+    public newOrExistTypes: string = "Existente";
 
     constructor(
         private formBuilder: FormBuilder,
@@ -39,7 +39,7 @@ export class CreateProductComponent implements OnInit {
             "description": [null],
             "valor": [null],
             "category": [null],
-            "collection": [null],
+            "type": [null],
             "file": [null]
         });
     }
@@ -72,7 +72,7 @@ export class CreateProductComponent implements OnInit {
         formData.append('name', this.form.value.name);
         formData.append('description', this.form.value.description);
         formData.append('category', this.form.value.category);
-        formData.append('collection', this.form.value.collection);
+        formData.append('type', this.form.value.type);
         formData.append('file', this.form.value.file);
 
         return formData;
@@ -82,17 +82,17 @@ export class CreateProductComponent implements OnInit {
         if (this.newOrExistCategory == "Nova") {
             this.newOrExistCategory = "Existente";
         } else {
-            this.newOrExistCategory = "Nova"
+            this.newOrExistCategory = "Nova";
         }
 
         return true;
     }
 
-    public changeOptionGroups(): boolean {
-        if (this.newOrExistGroups == "Nova") {
-            this.newOrExistGroups = "Existente";
+    public changeOptionTypes(): boolean {
+        if (this.newOrExistTypes == "Nova") {
+            this.newOrExistTypes = "Existente";
         } else {
-            this.newOrExistGroups = "Nova"
+            this.newOrExistTypes = "Nova";
         }
 
         return true;
