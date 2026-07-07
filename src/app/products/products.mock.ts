@@ -7,7 +7,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Painel decorativo grande feito com cordão de algodão cru e galho natural.",
     valor: 250.00,
     category: "Decoração de Parede",
-    collection: "Raízes",
+    type: "Raízes",
     file: {
       name: "painel-boho.jpg",
       size: 102450,
@@ -21,7 +21,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Suporte reforçado para vasos médios com detalhes em madeira.",
     valor: 45.90,
     category: "Jardim",
-    collection: "Urban Jungle",
+    type: "Urban Jungle",
     file: {
       name: "suporte-planta.jpg",
       size: 85000,
@@ -35,7 +35,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Bolsa artesanal com forro de linho e alças resistentes.",
     valor: 180.00,
     category: "Acessórios",
-    collection: "Verão 2024",
+    type: "Verão 2024",
     file: {
       name: "bolsa-macrame.jpg",
       size: 120000,
@@ -49,7 +49,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Cúpula para luminária feita em técnica de macro macramê.",
     valor: 320.00,
     category: "Iluminação",
-    collection: "Luz Violeta",
+    type: "Luz Violeta",
     file: {
       name: "luminaria.jpg",
       size: 200000,
@@ -63,7 +63,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Caminho de mesa com franjas longas para mesas de até 6 lugares.",
     valor: 140.00,
     category: "Mesa Posta",
-    collection: "Clássicos",
+    type: "Clássicos",
     file: {
       name: "caminho-mesa.jpg",
       size: 98000,
@@ -77,7 +77,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Kit com 3 chaveiros em formato de folha de macramê.",
     valor: 35.00,
     category: "Acessórios",
-    collection: "Mimos",
+    type: "Mimos",
     file: {
       name: "chaveiros.jpg",
       size: 45000,
@@ -91,7 +91,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Moldura em macramê para espelho circular.",
     valor: 110.00,
     category: "Decoração de Parede",
-    collection: "Raízes",
+    type: "Raízes",
     file: {
       name: "espelho.jpg",
       size: 135000,
@@ -105,7 +105,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Cortina em macramê ideal para separar ambientes com leveza.",
     valor: 450.00,
     category: "Decoração",
-    collection: "Macro Macramê",
+    type: "Macro Macramê",
     file: {
       name: "cortina.jpg",
       size: 350000,
@@ -119,7 +119,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Cesto estruturado para mantas ou brinquedos.",
     valor: 195.00,
     category: "Organização",
-    collection: "Luz Violeta",
+    type: "Luz Violeta",
     file: {
       name: "cesto.jpg",
       size: 180000,
@@ -133,7 +133,7 @@ export const PRODUCTS_MOCK: Product[] = [
     description: "Capa de almofada com trabalho frontal em nós complexos.",
     valor: 85.00,
     category: "Decoração",
-    collection: "Conforto",
+    type: "Conforto",
     file: {
       name: "almofada.jpg",
       size: 92000,

@@ -45,7 +45,7 @@ export class UpdateProductComponent implements OnInit {
                 "description": product.description,
                 "valor": product.valor,
                 "category": product.category,
-                "collection": product.collection,
+                "type": product.type,
                 "file":  [null],
             });
         });
