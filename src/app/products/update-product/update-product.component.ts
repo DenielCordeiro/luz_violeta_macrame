@@ -43,7 +43,7 @@ export class UpdateProductComponent implements OnInit {
                 "id": product._id,
                 "name": product.name,
                 "description": product.description,
-                "valor": product.valor,
+                "price": product.price,
                 "category": product.category,
                 "type": product.type,
                 "file":  [null],

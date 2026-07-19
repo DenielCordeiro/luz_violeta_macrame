@@ -39,7 +39,7 @@ export class CartComponent implements OnInit {
 
 	calculateFinalValue(products: Product[]): number {
 		const total = products.reduce((accumulator, product) => {
-			const productPrice = product.valor || 0;
+			const productPrice = product.price || 0;
 
 			return accumulator + productPrice;
 		}, 0);
