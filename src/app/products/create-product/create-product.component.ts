@@ -37,10 +37,21 @@ export class CreateProductComponent implements OnInit {
         this.form = this.formBuilder.group({
             "name": [null],
             "description": [null],
-            "valor": [null],
-            "category": [null],
+            "included_items": [null],
+            "warranty": [null],
+            "price": [null],
+            "stock": [null],
             "type": [null],
-            "file": [null]
+            "category": [null],
+            "characteristics": [null],
+            "deadline": [null],
+            "packaging": this.formBuilder.group({
+                "weight": [null],
+                "height": [null],
+                "width": [null],
+                "length": [null],
+            }),
+            "file": [null],
         });
     }
 
@@ -67,13 +78,27 @@ export class CreateProductComponent implements OnInit {
 
     public buildFormData(): FormData {
         const formData = new FormData();
+        
+        const formValues = this.form.value;
 
-        formData.append('valor', this.form.value.valor);
-        formData.append('name', this.form.value.name);
-        formData.append('description', this.form.value.description);
-        formData.append('category', this.form.value.category);
-        formData.append('type', this.form.value.type);
-        formData.append('file', this.form.value.file);
+        if (formValues.name) formData.append('name', formValues.name);
+        if (formValues.description) formData.append('description', formValues.description);
+        if (formValues.included_items) formData.append('included_items', formValues.included_items);
+        if (formValues.warranty) formData.append('warranty', formValues.warranty);
+        if (formValues.price) formData.append('price', formValues.price.toString());
+        if (formValues.stock) formData.append('stock', formValues.stock.toString());
+        if (formValues.category) formData.append('category', formValues.category);
+        if (formValues.type) formData.append('type', formValues.type);
+        if (formValues.characteristics) formData.append('characteristics', formValues.characteristics);
+        if (formValues.deadline) formData.append('deadline', formValues.deadline);
+        
+        if (formValues.packaging) {
+            formData.append('packaging', JSON.stringify(formValues.packaging));
+        }
+
+        if (formValues.file) {
+            formData.append('file', formValues.file);
+        }
 
         return formData;
     }
@@ -102,17 +127,12 @@ export class CreateProductComponent implements OnInit {
         const formData = this.buildFormData();
 
         this.productService.createProduct(formData)
-            .then(() => {
-                this.dialogRef.close();
+            .then((response) => {
+                this.dialogRef.close(response);
             })
             .catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                this.dialogRef.afterClosed().subscribe(result => {
-                    console.log('Finalizou, resultado: ', result);
-                });
-            });
     }
 
     public closeDialog(): void {
