@@ -53,15 +53,15 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    window.addEventListener('resize', () => {
-      const oldPageSize = this.pageSize;
+    // window.addEventListener('resize', () => {
+    //   const oldPageSize = this.pageSize;
 
-      if (oldPageSize !== this.pageSize) {
-        this.resetAndReload();
-      }
-    });
+    //   if (oldPageSize !== this.pageSize) {
+    //     this.resetAndReload();
+    //   }
+    // });
 
-    this.createObserver();
+    // this.createObserver();
   }
 
   public resetAndReload(): void {

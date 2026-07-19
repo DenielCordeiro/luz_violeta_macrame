@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 import { MATERIAL_IMPORTS } from "src/app/shared/material.imports";
 import { MatDialogRef } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
 
 import { ProductsService } from "src/app/services/products/products.service";
 
@@ -10,7 +11,8 @@ import { ProductsService } from "src/app/services/products/products.service";
     selector: 'app-create-product',
     imports: [
 		ReactiveFormsModule,
-        MATERIAL_IMPORTS
+        MATERIAL_IMPORTS,
+        MatIconModule,
 	],
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.sass'],

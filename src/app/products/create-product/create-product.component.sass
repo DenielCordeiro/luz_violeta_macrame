@@ -1,24 +1,35 @@
-header, footer
-    display: flex
-    align-items: center
-    height: 10vh
 
-header
-    justify-content: space-between
+.form-grid
+  display: grid
+  grid-template-columns: repeat(2, 1fr)
+  gap: 12px
+  margin-bottom: 20px
 
-footer
-    justify-content: space-around
+  @media (max-width: 600px)
+    grid-template-columns: 1fr
 
-header, main
-    padding: 0px 4vw 0px 4vw
+.full-width
+  grid-column: span 2
+  @media (max-width: 600px)
+    grid-column: span 1
 
-main
-    display: flex
-    justify-content: center
-    width: 50vw
+.topic-title
+  font-size: 16px
+  font-weight: 500
+  color: #555
+  margin: 16px 0 8px 0
+  border-bottom: 1px solid #e0e0e0
+  padding-bottom: 4px
 
-    mat-form-field 
-        width: 24vw
+.upload-container
+  display: flex
+  align-items: center
+  gap: 12px
+  margin-top: 8px
+  padding: 12px
+  border: 1px dashed #ccc
+  border-radius: 4px
 
-    .inputs-in-left
-        margin-right: 1vw
+.file-name
+  font-size: 14px
+  color: #666
