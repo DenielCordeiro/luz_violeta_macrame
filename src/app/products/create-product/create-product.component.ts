@@ -87,8 +87,8 @@ export class CreateProductComponent implements OnInit {
         if (formValues.description) formData.append('description', formValues.description);
         if (formValues.included_items) formData.append('included_items', formValues.included_items);
         if (formValues.warranty) formData.append('warranty', formValues.warranty);
-        if (formValues.price) formData.append('price', formValues.price.toString());
-        if (formValues.stock) formData.append('stock', formValues.stock.toString());
+        if (formValues.price) formData.append('price', formValues.price);
+        if (formValues.stock) formData.append('stock', formValues.stock);
         if (formValues.category) formData.append('category', formValues.category);
         if (formValues.type) formData.append('type', formValues.type);
         if (formValues.characteristics) formData.append('characteristics', formValues.characteristics);
@@ -100,7 +100,7 @@ export class CreateProductComponent implements OnInit {
 
         if (formValues.file) {
             formData.append('file', formValues.file);
-        }
+        }        
 
         return formData;
     }
