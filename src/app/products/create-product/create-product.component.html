@@ -1,42 +1,107 @@
-<header>
-    <h3>Criar Produto</h3>
-</header>
+<h2 mat-dialog-title>Criar Novo Produto</h2>
 
-<main>
-    <form id="registerForm" [formGroup]="form">
-        <mat-form-field appearance="outline" class="inputs-in-left">
-            <mat-label>Nome:</mat-label>
-            <input matInput formControlName="name" placeholder="Cortina Exemplo">
-        </mat-form-field>
+<mat-dialog-content>
+    <form id="registerForm" [formGroup]="form" (ngSubmit)="creatingProduct()">
 
-        <mat-form-field appearance="outline">
-            <mat-label>valor:</mat-label>
-            <input matInput formControlName="valor" placeholder="R$ 599,99 ">
-        </mat-form-field>
+        <h3 class="topic-title">Informações Básicas</h3>
+        <div class="form-grid">
+            <mat-form-field appearance="outline" class="inputs-in-left">
+                <mat-label>Nome</mat-label>
+                <input matInput formControlName="name" placeholder="Ex: Cortina Blecaute">
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="inputs-in-left">
-            <mat-label>Categoria:</mat-label>
-            <input matInput formControlName="category" placeholder="Porta copos">
-        </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Preço (R$)</mat-label>
+                <input matInput type="number" formControlName="price" placeholder="0.00">
+            </mat-form-field>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Coleção:</mat-label>
-            <input matInput formControlName="collection" placeholder="Inverno">
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="inputs-in-left">
+                <mat-label>Estoque</mat-label>
+                <input matInput type="number" formControlName="stock" placeholder="Quantidade">
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="inputs-in-left">
-            <mat-label>Descrição:</mat-label>
-            <input matInput formControlName="description" placeholder="Cortina Exemplo">
-        </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Prazo de Produção (Dias)</mat-label>
+                <input matInput type="number" formControlName="deadline" placeholder="Ex: 5">
+            </mat-form-field>
+        </div>
 
-         <mat-form-field appearance="outline">
-            <mat-label>Arquivo:</mat-label>
-            <input type="search" matInput formControlName="file" placeholder="Pesquisar">
-        </mat-form-field>
+        <h3 class="topic-title">Classificação e Detalhes</h3>
+        <div class="form-grid">
+            <mat-form-field appearance="outline" class="inputs-in-left">
+                <mat-label>Categoria</mat-label>
+                <input matInput formControlName="category" placeholder="Ex: Cortinas, Almofadas">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <input matInput formControlName="type" placeholder="Ex: Veludo, Linho">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Garantia</mat-label>
+                <input matInput formControlName="warranty" placeholder="Ex: 3 meses contra defeitos de fabricação">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Itens Inclusos</mat-label>
+                <input matInput formControlName="included_items" placeholder="Ex: 1 Cortina, 2 Ilhós">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Características</mat-label>
+                <input matInput formControlName="characteristics" placeholder="Ex: Lavável, Antialérgico">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descrição do Produto</mat-label>
+                <textarea matInput formControlName="description" rows="3"
+                    placeholder="Descreva os detalhes do produto..."></textarea>
+            </mat-form-field>
+        </div>
+
+        <h3 class="topic-title">Dimensões da Embalagem (Para o Frete)</h3>
+        <div class="form-grid" formGroupName="packaging">
+            <mat-form-field appearance="outline">
+                <mat-label>Peso (kg)</mat-label>
+                <input matInput type="number" formControlName="weight" placeholder="0.500">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Altura (cm)</mat-label>
+                <input matInput type="number" formControlName="height" placeholder="10">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Largura (cm)</mat-label>
+                <input matInput type="number" formControlName="width" placeholder="20">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Comprimento (cm)</mat-label>
+                <input matInput type="number" formControlName="length" placeholder="30">
+            </mat-form-field>
+        </div>
+
+        <h3 class="topic-title">Imagem do Produto</h3>
+        <div class="upload-container">
+            <input type="file" #fileInput (change)="onChangeFile($event)" accept="image/*" style="display: none;">
+            <button mat-raised-button type="button" color="primary" (click)="fileInput.click()">
+                <mat-icon class="material-symbols-outlined">image</mat-icon>
+                <span>Selecionar Imagem</span>
+            </button>
+
+            @if (form.get('file')?.value) {
+            <span class="file-name">
+                {{ form.get('file')?.value?.name }}
+            </span>
+            }
+        </div>
+
     </form>
-</main>
+</mat-dialog-content>
 
-<footer>
-    <button matButton="elevated" type="button" (click)="this.closeDialog()">Cancelar</button>
-    <button matButton="elevated" type="submit" form="form" (click)="this.creatingProduct()">Criar</button>
-</footer>
+<mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="closeDialog()">Cancelar</button>
+    <button mat-raised-button color="accent" type="submit" form="registerForm" [disabled]="form.invalid">Criar Produto</button>
+</mat-dialog-actions>

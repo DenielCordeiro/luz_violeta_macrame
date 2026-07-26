@@ -24,7 +24,7 @@
 				<div class="card" (click)="setProductInLocalStorage(product)" routerLink="/product/{{ product._id }}">
 					<img src="{{ product?.file?.url }}" alt="...">
 					<p class="itemTitle" >{{ product?.name }}</p>
-					<p class="itemValor">R$ {{ product?.valor }}</p>
+					<p class="itemValor">R$ {{ product?.price }}</p>
 				</div>
 			</div>
 		}

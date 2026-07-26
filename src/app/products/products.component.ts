@@ -15,7 +15,6 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { DeleteProductComponent } from './delete-product/delete-product.component';
 
-import { PRODUCTS_MOCK } from './products.mock';
 
 @Component({
   selector: 'app-products',
@@ -49,20 +48,20 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.loadProducts();
-    this.clearProductLocalStorage();
+    // this.loadProducts();
+    // this.clearProductLocalStorage();
   }
 
   ngAfterViewInit(): void {
-    window.addEventListener('resize', () => {
-      const oldPageSize = this.pageSize;
+    // window.addEventListener('resize', () => {
+    //   const oldPageSize = this.pageSize;
 
-      if (oldPageSize !== this.pageSize) {
-        this.resetAndReload();
-      }
-    });
+    //   if (oldPageSize !== this.pageSize) {
+    //     this.resetAndReload();
+    //   }
+    // });
 
-    this.createObserver();
+    // this.createObserver();
   }
 
   public resetAndReload(): void {
@@ -95,29 +94,38 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadProducts(page: number = 1): void {
-    if (this.isLoading || !this.hasNextPage) return;
+    // if (this.isLoading || !this.hasNextPage) return;
 
-    this.isLoading = true;
+    // this.isLoading = true;
 
-    setTimeout(() => {
-      const allProducts = PRODUCTS_MOCK;
+    // setTimeout(() => {
+    //   const allProducts = PRODUCTS_MOCK;
 
-      const limit = this.pageSize;
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + limit;
+    //   const limit = this.pageSize;
+    //   const startIndex = (page - 1) * limit;
+    //   const endIndex = startIndex + limit;
 
-      const paginatedDocs = allProducts.slice(startIndex, endIndex);
+    //   const paginatedDocs = allProducts.slice(startIndex, endIndex);
 
-      this.products = [
-        ...this.products,
-        ...paginatedDocs
-      ];
+    //   this.products = [
+    //     ...this.products,
+    //     ...paginatedDocs
+    //   ];
 
-      this.currentPage = page;
-      this.hasNextPage = endIndex < allProducts.length;
+    //   this.currentPage = page;
+    //   this.hasNextPage = endIndex < allProducts.length;
 
-      this.isLoading = false;
-    }, 3000);
+    //   this.isLoading = false;
+    // }, 3000);
+
+    this.productsService.getProducts()
+      .then(loadedProducts => {
+        if (loadedProducts == null || loadedProducts == undefined) {
+          alert("[Atenção]: Não existe nenhum produto a venda!")
+        } else {
+          this.products = loadedProducts.products.docs as Product[];
+        }
+      });
   }
 
   public clearProductLocalStorage(): void {

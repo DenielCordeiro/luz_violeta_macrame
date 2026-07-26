@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 import { MATERIAL_IMPORTS } from "src/app/shared/material.imports";
 import { MatDialogRef } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
 
 import { ProductsService } from "src/app/services/products/products.service";
 
@@ -10,7 +11,8 @@ import { ProductsService } from "src/app/services/products/products.service";
     selector: 'app-create-product',
     imports: [
 		ReactiveFormsModule,
-        MATERIAL_IMPORTS
+        MATERIAL_IMPORTS,
+        MatIconModule,
 	],
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.sass'],
@@ -20,9 +22,9 @@ export class CreateProductComponent implements OnInit {
     private productService: ProductsService = inject(ProductsService);
     public files!: Set<File>;
     public categories: string[] = [];
-    public collections: string[] = [];
+    public types: string[] = [];
     public newOrExistCategory: string = "Existente";
-    public newOrExistGroups: string = "Existente";
+    public newOrExistTypes: string = "Existente";
 
     constructor(
         private formBuilder: FormBuilder,
@@ -37,10 +39,21 @@ export class CreateProductComponent implements OnInit {
         this.form = this.formBuilder.group({
             "name": [null],
             "description": [null],
-            "valor": [null],
+            "included_items": [null],
+            "warranty": [null],
+            "price": [null],
+            "stock": [null],
+            "type": [null],
             "category": [null],
-            "collection": [null],
-            "file": [null]
+            "characteristics": [null],
+            "deadline": [null],
+            "packaging": this.formBuilder.group({
+                "weight": [null],
+                "height": [null],
+                "width": [null],
+                "length": [null],
+            }),
+            "file": [null],
         });
     }
 
@@ -67,13 +80,27 @@ export class CreateProductComponent implements OnInit {
 
     public buildFormData(): FormData {
         const formData = new FormData();
+        
+        const formValues = this.form.value;
 
-        formData.append('valor', this.form.value.valor);
-        formData.append('name', this.form.value.name);
-        formData.append('description', this.form.value.description);
-        formData.append('category', this.form.value.category);
-        formData.append('collection', this.form.value.collection);
-        formData.append('file', this.form.value.file);
+        if (formValues.name) formData.append('name', formValues.name);
+        if (formValues.description) formData.append('description', formValues.description);
+        if (formValues.included_items) formData.append('included_items', formValues.included_items);
+        if (formValues.warranty) formData.append('warranty', formValues.warranty);
+        if (formValues.price) formData.append('price', formValues.price);
+        if (formValues.stock) formData.append('stock', formValues.stock);
+        if (formValues.category) formData.append('category', formValues.category);
+        if (formValues.type) formData.append('type', formValues.type);
+        if (formValues.characteristics) formData.append('characteristics', formValues.characteristics);
+        if (formValues.deadline) formData.append('deadline', formValues.deadline);
+        
+        if (formValues.packaging) {
+            formData.append('packaging', JSON.stringify(formValues.packaging));
+        }
+
+        if (formValues.file) {
+            formData.append('file', formValues.file);
+        }        
 
         return formData;
     }
@@ -82,17 +109,17 @@ export class CreateProductComponent implements OnInit {
         if (this.newOrExistCategory == "Nova") {
             this.newOrExistCategory = "Existente";
         } else {
-            this.newOrExistCategory = "Nova"
+            this.newOrExistCategory = "Nova";
         }
 
         return true;
     }
 
-    public changeOptionGroups(): boolean {
-        if (this.newOrExistGroups == "Nova") {
-            this.newOrExistGroups = "Existente";
+    public changeOptionTypes(): boolean {
+        if (this.newOrExistTypes == "Nova") {
+            this.newOrExistTypes = "Existente";
         } else {
-            this.newOrExistGroups = "Nova"
+            this.newOrExistTypes = "Nova";
         }
 
         return true;
@@ -102,17 +129,12 @@ export class CreateProductComponent implements OnInit {
         const formData = this.buildFormData();
 
         this.productService.createProduct(formData)
-            .then(() => {
-                this.dialogRef.close();
+            .then((response) => {
+                this.dialogRef.close(response);
             })
             .catch((error) => {
                 console.log(error);
             })
-            .finally(() => {
-                this.dialogRef.afterClosed().subscribe(result => {
-                    console.log('Finalizou, resultado: ', result);
-                });
-            });
     }
 
     public closeDialog(): void {
