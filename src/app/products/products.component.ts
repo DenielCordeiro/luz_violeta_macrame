@@ -48,7 +48,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    // this.loadProducts();
+    this.loadProducts();
     // this.clearProductLocalStorage();
   }
 

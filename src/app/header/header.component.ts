@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { MenuComponent } from './menu/menu.component';
 		CommonModule,
 		MatIconModule,
 		MatButtonModule,
+		RouterModule,
 		MenuComponent
 	],
 	templateUrl: './header.component.html',
@@ -33,7 +34,6 @@ export class HeaderComponent implements OnInit {
 	productsQuantity: number = 0;
 
 	constructor(
-		public route: Router,
 		public cartService: CartService,
 		public dialog: MatDialog,
 	) { }
@@ -55,13 +55,5 @@ export class HeaderComponent implements OnInit {
 	gettingProfile(): void {
 		const profile = localStorage.getItem('profile');
 		this.profile = JSON.parse(profile || '{}');
-	}
-
-	openCart(): void {
-		if (!this.profile._id) {
-			alert('Você precisa estar logado para acessar o carrinho de compras.');
-		} else {
-			this.route.navigate(['/cart']);
-		} 
 	}
 }

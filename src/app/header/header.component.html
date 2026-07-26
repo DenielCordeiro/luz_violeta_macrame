@@ -8,7 +8,7 @@
     </div>
 
     <div class="cart">
-         <mat-icon class="material-symbols-outlined" (click)="openCart()">shopping_cart</mat-icon>
+         <mat-icon class="material-symbols-outlined" routerLink="/cart">shopping_cart</mat-icon>
 
          @if (this.productsQuantity != 0) {
             <div class="productsQuantity">
