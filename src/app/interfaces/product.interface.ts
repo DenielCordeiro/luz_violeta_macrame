@@ -24,3 +24,13 @@ export interface Product {
   };
   selection?: boolean;
 }
+
+export interface Warranty {
+  value: number;
+  viewValue: string;
+}
+
+export interface Deadline {
+  value: number;
+  viewValue: string;
+}
