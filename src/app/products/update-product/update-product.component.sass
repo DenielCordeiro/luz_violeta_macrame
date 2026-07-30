@@ -1,24 +1,57 @@
-header, footer
-    display: flex
-    align-items: center
-    height: 10vh
 
-header
-    justify-content: space-between
+.form-grid
+	display: grid
+	grid-template-columns: repeat(2, 1fr)
+	gap: 12px
+	margin-bottom: 20px
 
-header, main
-    padding: 0px 4vw 0px 4vw
+	@media (max-width: 600px)
+		grid-template-columns: 1fr
 
-main
-    display: flex
-    justify-content: center
-    width: 50vw
+.full-width
+	grid-column: span 2
 
-    mat-form-field 
-        width: 24vw
+	@media (max-width: 600px)
+		grid-column: span 1
 
-    .inputs-in-left
-        margin-right: 1vw
+.topic-title
+	font-size: 16px
+	font-weight: 500
+	color: #555
+	margin: 16px 0 8px 0
+	border-bottom: 1px solid #e0e0e0
+	padding-bottom: 4px
 
-footer
-    justify-content: space-around
+.upload-container
+	display: flex
+	align-items: center
+	gap: 12px
+	margin-top: 8px
+	padding: 12px
+	border: 1px dashed #ccc
+	border-radius: 4px
+
+.file-name
+	font-size: 14px
+	color: #666
+
+.editor-wrapper
+	// width: 100%
+	grid-column: 1 / -1
+	flex: 1 1 100% 
+	margin: 1vh 2vw
+
+	::ng-deep .ql-toolbar.ql-snow
+		border-color: #cbd5e1
+		border-radius: 8px 8px 0 0
+		background-color: #f8fafc
+
+	::ng-deep .ql-container.ql-snow
+		border-color: #cbd5e1
+		border-radius: 0 0 8px 8px
+		min-height: 250px
+		font-size: 1rem
+		line-height: 1.6
+
+	::ng-deep .ql-container.ql-snow.ql-focus
+		border-color: #3b82f6

@@ -69,14 +69,7 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 	  });
 	}
 
-	// public createProduct(product: FormData): void {
-	// 	for (let pair of (product as any).entries()) {
-	// 		console.log('file formData: ', pair[0] + ': ', pair[1]);
-	// 	}
-	// 	console.log('Produto a ser criado:', product);
-	// }
-
-	public updateProduct(product: FormData, productId: number | undefined): Promise<T> {
+	public updateProduct(product: FormData, productId: string | undefined): Promise<T> {
 		return lastValueFrom(this.http.put<BaseProduct<T>>(`${this.route}/${productId}`, product, { headers: this.header }))
 			.then(result => {
 				return this.handleResponse(result) as unknown as T;
