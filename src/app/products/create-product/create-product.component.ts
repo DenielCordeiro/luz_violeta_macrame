@@ -6,9 +6,12 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSelectModule } from "@angular/material/select";
 
+import { QuillEditorComponent } from 'ngx-quill';
+
 import { ProductsService } from "src/app/services/products/products.service";
 
 import { Deadline, Warranty } from "src/app/interfaces/product.interface";
+
 
 @Component({
     selector: 'app-create-product',
@@ -16,7 +19,8 @@ import { Deadline, Warranty } from "src/app/interfaces/product.interface";
 		ReactiveFormsModule,
         MATERIAL_IMPORTS,
         MatIconModule,
-        MatSelectModule
+        MatSelectModule,
+        QuillEditorComponent
 	],
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.sass'],
@@ -41,6 +45,16 @@ export class CreateProductComponent implements OnInit {
         { value: 10, viewValue: '10 dias' },
         { value: 15, viewValue: '15 dias' }
     ];
+
+    public quillConfig = {
+        toolbar: [
+            [{ 'font': [] }],
+            ['bold', 'italic', 'underline'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            ['clean']
+        ]
+    };
 
     constructor(
         private formBuilder: FormBuilder,

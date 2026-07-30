@@ -63,11 +63,10 @@
                 <input matInput formControlName="characteristics" placeholder="Ex: Lavável, Antialérgico">
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Descrição do Produto</mat-label>
-                <textarea matInput formControlName="description" rows="3"
-                    placeholder="Descreva os detalhes do produto..."></textarea>
-            </mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <div class="editor-wrapper">
+                <quill-editor formControlName="description" [modules]="quillConfig" placeholder="Escreva e formate aqui..."></quill-editor>
+            </div>
         </div>
 
         <h3 class="topic-title">Dimensões da Embalagem (Para o Frete)</h3>
