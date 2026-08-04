@@ -151,28 +151,24 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.productsService.addProductLocalStorage(product);
   }
 
-  public modalCreate(product: Product | null): void {
-    const products: Product[] = [];
-
-    if(product !== null) {
-      products.push(product);
-
-      this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
-        data: products
-      });
-    } else {
-      this.dialog.open<CreateProductComponent>(CreateProductComponent);
-    };
+  public dialogCreate(): void {
+    this.dialog.open<CreateProductComponent>(CreateProductComponent);
   }
 
-  public modalDelete(product: Product | null): void {
-    const products: Product[] = [];
+  public dialogUpdate(product: Product | null): void {
+    if(product !== null) {
+      this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
+        data: product
+      });
+    } else {
+      console.log("[Error]: não foi possível encontrar produto selecionado para atualizar");
+    }
+  }
 
+  public dialogDelete(product: Product | null): void {
     if (product !== null) {
-      products.push(product);
-
       this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
-        data: products,
+        data: product,
       });
     } else {
       console.log("[Error]: não foi possível encontrar produto selecionado para excluir");

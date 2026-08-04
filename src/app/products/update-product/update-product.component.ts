@@ -56,7 +56,7 @@ export class UpdateProductComponent implements OnInit {
     };
 
     constructor(
-        @Inject(MAT_DIALOG_DATA) public updateData: Product[],
+        @Inject(MAT_DIALOG_DATA) public product: Product,
         private formBuilder: FormBuilder,
         public dialogRef: MatDialogRef<UpdateProductComponent>,
     ) {};
@@ -66,26 +66,24 @@ export class UpdateProductComponent implements OnInit {
     };
 
     public buildingForm(): void {
-        this.updateData.forEach(product => {
-            this.form = this.formBuilder.group({
-                "name": product?.name,
-                "description": product?.description,
-                "included_items": product?.included_items,
-                "warranty": product?.warranty,
-                "price": product?.price,
-                "stock": product?.stock,
-                "type": product?.type,
-                "category": product?.category,
-                "characteristics": product?.characteristics,
-                "deadline": product?.deadline,
-                "packaging": this.formBuilder.group({
-                    "weight": product.packaging?.weight,
-                    "height": product.packaging?.height,
-                    "width": product.packaging?.width,
-                    "length": product.packaging?.length,
-                }),
-                "file": product?.file,
-            });
+        this.form = this.formBuilder.group({
+            "name": this.product?.name,
+            "description": this.product?.description,
+            "included_items": this.product?.included_items,
+            "warranty": this.product?.warranty,
+            "price": this.product?.price,
+            "stock": this.product?.stock,
+            "type": this.product?.type?.name,
+            "category": this.product?.category?.name,
+            "characteristics": this.product?.characteristics,
+            "deadline": this.product?.deadline,
+            "packaging": this.formBuilder.group({
+                "weight": this.product?.packaging?.weight,
+                "height": this.product?.packaging?.height,
+                "width": this.product?.packaging?.width,
+                "length": this.product?.packaging?.length,
+            }),
+            "file": null,
         });
     }
 
@@ -130,9 +128,9 @@ export class UpdateProductComponent implements OnInit {
             formData.append('packaging', JSON.stringify(formValues.packaging));
         }
 
-        if (formValues.file) {
+        if (formValues.file instanceof File) {
             formData.append('file', formValues.file);
-        }        
+        }
 
         return formData;
     }
@@ -159,14 +157,15 @@ export class UpdateProductComponent implements OnInit {
 
     public updatingProduct(): void {
         const formData = this.buildFormData();
+        const productId = this.product._id;
 
-        this.productService.updateProduct(formData, this.updateData[0]._id)
+        this.productService.updateProduct(formData, productId)
             .then((response) => {
                 this.dialogRef.close(response);
             })
             .catch((error) => {
-                console.log(error);
-            })
+                console.error('Erro ao atualizar produto:', error);
+            });
     }
 
     public closeDialog(): void {
