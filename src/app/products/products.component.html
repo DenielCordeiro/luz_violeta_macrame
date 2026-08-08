@@ -1,5 +1,5 @@
 <header>
-	<button matButton="elevated" (click)="modalCreate(null)">
+	<button matButton="elevated" (click)="dialogCreate()">
 		<span>Adicionar</span>
 		<mat-icon class="material-symbols-outlined">add_box</mat-icon>
 	</button>
@@ -10,12 +10,12 @@
 		@for (product of products; track product._id) {
 			<div class="product">
 				<div class="product-buttons">
-					<div class="update-and-delete-buttons update-product" (click)="modalCreate(product)">
+					<div class="update-and-delete-buttons update-product" (click)="dialogUpdate(product)">
 						<span>Editar</span>
 						<i class="bi bi-pencil-fill"></i>
 					</div>
 
-					<div class="update-and-delete-buttons delete-product" (click)="modalDelete(product)">
+					<div class="update-and-delete-buttons delete-product" (click)="dialogDelete(product)">
 						<span>Excluir</span>
 						<i class="bi bi-trash3-fill"></i>
 					</div>

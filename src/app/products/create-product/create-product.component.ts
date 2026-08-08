@@ -4,8 +4,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { MATERIAL_IMPORTS } from "src/app/shared/material.imports";
 import { MatDialogRef } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
+import { MatSelectModule } from "@angular/material/select";
+
+import { QuillEditorComponent } from 'ngx-quill';
 
 import { ProductsService } from "src/app/services/products/products.service";
+
+import { Deadline, Warranty } from "src/app/interfaces/product.interface";
+
 
 @Component({
     selector: 'app-create-product',
@@ -13,6 +19,8 @@ import { ProductsService } from "src/app/services/products/products.service";
 		ReactiveFormsModule,
         MATERIAL_IMPORTS,
         MatIconModule,
+        MatSelectModule,
+        QuillEditorComponent
 	],
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.sass'],
@@ -25,6 +33,28 @@ export class CreateProductComponent implements OnInit {
     public types: string[] = [];
     public newOrExistCategory: string = "Existente";
     public newOrExistTypes: string = "Existente";
+
+    public warranties: Warranty[] = [
+        { value: 3, viewValue: '3 meses contra defeitos de fabricação' },
+        { value: 6, viewValue: '6 meses contra defeitos de fabricação' },
+        { value: 12, viewValue: '12 meses contra defeitos de fabricação' }
+    ];
+
+    public deadlines: Deadline[] = [
+        { value: 5, viewValue: '5 dias' },
+        { value: 10, viewValue: '10 dias' },
+        { value: 15, viewValue: '15 dias' }
+    ];
+
+    public quillConfig = {
+        toolbar: [
+            [{ 'font': [] }],
+            ['bold', 'italic', 'underline'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'align': [] }],
+            ['clean']
+        ]
+    };
 
     constructor(
         private formBuilder: FormBuilder,

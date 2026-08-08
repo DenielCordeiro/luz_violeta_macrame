@@ -21,8 +21,13 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Prazo de Produção (Dias)</mat-label>
-                <input matInput type="number" formControlName="deadline" placeholder="Ex: 5">
+                <mat-label>Prazo</mat-label>
+
+                <mat-select matNativeControl formControlName="deadline">
+                    @for (deadline of deadlines; track deadline) {
+                        <mat-option [value]="deadline.value">{{deadline.viewValue}}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
         </div>
 
@@ -40,7 +45,12 @@
 
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Garantia</mat-label>
-                <input matInput formControlName="warranty" placeholder="Ex: 3 meses contra defeitos de fabricação">
+
+                <mat-select matNativeControl formControlName="warranty">
+                    @for (warranty of warranties; track warranty) {
+                        <mat-option [value]="warranty.value">{{warranty.viewValue}}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">
@@ -53,11 +63,10 @@
                 <input matInput formControlName="characteristics" placeholder="Ex: Lavável, Antialérgico">
             </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Descrição do Produto</mat-label>
-                <textarea matInput formControlName="description" rows="3"
-                    placeholder="Descreva os detalhes do produto..."></textarea>
-            </mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <div class="editor-wrapper">
+                <quill-editor formControlName="description" [modules]="quillConfig" placeholder="Escreva e formate aqui..."></quill-editor>
+            </div>
         </div>
 
         <h3 class="topic-title">Dimensões da Embalagem (Para o Frete)</h3>

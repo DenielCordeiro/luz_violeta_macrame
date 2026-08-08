@@ -14,6 +14,8 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 
+import { provideQuillConfig } from 'ngx-quill/config';
+
 registerLocaleData(localePt, 'pt-BR');
 
 bootstrapApplication(AppComponent, {
@@ -23,9 +25,11 @@ bootstrapApplication(AppComponent, {
     provideNgxWebstorage(
       withLocalStorage(),
       withSessionStorage()
-    ), provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000'
-          })
+    ), 
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
+    provideQuillConfig({})
   ]
 }).catch(console.error);

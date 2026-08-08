@@ -6,10 +6,14 @@ export interface Product {
   warranty?: string;
   price?: number;
   stock?: number;
-  type?: string[];
-  category?: string[];
-  characteristics?: string[];
-  deadline?: Date;
+  type?: {
+    name?: string;
+  };
+  category?: {
+    name?: string;
+  };
+  characteristics?: string;
+  deadline?: string;
   packaging?: {
     weight?: number;
     height?: number;
@@ -23,4 +27,14 @@ export interface Product {
     createdAt?: string | Date;
   };
   selection?: boolean;
+}
+
+export interface Warranty {
+  value: number;
+  viewValue: string;
+}
+
+export interface Deadline {
+  value: number;
+  viewValue: string;
 }

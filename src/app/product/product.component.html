@@ -19,19 +19,8 @@
           </div>
         </div>
 
-        <div class="description my-3">
-          <span class="product-name">{{ product?.name }}</span> <br>
-          <span class="product-description">{{ product?.description }}</span> <br>
-          <span class="product-groups">{{ product?.category }}</span>
-
-          <p>Este produto possui as seguintes medidas:</p>
-
-          <div class="list-description">
-            <div>Altura: 1 metro e 70 centimentros</div>
-            <div>Largura: 70 centimentro</div>
-            <div>Espessura: 4cm</div>
-            <div>Peso: 2kg</div>
-          </div>
+        <div class="description my-3">          
+          <div class="ql-editor" [innerHTML]="product?.description"></div>
         </div>
 
         <hr class="my-3">
