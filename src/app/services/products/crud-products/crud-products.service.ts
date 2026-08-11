@@ -3,7 +3,7 @@ import { LocalStorageService } from "ngx-webstorage";
 import { lastValueFrom } from "rxjs";
 import { BaseCrud } from "src/app/interfaces/base-crud.interface";
 import { environment } from "src/environments/environment";
-import { Product } from './../../../interfaces/product.interface';
+import { PaginatedProductsResponse, Product } from './../../../interfaces/product.interface';
 import { BaseProduct } from "./base-products.interface";
 
 export abstract class CrudProductsService<T extends BaseCrud> {
@@ -32,11 +32,12 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 		return headers;
 	}
 
-	public getProducts(): Promise<BaseProduct<T>> {
-		return lastValueFrom(this.http.get<BaseProduct<T>>(this.route))
+	public getProducts(page: number = 1, limit: number = 9): Promise<PaginatedProductsResponse> {
+		return lastValueFrom(this.http.get<PaginatedProductsResponse>(`${this.route}?page=${page}&limit=${limit}`, { headers: this.header }))
 			.then(products => {
-				return this.handleResponse(products) as unknown as BaseProduct<T>;
-			});
+				return this.handleResponse(products) as unknown as PaginatedProductsResponse;
+			})
+			.catch(error => this.handleResponse(error) as unknown as PaginatedProductsResponse);
 	}
 
 	public addProductLocalStorage(product: Product): void {
@@ -86,7 +87,7 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 			});
 	}
 
-	public handleResponse(response: BaseProduct<T>) {
+	public handleResponse(response: PaginatedProductsResponse | BaseProduct<T> | any): PaginatedProductsResponse | BaseProduct<T> {
 		if (response) {
 			return response;
 		} else {

@@ -2,37 +2,43 @@
 @use '../../assets/sass/colors'
 
 header
-	display: flex
-	justify-content: center
-	max-width: 100vw
-	margin-top: 4vh
+    display: flex
+    justify-content: center
+    max-width: 100vw
+    margin-top: 4vh
 
 main
-	display: flex
-	justify-content: center
-	margin-top: 4vh
+    display: flex
+    flex-direction: column
+    align-items: center
+    margin-top: 4vh
 
-	.products
-		display: flex
-		justify-content: center
-		flex-wrap: wrap
-		width: 60vw
-		gap: 2vh 2vw
+    .products
+        display: flex
+        justify-content: center
+        flex-wrap: wrap
+        width: 70vw
+        gap: 2vh 2vw
 
-		img
-			width: 30vw
-			height: 15vh
-			object-fit: cover
+        img
+            width: 20vw
+            height: 45vh
+            object-fit: cover
 
-		.product-buttons
-			display: flex
-			justify-content: space-around
-	
-	.google-loading
-		position: fixed
-		transition: opacity 0.5s ease
-		--mdc-linear-progress-active-indicator-color: colors.$blue
-		top: 60px
-		left: 0
-		width: 100%
-		z-index: 9999
+        .product-buttons
+            display: flex
+            justify-content: space-around
+
+    .loading-container
+        position: fixed
+        top: 60px
+        left: 0
+        width: 100%
+        z-index: 9999
+
+:host ::ng-deep
+    .loading-container
+        mat-progress-bar
+            .mdc-linear-progress__bar-inner
+                border-color: #{colors.$pourple-light}
+                background-color: #{colors.$pourple-light}

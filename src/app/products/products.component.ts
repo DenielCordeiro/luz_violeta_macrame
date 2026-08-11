@@ -9,7 +9,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import { ProductsService } from '../services/products/products.service';
 
-import { Product } from '../interfaces/product.interface';
+import { Product, PaginatedProductsResponse } from '../interfaces/product.interface';
 
 import { CreateProductComponent } from './create-product/create-product.component';
 import { UpdateProductComponent } from './update-product/update-product.component';
@@ -39,7 +39,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public productId: number | undefined;
 	public currentPage: number = 1;
-	public pageSize: number = 9;
+    public pageSize: number = 6;
 
 	public title: string = 'Trabalhos disponíveis';
 	public hasNextPage: boolean = true;
@@ -49,19 +49,19 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.loadProducts();
-		// this.clearProductLocalStorage();
+		this.clearProductLocalStorage();
 	}
 
 	ngAfterViewInit(): void {
-		// window.addEventListener('resize', () => {
-		//   const oldPageSize = this.pageSize;
+		window.addEventListener('resize', () => {
+		  const oldPageSize = this.pageSize;
 
-		//   if (oldPageSize !== this.pageSize) {
-		//     this.resetAndReload();
-		//   }
-		// });
+		  if (oldPageSize !== this.pageSize) {
+		    this.resetAndReload();
+		  }
+		});
 
-		// this.createObserver();
+		this.createObserver();
 	}
 
 	public resetAndReload(): void {
@@ -71,60 +71,61 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.loadProducts();
 	}
 
-	public createObserver() {
+	public createObserver(): void {
+		// Cria um IntersectionObserver para detectar quando o usuário chega ao final da lista de produtos
 		this.observer = new IntersectionObserver((entries) => {
-			const entry = entries[0];
+			const entry = entries[0]; // Verifica se o elemento âncora está visível na tela e se não está carregando produtos e se há mais páginas para carregar
 
 			if (entry.isIntersecting && !this.isLoading && this.hasNextPage) {
-
-				this.observer.unobserve(this.anchor.nativeElement);
-
-				this.loadProducts(this.currentPage + 1);
-
-				setTimeout(() => {
-					this.observer.observe(this.anchor.nativeElement);
-				}, 3000);
+				this.loadProducts(this.currentPage + 1); // Carrega a próxima página de produtos
 			}
 		}, {
 			root: null,
-			threshold: 0
+        	threshold: 0 // O callback será chamado assim que qualquer parte do elemento âncora estiver visível
 		});
 
-		this.observer.observe(this.anchor.nativeElement);
+		if (this.anchor?.nativeElement) {
+			this.observer.observe(this.anchor.nativeElement); // Inicia a observação do elemento âncora
+		}
 	}
 
 	public loadProducts(page: number = 1): void {
-		// if (this.isLoading || !this.hasNextPage) return;
+		if (this.isLoading || (!this.hasNextPage && page !== 1)) return;
 
-		// this.isLoading = true;
+		this.isLoading = true;
 
-		// setTimeout(() => {
-		//   const allProducts = PRODUCTS_MOCK;
-
-		//   const limit = this.pageSize;
-		//   const startIndex = (page - 1) * limit;
-		//   const endIndex = startIndex + limit;
-
-		//   const paginatedDocs = allProducts.slice(startIndex, endIndex);
-
-		//   this.products = [
-		//     ...this.products,
-		//     ...paginatedDocs
-		//   ];
-
-		//   this.currentPage = page;
-		//   this.hasNextPage = endIndex < allProducts.length;
-
-		//   this.isLoading = false;
-		// }, 3000);
-
-		this.productsService.getProducts()
-			.then(loadedProducts => {
-				if (loadedProducts == null || loadedProducts == undefined) {
-					alert("[Atenção]: Não existe nenhum produto a venda!")
-				} else {
-					this.products = loadedProducts.products.docs as Product[];
+		this.productsService.getProducts(page, this.pageSize)
+			.then((response: PaginatedProductsResponse) => {
+				if (!response || !response.products) {
+					this.isLoading = false;
+					return;
 				}
+
+				const docs = response.products.docs;
+				
+				if (page === 1) {
+					this.products = docs;
+				} else {
+					this.products = [...this.products, ...docs];
+				}
+
+				this.currentPage = response.products.page || page;
+				this.hasNextPage = response.products.hasNextPage ?? (this.currentPage < (response.products.pages || 1));
+				
+
+				// Pequeno atraso para o usuário visualizar o indicador de progresso renderizando os novos cards
+				setTimeout(() => {
+					this.isLoading = false;
+
+					// Se a tela ainda não tem scroll vertical, carrega a próxima
+					if (document.body.scrollHeight <= window.innerHeight && this.hasNextPage) {
+						this.loadProducts(this.currentPage + 1);
+					}
+				}, 800);
+			})
+			.catch(error => {
+				console.error('Erro ao carregar produtos:', error);
+				this.isLoading = false;
 			});
 	}
 
