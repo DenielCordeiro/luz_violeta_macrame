@@ -47,16 +47,19 @@ export abstract class CrudCartService<T extends BaseCrud> {
 	}
 
 	public removeProductFromCart(product: Product): Promise<Product[]> {
-		// const products = this.getProductsInCart();
+		const products = this.getProductsInCart();
 
-		// if (products.length === 0) {
-		// 	console.warn({ message: 'Carrinho vazio, não há produtos para remover!' });
-		// } else {
-		// 	this.products = products.filter(item => item._id !== product._id);
-		// 	localStorage.setItem('cart', JSON.stringify(this.products));
-		// 	this.cartSubject.next(this.products);
-		// }
+		products.then(productsInCart => {
 
+			if (productsInCart.length === 0) {
+				console.warn({ message: 'Carrinho vazio, não há produtos para remover!' });
+			} else {
+				this.products = productsInCart.filter(item => item._id !== product._id);
+				localStorage.setItem('cart', JSON.stringify(this.products));
+				this.cartSubject.next(this.products);
+			}
+		});
+		
 		return Promise.resolve(this.products);
 	}
 
