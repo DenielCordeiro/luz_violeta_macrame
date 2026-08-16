@@ -1,7 +1,7 @@
 @if (productsInCart.length > 0) {
   <section id="cart">
     <div class="title">
-        <span>Carrinho de Compras</span>
+        <span>Carrinho Violeta</span>
     </div>
 
     <div class="cart-content">
@@ -18,7 +18,7 @@
               <span>R$ {{ product.price }}</span>
             </div>
 
-            <div class="button-remove-from-cart" (click)="removeFromCart(product)">
+            <div class="button-remove-from-cart" (click)="removingProductFromCart(product)">
               <span>Remover do carrinho</span>
               <i class="bi bi-cart-dash"></i>
               <i class="bi bi-cart-dash-fill"></i>
@@ -38,7 +38,7 @@
               <span>{{ product.name }}</span>
             </div>
 
-            <div class="button-remove-from-cart" (click)="removeFromCart(product)">
+            <div class="button-remove-from-cart" (click)="removingProductFromCart(product)">
               <i class="bi bi-cart-dash"></i>
               <i class="bi bi-cart-dash-fill"></i>
               <span>Remover do carrinho</span>
