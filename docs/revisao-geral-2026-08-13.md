@@ -6,6 +6,15 @@ Este documento registra uma revisão técnica do estado atual do front-end **Luz
 
 O repositório contém apenas o front-end. Qualquer conclusão sobre autorização real, cálculo de valores, persistência, webhooks e idempotência precisa ser confirmada também no back-end/API.
 
+## Atualização de contexto - 16/08/2026
+
+- O PDF técnico histórico foi retirado do Git por decisão de Daniel e permanece apenas em `.local/references/`; este relatório Markdown é a revisão técnica versionada.
+- O Manual de Marca 2024, fornecido por Camila, definiu a paleta digital `#523A82`, `#9286B2`, `#C4BDAD`, `#EFEBE6` e `#B5A07D`. Os tokens Sass e cores avulsas dos formulários de produto foram alinhados a essa fonte.
+- As tipografias oficiais são Arches para títulos e Neulis para textos longos. A aplicação efetiva aguarda arquivos licenciados; o repositório não contém fontes ou arquivos oficiais de logo.
+- O Trello autenticado confirma `Product` em desenvolvimento (3/8), `Home Page` aguardando (0/5), PagBank pausado em problemas (0/5) e um problema novo de carrinho para redirecionar o card ao produto (0/1). Esses estados reforçam o diagnóstico, mas não substituem a verificação do código.
+
+As conclusões técnicas abaixo permanecem vigentes; a atualização visual não corrige os bloqueios de build, testes, autenticação, carrinho ou checkout.
+
 ## Resultado executivo
 
 **Situação atual: não recomendado para produção ou para receber pagamentos reais.**

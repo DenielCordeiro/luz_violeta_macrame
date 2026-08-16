@@ -1,6 +1,6 @@
 # Luz Violeta Macramê - referência geral do projeto
 
-> Documento canônico para humanos e agentes. Última curadoria: 13/08/2026.
+> Documento canônico para humanos e agentes. Última curadoria: 16/08/2026.
 > Leia primeiro as seções ligadas à tarefa; consulte o restante apenas quando necessário.
 
 ## 1. Propósito e estado do projeto
@@ -33,13 +33,17 @@ Referências principais:
 
 - Repositório oficial: <https://github.com/DenielCordeiro/luz_violeta_macrame>
 - Notion operacional: <https://app.notion.com/p/Luz-Violeta-Macram-1f54b2346ca9807fbe83f1298f206f6c>
+- Trello de comunicação entre Daniel e Camila: <https://trello.com/b/f6dno9rY/luz-violeta-agosto> (quadro autenticado; estado consultado em 16/08/2026).
 - Fluxo de caixa: <https://docs.google.com/spreadsheets/d/1-OIUMU7cbvCxyBAe-0XkKXENX8XUK7wDuBmQxDhUurk/edit?usp=sharing>
-- Documento técnico: `documentacao_luz_violeta_macrame_ocr.pdf` (original de 12/02/2026; revisão vigente de 13/08/2026, versionada na raiz).
+- Manual de marca: `.local/references/manual-da-marca-luz-violeta-macrame.pdf` (Agência Transcender, 2024; referência visual oficial, mantida somente na máquina).
+- Documento técnico histórico: `.local/references/documentacao-tecnica-historica-luz-violeta-macrame.pdf` (original de 12/02/2026; mantido somente na máquina, fora do Git por decisão de Daniel).
 - Revisão técnica vigente: `docs/revisao-geral-2026-08-13.md` (build, testes, segurança, jornadas críticas e ordem de correção).
+
+Referências privadas da máquina ficam em `.local/references/`, caminho protegido pelo `.gitignore` versionado. Não remova essa regra nem use `git add -f` nesses arquivos. O diretório não é criado pelo clone: copie os PDFs localmente quando precisar consultá-los.
 
 O Notion contém uma página de senhas e logins. **Nunca copie credenciais, tokens, CPF, dados de clientes ou segredos para o repositório, logs, issues, prompts ou documentação.** Consulte somente o mínimo necessário e mantenha segredos no back-end por variáveis de ambiente ou gerenciador apropriado.
 
-### Decisões vigentes incorporadas à revisão do PDF
+### Decisões vigentes incorporadas à documentação
 
 - Banco de dados: MongoDB permanece como persistência de dados.
 - Imagens: Firebase Storage foi descartado; a decisão vigente é **Cloudinary**.
@@ -67,7 +71,7 @@ Não atualize dependências automaticamente. Quando uma nova dependência for in
 - Commits do histórico usam predominantemente `feat[Área]:`, `fix[Área]:`, `refactor[Área]:` e `style[Área]:`. Preserve esse padrão quando ele não conflitar com a convenção definida para a branch.
 - Antes da entrega: informe branch, arquivos alterados, validações executadas e pendências reais.
 
-Branches remotas observadas em 13/08/2026: `main`, `fabio`, `cart`, `fix` e `newsletter`. `main` apontava para `1f1f0e0`.
+Branches remotas observadas em 16/08/2026: `main`, `fix`, `home`, `payments`, `product` e `docs/project-reference`. `main` apontava para `e92d6ec`.
 
 ## 5. Ambiente e comandos
 
@@ -187,6 +191,12 @@ Estes endpoints são inferências do cliente, não prova do contrato do back-end
 
 Trate esta lista como diagnóstico, não como autorização para corrigir tudo:
 
+### Planejamento no Trello - fotografia de 16/08/2026
+
+O Trello registra `Product` em desenvolvimento (3/8 itens), `Home Page` e `Filter Products` aguardando, e `Menu`, `Payments API, "PAGBANK"` e um novo problema de `Cart` na lista de problemas. O cartão PagBank está pausado, com 0/5 itens; o problema atual do carrinho é redirecionar ao produto ao clicar no card. Há um cartão anterior de carrinho concluído (4/4), portanto não interprete o nome repetido como contradição: são escopos diferentes.
+
+O quadro é fonte de planejamento e comunicação, não prova de implementação. Confirme no código e na API antes de considerar um item concluído.
+
 ### Segurança e autenticação
 
 - Chaves locais `session`, `profile` e `user_id` são usadas de forma inconsistente.
@@ -285,11 +295,15 @@ Não replique essas bases automaticamente no site. Primeiro defina fonte de verd
 - Não faça alegações terapêuticas ou espirituais como fatos verificáveis.
 - Preserve avisos de produto, prazo, conteúdo do kit e o que não acompanha a peça.
 
-### Estilo atual do front-end
+### Manual de marca e implementação atual
 
-- Fonte global: Arial/Helvetica.
-- Base clara e minimalista com branco, roxos/lilases, verde suave, cinza e cores de estado.
-- Tokens atuais em `src/assets/sass/colors.sass`; nomes históricos têm grafias como `pourple`. Não renomeie em massa sem tarefa própria.
+- Paleta digital oficial: violeta `#523A82`, lilás `#9286B2`, pedra `#C4BDAD`, marfim `#EFEBE6` e areia `#B5A07D`.
+- Títulos usam **Arches**; textos longos usam **Neulis**. Os arquivos licenciados dessas fontes não estão no repositório, então a aplicação ainda usa Arial/Helvetica como fallback. Não importe cópias de procedência ou licença desconhecida.
+- O logo possui versões principal, variação tipográfica e dois ícones. Não distorça, não reduza até perder legibilidade, não aplique sobre fundo sem contraste e respeite a área de proteção indicada no manual.
+- O manual mostra combinações preferenciais, mas isso não substitui WCAG: valide contraste de texto e controles. Lilás, pedra e areia podem servir como superfícies ou detalhes sem serem automaticamente adequados para texto pequeno.
+- A paleta está centralizada em `src/assets/sass/colors.sass`. Nomes históricos como `pourple` permanecem como aliases para evitar uma renomeação transversal nesta tarefa.
+- Cores de erro, sucesso e aviso continuam separadas da paleta institucional; não comunique estado apenas por cor.
+- O Angular Material ainda carrega o tema predefinido `indigo-pink`; uma futura tematização deve alinhar componentes Material à paleta e ser validada isoladamente.
 - Layouts usam Flexbox/Grid, cards, bordas suaves, Material Icons e Angular Material.
 - Breakpoints centralizados: `hd` em `max-width: 1400px` e `mobile` em `max-width: 440px`.
 - PWA habilitada com service worker e manifesto; valide instalação, cache e atualização ao alterar assets ou rotas.
@@ -355,6 +369,8 @@ Não repita a mesma regra em várias seções. Prefira instruções diretas, est
 | Cloudinary | Upload autenticado no servidor ou direto assinado; segredos ficam fora do front-end. |
 | PagBank | Integração vigente deve usar Orders, Sandbox/homologação, Bearer token e idempotência; código EFI é legado. |
 | Melhor Envio | Payload de cotação precisa de origem, destino e produto/volume; persistir a cotação usada no checkout quando houver compra de frete. |
+| Manual de marca (16/08/2026) | Paleta HEX incorporada aos tokens Sass; Arches/Neulis e arquivos oficiais de logo dependem dos arquivos licenciados/originais antes da aplicação completa. |
+| Trello (16/08/2026) | Acesso autenticado confirmado; planejamento consultado como fotografia temporal, sempre subordinado ao código e às decisões humanas mais recentes. |
 
 Ferramentas preparadas nesta curadoria: Poppler 25.07 para inspeção de PDF e servidor MCP oficial `openaiDeveloperDocs` adicionado à configuração global do Codex; uma nova sessão pode ser necessária para descobrir o MCP.
 

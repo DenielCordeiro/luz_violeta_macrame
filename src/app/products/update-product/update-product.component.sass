@@ -1,4 +1,6 @@
 
+@use '../../../assets/sass/colors'
+
 .form-grid
 	display: grid
 	grid-template-columns: repeat(2, 1fr)
@@ -17,9 +19,9 @@
 .topic-title
 	font-size: 16px
 	font-weight: 500
-	color: #555
+	color: colors.$black
 	margin: 16px 0 8px 0
-	border-bottom: 1px solid #e0e0e0
+	border-bottom: 1px solid colors.$brand-stone
 	padding-bottom: 4px
 
 .upload-container
@@ -28,12 +30,12 @@
 	gap: 12px
 	margin-top: 8px
 	padding: 12px
-	border: 1px dashed #ccc
+	border: 1px dashed colors.$brand-stone
 	border-radius: 4px
 
 .file-name
 	font-size: 14px
-	color: #666
+	color: colors.$black
 
 .editor-wrapper
 	// width: 100%
@@ -42,16 +44,16 @@
 	margin: 1vh 2vw
 
 	::ng-deep .ql-toolbar.ql-snow
-		border-color: #cbd5e1
+		border-color: colors.$brand-stone
 		border-radius: 8px 8px 0 0
-		background-color: #f8fafc
+		background-color: colors.$brand-ivory
 
 	::ng-deep .ql-container.ql-snow
-		border-color: #cbd5e1
+		border-color: colors.$brand-stone
 		border-radius: 0 0 8px 8px
 		min-height: 250px
 		font-size: 1rem
 		line-height: 1.6
 
 	::ng-deep .ql-container.ql-snow.ql-focus
-		border-color: #3b82f6
+		border-color: colors.$brand-violet
