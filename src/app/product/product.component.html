@@ -72,21 +72,21 @@
 				</div>
 
 				<div class="add-to-cart">
-					@if (productIsInCart === false) {
+					@if (productAddedToCart === false) {
 						<div class="buttons button-add-to-cart" (click)="addingToCart()">
 							<span class="text-cart">Adicionar ao Carrinho</span>
 							<i class="bi bi-cart4"></i>
 						</div>
 					}
 
-					@if (productIsInCart === true) {
+					@if (productAddedToCart === true) {
 						<div class="buttons button-remove-to-cart" (click)="removingProductFromCart()">
 							<span class="text-cart">Remover do Carrinho</span>
 							<i class="bi bi-cart4"></i>
 						</div>
 					}
 
-					@if (productIsInCart === false) {
+					@if (productAddedToCart === true) {
 						<div class="buttons go-to-cart" (click)="goToCart()">
 							<span class="text-cart">Ir para o Carrinho</span>
 							<i class="bi bi-cart4"></i>

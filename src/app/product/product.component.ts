@@ -46,8 +46,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
 	public postalCode: string = '';
 	public productsQuantity: number = 1;
-	public productIsInCart: boolean = false;
-	public productAddedToCart: boolean = true;
+	public productAddedToCart: boolean = false;
 
 	constructor(
 		public route: Router,
@@ -166,19 +165,18 @@ export class ProductComponent implements OnInit, OnDestroy {
 	}
 
 	public checkIfProductIsInCart(): void {
-		const loadProductsInCart = this.cartService.productsInCart;		
+		const loadProductsInCart = this.cartService.getProductsInCart();
 
-		loadProductsInCart.subscribe((products: Product[]) => {
+		loadProductsInCart.then((products: Product[]) => {
 			this.productsInCart = products;
-			console.log('Produtos no carrinho: ', this.products);
-			
-			// this.productIsInCart = this.productsInCart.some(item => item._id === this.product._id); // Verifica se o produto está no carrinho
 
-			if (this.productIsInCart) {
+			if (this.productsInCart.some(item => item._id === this.product._id)) {
 				this.productAddedToCart = true;
 			} else {
 				this.productAddedToCart = false;
 			}
+		}).catch(error => {
+			console.error('Erro ao obter produtos do carrinho:', error);
 		});
 	}
 
