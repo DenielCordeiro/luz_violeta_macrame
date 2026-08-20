@@ -28,22 +28,15 @@
 				<div class="freight">
 					<h4 class="mx-3"><strong>Calcular Frete</strong></h4>
 
-					<div class="row">
-						<div class="col-6">
-							<form [formGroup]="searchForm">
-								<label for="postalCode">Digite o CEP:</label>
-								<input id="postalCode" type="number" class="input-postalcode" formControlName="postalCode"
-									placeholder="{{ this.sale.shipping?.postalCode }}">
-							</form>
-						</div>
+					<form [formGroup]="freightForm">
+						<label for="postalCode">Digite o CEP:</label>
+						<input id="postalCode" type="number" class="input-postalcode" formControlName="postalCode" placeholder="13.306-192">
 
-						<div class="col-6 button-freight-content">
-							<div class="button-freight" (click)="searchShipping()">
-								<span>Calcular Frete</span>
-								<i class="bi bi-airplane-engines mx-2"></i>
-							</div>
+						<div class="button-freight" (click)="searchShipping(this.freightForm?.value?.postalCode)">
+							<span>Calcular Frete</span>
+							<i class="bi bi-airplane-engines mx-2"></i>
 						</div>
-					</div>
+					</form>						
 
 					@for (shipping of shippings; track shipping) {
 						<div class="cards-shippings">
