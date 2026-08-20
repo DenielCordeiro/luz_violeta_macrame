@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { StorageService } from '../services/storage/storage.service';
-import { ProductsService } from './../services/products/products.service';
+import { ProductsService } from '../services/products/products.service';
 import { MelhorEnvioService } from '../services/melhor-envio/melhor-envio.service';
 import { CartService } from '../services/cart/cart.service';
 
@@ -203,7 +203,12 @@ export class ProductComponent implements OnInit, OnDestroy {
 	public deleteModal(id: string | undefined): void {
 		if (id) {
 			this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
-				data: { productId: id },
+				data: this.product,
+			});
+
+			this.dialog.afterAllClosed.subscribe(() => {
+				this.productsService.removeProductSelected();
+				this.route.navigate(['/products']);
 			});
 		} else {
 			console.error('ID do produto não encontrado para excluir.');

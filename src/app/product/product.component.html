@@ -1,100 +1,99 @@
 <section id="desktop">
-	@for (product of products; track product._id) {
-		<div class="card-product">
-			<div class="product">
-				<div class="carousel">
-					<img src="{{ product?.file?.url }}" class="image my-2" alt="#">
-				</div>
-			</div>
+    @for (product of products; track product._id) {
+        <div class="card-product">
+            <!-- Coluna Esquerda: Imagem e Galeria -->
+            <div class="product-gallery">
+                <div class="carousel">
+                    <img [src]="product?.file?.url" class="product-image" alt="Foto do Produto">
+                </div>
+            </div>
 
-			<div class="payment">
-				<div class="header-payment">
-					<div class="price-product">
-						R$ {{ product?.price }}
-					</div>
+            <!-- Coluna Direita: Detalhes, Preço, Frete e Ações -->
+            <div class="payment">
+                <div class="header-payment">
+                    <div class="price-product">
+                       <span>R$ {{ product?.price }}</span>
+                    </div>
 
-					<div class="icons-edit-or-delete">
-						<mat-icon class="material-symbols-outlined" (click)="updateModal(product)">edit_square</mat-icon>
-						<mat-icon class="material-symbols-outlined" (click)="deleteModal(product?._id)">delete</mat-icon>
-					</div>
-				</div>
+                    <div class="icons-edit-or-delete">
+                        <mat-icon class="material-symbols-outlined icon-btn edit" (click)="updateModal(product)">edit_square</mat-icon>
+                        <mat-icon class="material-symbols-outlined icon-btn delete" (click)="deleteModal(product?._id)">delete</mat-icon>
+                    </div>
+                </div>
 
-				<div class="description my-3">
-					<div class="ql-editor" [innerHTML]="product?.description"></div>
-				</div>
+                <div class="description">
+                    <div class="ql-editor" [innerHTML]="product?.description"></div>
+                </div>
 
-				<hr class="my-3">
+                <hr class="divider">
 
-				<div class="freight">
-					<h4 class="mx-3"><strong>Calcular Frete</strong></h4>
+                <!-- Cálculo de Frete -->
+                <div class="freight">
+                    <h4>Calcular Frete</h4>
 
-					<form [formGroup]="freightForm">
-						<label for="postalCode">Digite o CEP:</label>
-						<input id="postalCode" type="number" class="input-postalcode" formControlName="postalCode" placeholder="13.306-192">
+                    <form [formGroup]="freightForm" class="freight-form">
+                        <div class="input-group">
+                            <input id="postalCode" type="text" class="input-postalcode" formControlName="postalCode" placeholder="13306-192">
+                            <button type="button" class="button-freight" (click)="searchShipping(this.freightForm.value.postalCode)">
+                                <span>Calcular</span>
+                                <i class="bi bi-airplane-engines ms-1"></i>
+                            </button>
+                        </div>
+                    </form>                    
 
-						<div class="button-freight" (click)="searchShipping(this.freightForm?.value?.postalCode)">
-							<span>Calcular Frete</span>
-							<i class="bi bi-airplane-engines mx-2"></i>
-						</div>
-					</form>						
+                    @if (shippings && shippings.length > 0) {
+                        <div class="cards-shippings">
+                            @for (shipping of shippings; track shipping) {
+                                <div class="shipping-item">
+                                    <div class="image-shipping">
+                                        <img [src]="shipping?.company?.picture" alt="Transportadora">
+                                    </div>
+                                    <div class="price-shipping">
+                                        <span>R$ {{ shipping?.price }}</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
 
-					@for (shipping of shippings; track shipping) {
-						<div class="cards-shippings">
-							<hr class="mt-5 mb-2">
-							<div class="shipping row">
-								<div class="col-6 image-shipping">
-									<img src="{{ shipping?.company?.picture }}" alt="">
-								</div>
-								<div class="col-6 price-shipping">
-									<span>R$ {{ shipping?.price }}</span>
-								</div>
-							</div>
-							<hr class="my-3">
-						</div>
-					}
-				</div>
+                <hr class="divider">
 
-				<hr class="my-3">
+                <!-- Controle de Quantidade -->
+                <div class="products-quantity">
+                    <span class="label">Quantidade:</span>
+                    <div class="quantity-selector">
+                        <button type="button" class="btn-qty" (click)="changeQuantity('remove')">
+                            <span class="material-symbols-outlined">remove</span>
+                        </button>
+                        <span class="quantity">{{ productsQuantity }}</span>
+                        <button type="button" class="btn-qty" (click)="changeQuantity('add')">
+                            <span class="material-symbols-outlined">add</span>
+                        </button>
+                    </div>
+                </div>
 
-				<div class="products-quantity">
-					<span>Quantidade:</span>
-					<span class="material-symbols-outlined icon-product-quantity"
-						(click)="changeQuantity('remove')">remove</span>
-					<span class="quantity">{{ productsQuantity }}</span>
-					<span class="material-symbols-outlined icon-product-quantity" (click)="changeQuantity('add')">add</span>
-				</div>
-
-				<div class="add-to-cart">
-					@if (productAddedToCart === false) {
-						<div class="buttons button-add-to-cart" (click)="addingToCart()">
-							<span class="text-cart">Adicionar ao Carrinho</span>
-							<i class="bi bi-cart4"></i>
-						</div>
-					}
-
-					@if (productAddedToCart === true) {
-						<div class="buttons button-remove-to-cart" (click)="removingProductFromCart()">
-							<span class="text-cart">Remover do Carrinho</span>
-							<i class="bi bi-cart4"></i>
-						</div>
-					}
-
-					@if (productAddedToCart === true) {
-						<div class="buttons go-to-cart" (click)="goToCart()">
-							<span class="text-cart">Ir para o Carrinho</span>
-							<i class="bi bi-cart4"></i>
-						</div>
-					}
-				</div>
-			</div>
-		</div>
-	}
-
-	<div class="return">
-		<div class="button-return" routerLink="/products">
-			<span>voltar para produtos</span>
-			<i class="bi bi-arrow-return-left"></i>
-			<i class="bi bi-arrow-left"></i>
-		</div>
-	</div>
+                <!-- Botões de Ação do Carrinho -->
+                <div class="add-to-cart">
+                    @if (!productAddedToCart) {
+                        <button type="button" class="btn-action add-btn" (click)="addingToCart()">
+                            <span>Adicionar ao Carrinho</span>
+                            <i class="bi bi-cart4"></i>
+                        </button>
+                    } @else {
+                        <div class="cart-actions-group">
+                            <button type="button" class="btn-action remove-btn" (click)="removingProductFromCart()">
+                                <span>Remover</span>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button type="button" class="btn-action go-btn" (click)="goToCart()">
+                                <span>Ir para o Carrinho</span>
+                                <i class="bi bi-cart-check"></i>
+                            </button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </section>
