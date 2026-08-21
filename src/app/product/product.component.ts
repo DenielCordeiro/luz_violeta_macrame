@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { StorageService } from '../services/storage/storage.service';
-import { ProductsService } from './../services/products/products.service';
+import { ProductsService } from '../services/products/products.service';
 import { MelhorEnvioService } from '../services/melhor-envio/melhor-envio.service';
 import { CartService } from '../services/cart/cart.service';
 
@@ -29,7 +29,7 @@ import { DeleteProductComponent } from '../products/delete-product/delete-produc
 	styleUrl: './product.component.sass',
 })
 export class ProductComponent implements OnInit, OnDestroy {
-	public searchForm!: FormGroup;
+	public freightForm!: FormGroup;
 
 	private storage: StorageService = inject(StorageService);
 	private productsService: ProductsService = inject(ProductsService);
@@ -46,8 +46,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 
 	public postalCode: string = '';
 	public productsQuantity: number = 1;
-	public productIsInCart: boolean = false;
-	public productAddedToCart: boolean = true;
+	public productAddedToCart: boolean = false;
 
 	constructor(
 		public route: Router,
@@ -80,43 +79,49 @@ export class ProductComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	public getUserProfile(): void {
+	public getUserProfile(): User {
+		let userProfile: User = {}
+
 		try {
-			this.userProfile = this.storage.get('profile', {});
+			userProfile = this.storage.get('profile', {});
 		} catch (error) {
 			console.error('Nenhum perfil encontrado:', error);
 		}
+
+		return userProfile;
 	}
 
 	public buildingForm(): void {
-		this.searchForm = this.formBuilder.group({
+		this.freightForm = this.formBuilder.group({
 			"postalCode": [null],
 		});
 	}
 
 	public getCurrentShipping(): void {
-		try {
-			const shipping = localStorage.getItem('shipping');
+		this.userProfile = this.getUserProfile();
 
-			if (shipping) {
-				this.sale.shipping = JSON.parse(shipping);
+		if (this.userProfile !== undefined && this.userProfile.postalCode !== undefined) {
+			if (this.userProfile.postalCode !== null && this.userProfile.postalCode !== '') {
+				this.searchShipping(this.userProfile.postalCode);
 			} else {
-				console.error('Nenhum frete encontrado no localStorage.');
+				console.error("Cep diferente de undefined, mas vazio ou nulo ou vazio.");
 			}
-		} catch (error) {
-			console.error('Nenhum frete encontrado:', error);
-		}
+		} else {
+			console.error("Falha, CEP [UNDEFINED]");
+		}	
 	}
 
-	public searchShipping(): void {
-		const postalCodeNumber = this.searchForm?.value;
-		this.postalCode = String(postalCodeNumber?.postalCode)
+	public searchShipping(postalCode: number | string | null | undefined): void {
+		if (postalCode == null || postalCode == '') {
+			console.error("[Atenção]: Precisa digitar algum número de CEP!");
 
-		if (this.postalCode == 'null') {
-
-			alert("[Atenção]: Precisa digitar algum número de CEP!");
+		} else if (postalCode == undefined) {
+			console.error("Falha, CEP [UNDEFINED]");
 
 		} else {
+			this.postalCode = String(postalCode).replace(/\D/g, ''); // Remove caracteres não numéricos do CEP
+			const postalCodeNumber = { postalCode: Number(this.postalCode) }; // Converte o CEP para número
+
 			this.melhorEnvio.getShipping(this.postalCode)
 				.then(result => {
 					this.sale.shipping = {
@@ -129,6 +134,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 					};
 
 					localStorage.setItem('shipping', JSON.stringify(this.sale.shipping));
+					this.shippings = result;
 				})
 				.catch(error => {
 					console.log(error);
@@ -166,19 +172,18 @@ export class ProductComponent implements OnInit, OnDestroy {
 	}
 
 	public checkIfProductIsInCart(): void {
-		const loadProductsInCart = this.cartService.productsInCart;		
+		const loadProductsInCart = this.cartService.getProductsInCart();
 
-		loadProductsInCart.subscribe((products: Product[]) => {
+		loadProductsInCart.then((products: Product[]) => {
 			this.productsInCart = products;
-			console.log('Produtos no carrinho: ', this.products);
-			
-			// this.productIsInCart = this.productsInCart.some(item => item._id === this.product._id); // Verifica se o produto está no carrinho
 
-			if (this.productIsInCart) {
+			if (this.productsInCart.some(item => item._id === this.product._id)) {
 				this.productAddedToCart = true;
 			} else {
 				this.productAddedToCart = false;
 			}
+		}).catch(error => {
+			console.error('Erro ao obter produtos do carrinho:', error);
 		});
 	}
 
@@ -199,7 +204,12 @@ export class ProductComponent implements OnInit, OnDestroy {
 	public deleteModal(id: string | undefined): void {
 		if (id) {
 			this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
-				data: { productId: id },
+				data: this.product,
+			});
+
+			this.dialog.afterAllClosed.subscribe(() => {
+				this.productsService.removeProductSelected();
+				this.route.navigate(['/products']);
 			});
 		} else {
 			console.error('ID do produto não encontrado para excluir.');

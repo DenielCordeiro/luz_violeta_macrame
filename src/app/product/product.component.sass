@@ -1,267 +1,222 @@
+// Importação de módulos externos do Sass
 @use '../../assets/sass/display'
 @use '../../assets/sass/colors'
 
-*
-  margin: 0
-  padding: 0
-
-// display desktop
+// Wrapper principal da tela
 #desktop
-  display: inline
-
-  @include display.mobile
-    display: none
-
-  .card-product
     display: flex
-    flex-direction: row
-    justify-content: center
-    width: 100vw
-    padding-top: 10vh
+    justify-content: center // Centraliza o card do produto na tela (horizontal)
+    width: 100%
+    padding: 5vh 0 // 5% da altura da viewport no topo e base
 
-    @include display.hd
-      padding: 13vh 0px 8vh 2vw
-
-  .product
-    background-color: colors.$pourple-gray
-    border: 1px solid colors.$pourple-gray
-    width: 34vw
-    border-top-left-radius:  10px
-    border-bottom-left-radius:  10px
-    padding: 3vh 1vw 3vh 1vw
-
-    @include display.hd
-      padding-top: 2vh
-
-    h1, h4
-      text-align: center
-
-    .carousel
-      display: flex
-      justify-content: center
-      width: 100%
-
-      img
-        width: 26vw
-        height: 45vh
-        border-radius: 20px
-
-        @include display.hd
-          width: 22vw
-          height: 50vh
-          border-radius: 5px
-
-  .payment
-    background-color: colors.$white
-    border-top-right-radius:  10px
-    border-bottom-right-radius:  10px
-    width: 34vw
-    border: 1px solid colors.$pourple-light
-    padding: 3vh 1vw 0px 1vw
-
-    @include display.hd
-      min-height: 78vh
-      padding-top: 2vh
-
-    .header-payment
-      display: flex
-      justify-content: space-between
-      align-items: center
-      margin-bottom: 2vh
-
-      .price-product
-        font-size: 25px
-        color: colors.$red
-        font-weight: 600
-
-        @include display.hd
-          font-size: 20px
-
-      .icons-edit-or-delete
+    // Card unificado contendo Galeria (Esq) e Detalhes/Pagamento (Dir)
+    .card-product
         display: flex
-        align-items: center
+        width: 70vw // 70% da largura da viewport
+        max-width: 1100px // Impede que o card fique gigante em telas Ultrawide
+        background: colors.$white
+        border-radius: 16px
+        box-shadow: 0 10px 30px colors.$black-transparent // Sombra usando sua variável com opacidade
+        overflow: hidden // Força o conteúdo interno a respeitar as bordas arredondadas do card
 
-        i
-          cursor: pointer
-          margin: 0 5px
+        // Responsividade para Mobile (reaproveitando seu mixin)
+        @include display.mobile
+            flex-direction: column // Empilha a foto em cima e as informações embaixo
+            width: 92vw
 
-          &:hover
-            color: colors.$green-light
-
-        .icon-trash
-          &:hover
-            color: colors.$red
-
-    .description
-      height: 120px
-      width: 100%
-      overflow: auto
-      padding: 6px 7px
-      border: 1px solid colors.$pourple-light
-      border-radius: 5px
-
-    .freight
-      #postalCode
-        width: 12vw
-        height: 3vh
-        padding-left: 5px
-
-        @include display.hd
-          width: 12vw
-          height: 5vh
-
-      .image-shipping
+    // Coluna da esquerda (Foto do produto)
+    .product-gallery
+        background: colors.$pourple-gray
+        width: 45% // Ocupa 45% da largura interna do card
+        padding: 3rem
         display: flex
-        justify-content: center
+        align-items: center // Centraliza a imagem verticalmente
+        justify-content: center // Centraliza a imagem horizontalmente
 
-        img
-          width: 8vw
-          height: 5vh
+        @include display.mobile
+            width: 100%
+            padding: 1.5rem
 
-          @include display.hd
-            width: 10vw
-            height: 4vh
+        .product-image
+            width: 100%
+            max-width: 320px
+            height: 380px
+            object-fit: cover // Evita distorcer a imagem do produto, cortando o excesso sem esticar
+            border-radius: 12px
 
-      .button-freight-content
+    // Coluna da direita (Informações, frete e botões de compra)
+    .payment
+        width: 55% // Ocupa os 55% restantes do card
+        padding: 2.5rem
         display: flex
-        justify-content: center
-        margin-top: 1vh
+        flex-direction: column
+        justify-content: space-between // Distribui o conteúdo verticalmente deixando os botões no fim
 
-        .button-freight
-          padding: 1vh 2vw
-          border: 1px solid colors.$pourple-light
-          cursor: pointer
+        @include display.mobile
+            width: 100%
+            padding: 1.5rem
 
-          @include display.hd
-            padding: 0.5vh 2vw
+        .header-payment
+            display: flex
+            justify-content: space-between // Preço na esquerda, ícones de ação na direita
+            align-items: center
 
-          &:hover
-            border-color: colors.$pourple
+            .price-product
+                font: 700 1.8rem sans-serif // Atalho (shorthand): peso(700) tamanho(1.8rem) familia(sans-serif)
+                color: colors.$green
 
-      .price-shipping
-        display: flex
-        flex-direction: column-reverse
-        font-size: 20px
+            .icons-edit-or-delete
+                display: flex
+                gap: 0.5rem // Espaçamento moderno entre os ícones sem precisar de margin
 
-        @include display.hd
-          font-size: 16px
+                .icon-btn
+                    cursor: pointer
+                    color: colors.$pourple-gray // [Cultura Visual]: Usando cinza roxado suave
+                    transition: color 0.2s // Suaviza a troca de cor ao passar o mouse
+                    
+                    // O '&' representa o elemento pai (.icon-btn), aplicando seletores de estado
+                    &.edit:hover
+                        color: colors.$pourple-light
+                    &.delete:hover
+                        color: colors.$red
 
-    .products-quantity
-      display: flex
-      font-size: 20px
-      margin-bottom: 2vh
+        .description
+            margin-top: 1rem
+            max-height: 100px
+            overflow-y: auto // Cria barra de rolagem vertical apenas se o texto da descrição for longo
+            padding: 0.5rem
+            background: colors.$white
+            border: 1px solid colors.$gray // [Nova Cor Aplicada]: Borda discreta
+            border-radius: 8px
+            font-size: 0.9rem
+            color: colors.$black
 
-      @include display.hd
-        margin-bottom: 5vh
+        .divider
+            border: 0
+            border-top: 1px solid colors.$gray // Substitui a tag <hr> padrão por uma linha customizada
+            margin: 1.2rem 0
 
-      .cart-button
-        cursor: pointer
-        color: colors.$pourple-light
-        font-size: 20px
-        margin: 0px 1vw
+        .freight
+            h4
+                font-size: 0.95rem
+                margin-bottom: 0.5rem
 
-        &:hover
-          color: colors.$green-light
+            .input-group
+                display: flex
+                gap: 0.5rem
 
-      @include display.hd
-        font-size: 16px
+                .input-postalcode
+                    flex: 1 // Faz o input ocupar todo o espaço restante do grupo de frete
+                    padding: 0.5rem 0.8rem
+                    border: 1px solid colors.$gray
+                    border-radius: 6px
+                    outline: none // Remove aquela borda preta nativa do navegador ao clicar
+                    &:focus
+                        border-color: colors.$green-light // Destaca o input quando selecionado
 
-      .quantity
-        width: 3vw
-        text-align: center
-        border: none
-        border-bottom: 1px solid colors.$pourple-light
+                .button-freight
+                    display: flex
+                    align-items: center
+                    padding: 0.5rem 1rem
+                    border: 1px solid colors.$pourple-light
+                    color: colors.$pourple-light
+                    background: transparent
+                    border-radius: 6px
+                    cursor: pointer
+                    font-weight: 600
+                    transition: 0.2s
+                    &:hover
+                        background: colors.$pourple-light
+                        color: colors.$white
 
-        @include display.hd
-          width: 2vw
+            .cards-shippings
+                margin-top: 1rem
+                display: flex
+                flex-direction: column
+                gap: 0.5rem
 
-      .icon-product-quantity
-        cursor: pointer
-        margin: 0px 1vw
+                .shipping-item
+                    display: flex
+                    justify-content: space-between
+                    align-items: center
+                    padding: 0.5rem 0.8rem
+                    border: 1px solid colors.$gray
+                    border-radius: 6px
 
-        &:hover
-          color: colors.$green-light
+                    .image-shipping img
+                        height: 25px
+                        object-fit: contain // Redimensiona a logo da transportadora sem cortar nada
 
-    .add-to-cart
-      display: flex
-      flex-direction: row
-      align-items: center
-      justify-content: center
-      width: 100%
-      margin-top: 2vh
+                    .price-shipping
+                        font-weight: 700
+                        color: colors.$green
 
-      @include display.hd
-        margin-top: 1vh
+        .products-quantity
+            display: flex
+            align-items: center
+            gap: 1rem
 
-      i
-        margin-left: 1vw
-        color: colors.$pourple-light
+            .quantity-selector
+                display: flex
+                align-items: center
+                border: 1px solid colors.$gray
+                border-radius: 6px
 
-        @include display.hd
-          margin-left: 0.5vw
+                .btn-qty
+                    background: none
+                    border: none
+                    padding: 0.3rem 0.6rem
+                    cursor: pointer
+                    display: flex
+                    align-items: center
+                    &:hover
+                        color: colors.$green
 
-      .buttons
-        padding: 2vh 1vw
-        border: 1px solid colors.$pourple-light
-        cursor: pointer
+                .quantity
+                    padding: 0 0.8rem
+                    font-weight: 600
 
-        @include display.hd
-          padding: 1.3vh 1vw
+        .add-to-cart
+            margin-top: 1.5rem
 
-      .button-add-to-cart
-        &:hover
-          border-color: colors.$pourple
+            .btn-action
+                width: 100%
+                display: flex
+                align-items: center
+                justify-content: center
+                gap: 0.5rem
+                padding: 0.8rem
+                border-radius: 8px
+                font-weight: 600
+                cursor: pointer
+                border: none
+                transition: 0.2s
 
-          i
-            color: colors.$pourple
+            .add-btn, .go-btn
+                color: colors.$pourple-light
+                border: 1px solid colors.$pourple-light
+                background: transparent
+                border-radius: 6px
+                cursor: pointer
+                font-weight: 600
+                transition: 0.2s
+                &:hover
+                    color: colors.$white
+                    background: colors.$pourple-light
+                    opacity: 0.9
 
-      .button-remove-to-cart
-        &:hover
-          border-color: colors.$red
+            .cart-actions-group
+                display: flex
+                gap: 0.8rem
 
-          i
-            color: colors.$red
+                .remove-btn
+                    flex: 1 // Ocupa 1 proporção do espaço da linha do botão
+                    background: transparent
+                    border: 1px solid colors.$red
+                    color: colors.$red
+                    &:hover
+                        background: colors.$red
+                        color: colors.$white
 
-// button return to screen products
-.return
-  color: colors.$pourple-light
-  width: 100%
-  padding: 2vh 2vw
-  font-size: 20px
-  display: flex
-  justify-content: right
-  align-items: flex-end
-  position: fixed
-  bottom: 0
-
-  @include display.mobile
-    font-size: 18px
-    padding: 1vh 2vw
-
-  .button-return
-    cursor: pointer
-
-    i
-      margin: 0px 1.5vw 0px 2vw
-
-      @include display.hd
-        margin: 0px 1.5vw 0px 0.5vw
-
-    .bi-arrow-return-left
-      display: none
-
-    &:hover
-      color: colors.$pourple
-
-      .bi-arrow-return-left
-        display: inline
-
-      .bi-arrow-left
-        display: none
-
-// display mobile
-#mobile
-  display: none
-
-  @include display.mobile
-    display: inline
+                .go-btn
+                    flex: 2 // Ocupa o dobro da largura do botão de remover (2 proporções)
