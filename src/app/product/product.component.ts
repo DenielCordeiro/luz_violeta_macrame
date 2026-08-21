@@ -134,6 +134,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 					};
 
 					localStorage.setItem('shipping', JSON.stringify(this.sale.shipping));
+					this.shippings = result;
 				})
 				.catch(error => {
 					console.log(error);
