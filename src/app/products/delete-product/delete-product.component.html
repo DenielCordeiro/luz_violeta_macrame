@@ -1,29 +1,38 @@
-<header>
-	<div class="title">
-		<h1>{{ product.name }}</h1>
-	</div>
-</header>
+<div class="delete-modal-container">
+    <header>
+        <div class="title">
+            <span class="warning-badge">Atenção</span>
+            <h1>Deseja excluir este produto?</h1>
+        </div>
+    </header>
 
-<main>
-	<div class="image">
-		<img src="{{ product.file?.url }}" alt="image">
-	</div>
+    <main>
+        <div class="product-preview">
+            <div class="image">
+                <img [src]="product.file?.url" [alt]="product.name">
+            </div>
 
-	<div class="description">
-		<p class="valor">{{ product.price }}</p>
-		<p class="valor">{{ product.category }}</p>
-		<p class="valor">{{ product.type }}</p>
-	</div>
-</main>
+            <div class="details">
+                <h2 class="product-name">{{ product.name }}</h2>
+                <p class="price">R$ {{ product.price }}</p>
+                
+                <div class="tags">
+                    <span class="tag">{{ product.category }}</span>
+                    <span class="tag">{{ product.type }}</span>
+                </div>
+            </div>
+        </div>
+    </main>
 
-<footer>
-	<div class="buttons rows">
-		<div class="button-cancel">
-			<span (click)="closeDialog()">Cancelar</span>
-		</div>
+    <footer>
+        <div class="buttons rows">
+            <button class="btn-cancel" (click)="closeDialog()">
+                Cancelar
+            </button>
 
-		<div class="delete-product" (click)="deletingProduct(product._id)">
-			<span>Excluir</span>
-		</div>
-	</div>
-</footer>
+            <button class="btn-delete" (click)="deletingProduct(product._id)">
+                Excluir Produto
+            </button>
+        </div>
+    </footer>
+</div>

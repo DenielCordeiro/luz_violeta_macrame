@@ -19,13 +19,16 @@ export class DeleteProductComponent {
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public product: Product,
 		public dialogRef: MatDialogRef<DeleteProductComponent>,
-	) {}
+	) {
+		console.log('product', product);
+	}
 
 	public deletingProduct(productId: string | undefined): void {
 		if (productId !== undefined) {
 			this.productsService.deleteProduct(productId)
 				.then(result => {
 					console.log(result);
+					this.closeDialog();
 				})
 		} else {
 			alert('[Erro!], não foi possível encontrar id do produto selecionado');

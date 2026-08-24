@@ -49,9 +49,16 @@ export class CartComponent implements OnInit {
 		return this.finalValue;
 	}
 
-	removeFromCart(product: Product): void {
-		// this.cartService.removeProductFromCart(product);
+	public removingProductFromCart(product: Product): void {
+		this.cartService.removeProductFromCart(product)
+			.then(() => {
+				this.getProductsInCart();
+			})
+			.catch(error => {
+				console.error('Erro ao remover produto do carrinho:', error);
+			});
 	}
+
 
 	cartCleaning(): void {
 		this.cartService.clearCart();

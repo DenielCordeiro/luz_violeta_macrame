@@ -38,3 +38,15 @@ export interface Deadline {
   value: number;
   viewValue: string;
 }
+
+export interface PaginatedProductsResponse {
+  products: {
+    docs: Product[];
+    total?: number;
+    limit?: number;
+    page?: number;
+    pages?: number;
+    hasNextPage?: boolean;
+    hasPrevPage?: boolean;
+  };
+}
