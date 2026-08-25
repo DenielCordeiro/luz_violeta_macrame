@@ -1,222 +1,218 @@
-// Importação de módulos externos do Sass
 @use '../../assets/sass/display'
 @use '../../assets/sass/colors'
 
-// Wrapper principal da tela
 #desktop
     display: flex
-    justify-content: center // Centraliza o card do produto na tela (horizontal)
+    justify-content: center
     width: 100%
-    padding: 5vh 0 // 5% da altura da viewport no topo e base
+    padding: 5vh 0
 
-    // Card unificado contendo Galeria (Esq) e Detalhes/Pagamento (Dir)
-    .card-product
+.card-product
+    display: flex
+    width: 70vw
+    max-width: 1100px
+    background: colors.$white
+    border-radius: 16px
+    box-shadow: 0 10px 30px colors.$black-transparent
+    overflow: hidden
+
+.product-gallery
+    background: colors.$pourple-gray
+    width: 45%
+    padding: 3rem
+    display: flex
+    align-items: center
+    justify-content: center
+
+    .product-image
+        width: 100%
+        max-width: 320px
+        height: 380px
+        object-fit: cover
+        border-radius: 12px
+
+.payment
+    width: 55%
+    padding: 2.5rem
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+    .header-payment
         display: flex
-        width: 70vw // 70% da largura da viewport
-        max-width: 1100px // Impede que o card fique gigante em telas Ultrawide
-        background: colors.$white
-        border-radius: 16px
-        box-shadow: 0 10px 30px colors.$black-transparent // Sombra usando sua variável com opacidade
-        overflow: hidden // Força o conteúdo interno a respeitar as bordas arredondadas do card
+        justify-content: space-between
+        align-items: center
 
-        // Responsividade para Mobile (reaproveitando seu mixin)
-        @include display.mobile
-            flex-direction: column // Empilha a foto em cima e as informações embaixo
-            width: 92vw
+        .price-product
+            font: 700 1.8rem sans-serif
+            color: colors.$green
 
-    // Coluna da esquerda (Foto do produto)
-    .product-gallery
-        background: colors.$pourple-gray
-        width: 45% // Ocupa 45% da largura interna do card
-        padding: 3rem
-        display: flex
-        align-items: center // Centraliza a imagem verticalmente
-        justify-content: center // Centraliza a imagem horizontalmente
-
-        @include display.mobile
-            width: 100%
-            padding: 1.5rem
-
-        .product-image
-            width: 100%
-            max-width: 320px
-            height: 380px
-            object-fit: cover // Evita distorcer a imagem do produto, cortando o excesso sem esticar
-            border-radius: 12px
-
-    // Coluna da direita (Informações, frete e botões de compra)
-    .payment
-        width: 55% // Ocupa os 55% restantes do card
-        padding: 2.5rem
-        display: flex
-        flex-direction: column
-        justify-content: space-between // Distribui o conteúdo verticalmente deixando os botões no fim
-
-        @include display.mobile
-            width: 100%
-            padding: 1.5rem
-
-        .header-payment
+        .icons-edit-or-delete
             display: flex
-            justify-content: space-between // Preço na esquerda, ícones de ação na direita
-            align-items: center
+            gap: 0.5rem
 
-            .price-product
-                font: 700 1.8rem sans-serif // Atalho (shorthand): peso(700) tamanho(1.8rem) familia(sans-serif)
-                color: colors.$green
+            .icon-btn
+                cursor: pointer
+                color: colors.$pourple-gray
+                transition: color 0.2s
 
-            .icons-edit-or-delete
-                display: flex
-                gap: 0.5rem // Espaçamento moderno entre os ícones sem precisar de margin
-
-                .icon-btn
-                    cursor: pointer
-                    color: colors.$pourple-gray // [Cultura Visual]: Usando cinza roxado suave
-                    transition: color 0.2s // Suaviza a troca de cor ao passar o mouse
-                    
-                    // O '&' representa o elemento pai (.icon-btn), aplicando seletores de estado
-                    &.edit:hover
-                        color: colors.$pourple-light
-                    &.delete:hover
-                        color: colors.$red
-
-        .description
-            margin-top: 1rem
-            max-height: 100px
-            overflow-y: auto // Cria barra de rolagem vertical apenas se o texto da descrição for longo
-            padding: 0.5rem
-            background: colors.$white
-            border: 1px solid colors.$gray // [Nova Cor Aplicada]: Borda discreta
-            border-radius: 8px
-            font-size: 0.9rem
-            color: colors.$black
-
-        .divider
-            border: 0
-            border-top: 1px solid colors.$gray // Substitui a tag <hr> padrão por uma linha customizada
-            margin: 1.2rem 0
-
-        .freight
-            h4
-                font-size: 0.95rem
-                margin-bottom: 0.5rem
-
-            .input-group
-                display: flex
-                gap: 0.5rem
-
-                .input-postalcode
-                    flex: 1 // Faz o input ocupar todo o espaço restante do grupo de frete
-                    padding: 0.5rem 0.8rem
-                    border: 1px solid colors.$gray
-                    border-radius: 6px
-                    outline: none // Remove aquela borda preta nativa do navegador ao clicar
-                    &:focus
-                        border-color: colors.$green-light // Destaca o input quando selecionado
-
-                .button-freight
-                    display: flex
-                    align-items: center
-                    padding: 0.5rem 1rem
-                    border: 1px solid colors.$pourple-light
+                &.edit:hover
                     color: colors.$pourple-light
-                    background: transparent
-                    border-radius: 6px
-                    cursor: pointer
-                    font-weight: 600
-                    transition: 0.2s
-                    &:hover
-                        background: colors.$pourple-light
-                        color: colors.$white
 
-            .cards-shippings
-                margin-top: 1rem
-                display: flex
-                flex-direction: column
-                gap: 0.5rem
+                &.delete:hover
+                    color: colors.$red
 
-                .shipping-item
-                    display: flex
-                    justify-content: space-between
-                    align-items: center
-                    padding: 0.5rem 0.8rem
-                    border: 1px solid colors.$gray
-                    border-radius: 6px
+    .description
+        margin-top: 1rem
+        max-height: 100px
+        overflow-y: auto
+        padding: 0.5rem
+        background: colors.$white
+        border: 1px solid colors.$gray
+        border-radius: 8px
+        font-size: 0.9rem
+        color: colors.$black
 
-                    .image-shipping img
-                        height: 25px
-                        object-fit: contain // Redimensiona a logo da transportadora sem cortar nada
+    .divider
+        border: 0
+        border-top: 1px solid colors.$gray
+        margin: 1.2rem 0
 
-                    .price-shipping
-                        font-weight: 700
-                        color: colors.$green
+    .freight
+        h4
+            font-size: 0.95rem
+            margin-bottom: 0.5rem
 
-        .products-quantity
+        .input-group
             display: flex
-            align-items: center
-            gap: 1rem
+            gap: 0.5rem
 
-            .quantity-selector
-                display: flex
-                align-items: center
+            .input-postalcode
+                flex: 1
+                padding: 0.5rem 0.8rem
                 border: 1px solid colors.$gray
                 border-radius: 6px
+                outline: none
 
-                .btn-qty
-                    background: none
-                    border: none
-                    padding: 0.3rem 0.6rem
-                    cursor: pointer
-                    display: flex
-                    align-items: center
-                    &:hover
-                        color: colors.$green
+                &:focus
+                    border-color: colors.$green-light
 
-                .quantity
-                    padding: 0 0.8rem
-                    font-weight: 600
-
-        .add-to-cart
-            margin-top: 1.5rem
-
-            .btn-action
-                width: 100%
+            .button-freight
                 display: flex
                 align-items: center
-                justify-content: center
-                gap: 0.5rem
-                padding: 0.8rem
-                border-radius: 8px
-                font-weight: 600
-                cursor: pointer
-                border: none
-                transition: 0.2s
-
-            .add-btn, .go-btn
-                color: colors.$pourple-light
+                padding: 0.5rem 1rem
                 border: 1px solid colors.$pourple-light
+                color: colors.$pourple-light
                 background: transparent
                 border-radius: 6px
                 cursor: pointer
                 font-weight: 600
                 transition: 0.2s
+
                 &:hover
-                    color: colors.$white
                     background: colors.$pourple-light
-                    opacity: 0.9
+                    color: colors.$white
 
-            .cart-actions-group
+        .cards-shippings
+            margin-top: 1rem
+            display: flex
+            flex-direction: column
+            gap: 0.5rem
+
+            .shipping-item
                 display: flex
-                gap: 0.8rem
+                justify-content: space-between
+                align-items: center
+                padding: 0.5rem 0.8rem
+                border: 1px solid colors.$gray
+                border-radius: 6px
 
-                .remove-btn
-                    flex: 1 // Ocupa 1 proporção do espaço da linha do botão
-                    background: transparent
-                    border: 1px solid colors.$red
-                    color: colors.$red
-                    &:hover
-                        background: colors.$red
-                        color: colors.$white
+                .image-shipping img
+                    height: 25px
+                    object-fit: contain
 
-                .go-btn
-                    flex: 2 // Ocupa o dobro da largura do botão de remover (2 proporções)
+                .price-shipping
+                    font-weight: 700
+                    color: colors.$green
+
+    .products-quantity
+        display: flex
+        align-items: center
+        gap: 1rem
+
+        .quantity-selector
+            display: flex
+            align-items: center
+            border: 1px solid colors.$gray
+            border-radius: 6px
+
+            .btn-qty
+                background: none
+                border: none
+                padding: 0.3rem 0.6rem
+                cursor: pointer
+                display: flex
+                align-items: center
+
+                &:hover
+                    color: colors.$green
+
+            .quantity
+                padding: 0 0.8rem
+                font-weight: 600
+
+    .add-to-cart
+        margin-top: 1.5rem
+
+        .btn-action
+            width: 100%
+            display: flex
+            align-items: center
+            justify-content: center
+            gap: 0.5rem
+            padding: 0.8rem
+            border-radius: 8px
+            font-weight: 600
+            cursor: pointer
+            transition: 0.2s
+
+        .add-btn, .go-btn
+            color: colors.$pourple-light
+            border: 1px solid colors.$pourple-light
+            background: transparent
+            border-radius: 6px
+
+            &:hover
+                color: colors.$white
+                background: colors.$pourple-light
+                opacity: 0.9
+
+        .cart-actions-group
+            display: flex
+            gap: 0.8rem
+
+            .remove-btn
+                flex: 1
+                background: transparent
+                border: 1px solid colors.$red
+                color: colors.$red
+
+                &:hover
+                    background: colors.$red
+                    color: colors.$white
+
+            .go-btn
+                flex: 2
+
+@include display.mobile
+    .card-product
+        flex-direction: column
+        width: 92vw
+
+    .product-gallery
+        width: 100%
+        padding: 1.5rem
+
+    .payment
+        width: 100%
+        padding: 1.5rem

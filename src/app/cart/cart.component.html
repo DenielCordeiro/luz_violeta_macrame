@@ -27,26 +27,6 @@
         }
       </div>
 
-      <div class="products-mobile">
-        @for (product of productsInCart; track product._id) {
-          <div class="product">
-            <div class="product-image">
-              <img src="{{ product?.file?.url }}" alt="{{ product?.file?.name }}">
-            </div>
-
-            <div class="product-info">
-              <span>{{ product.name }}</span>
-            </div>
-
-            <div class="button-remove-from-cart" (click)="removingProductFromCart(product)">
-              <i class="bi bi-cart-dash"></i>
-              <i class="bi bi-cart-dash-fill"></i>
-              <span>Remover do carrinho</span>
-            </div>
-          </div>
-        }
-      </div>
-
       <div class="sale">
         <div class="details">
           <span>Total de produtos: {{ productsInCart.length }}</span>
