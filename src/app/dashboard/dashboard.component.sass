@@ -1,14 +1,26 @@
 @use '../../assets/sass/display'
 
-.container
-  min-width: 100%
+.sales-summary
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr))
+  gap: 2rem
+  width: min(90%, 1100px)
+  margin: 3rem auto
 
-  .cardSales
-    width: 30vw
-    height: 15vh
-    border: 1px solid black
-    text-align: center
-    justify-content: center
+.sales-card
+  min-height: 15vh
+  display: flex
+  align-items: center
+  justify-content: center
+  border: 1px solid black
+  text-align: center
+  padding: 1rem
+
+.section-divider
+  margin: 0 1rem 0.5rem
+
+.vertical-chart
+  margin-top: 1.5rem
 
 #charts
   @include display.mobile

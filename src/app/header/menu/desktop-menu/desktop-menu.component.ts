@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import { MenuService } from 'src/app/services/menu/menu.service';
 import { AuthService } from 'src/app/guards/auth.service';
@@ -14,6 +15,7 @@ import { LoginComponent } from '../../login/login.component';
     imports: [
         LoginComponent,
         MatIconModule,
+        MatButtonModule,
     ],
     templateUrl: './desktop-menu.component.html',
     styleUrls: ['./desktop-menu.component.sass'],

@@ -1,20 +1,40 @@
 @use '../../../assets/sass/display'
-
-*
-  margin: 0px
-  padding: 0px
+@use '../../../assets/sass/colors'
 
 .content-form
-  padding: 0px 2vw 0px 2vw
+  padding: 0 2vw
 
 .content-inputs
+  display: grid
+  gap: 1rem
+
+  mat-form-field
+    width: 100%
+
+  .content-file-image
+    display: grid
+    gap: 0.5rem
+
+  .file-input
+    box-sizing: border-box
+    width: 100%
+    min-height: 44px
+    padding: 0.6rem
+    border: 1px solid colors.$pourple-gray
+    border-radius: 4px
+
+    &:focus-visible
+      outline: 2px solid colors.$pourple
+      outline-offset: 2px
+
   .current-image
     display: flex
     justify-content: center
 
     img
       width: 15vw
-      heigth: 20vh
+      height: 20vh
+      object-fit: cover
       border-radius: 5px
 
       @include display.mobile
@@ -22,8 +42,16 @@
         height: 20vh
 
 .content-header
+  display: flex
+  align-items: center
+  justify-content: space-between
   width: 100%
 
-  .button-x
-      display: flex
-      justify-content: flex-end
+.content-footer
+  display: flex
+  justify-content: flex-end
+  gap: 0.75rem
+
+.button-send
+  background: colors.$pourple
+  color: colors.$white

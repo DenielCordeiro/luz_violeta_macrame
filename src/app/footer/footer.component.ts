@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Review } from "../interfaces/review.interface";
 import { FooterService } from "../services/footer/footer.service";
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-footer',
     standalone: true,
+    imports: [MatIconModule],
     templateUrl: './footer.component.html',
     styleUrls: ['./footer.component.sass'],
 })
@@ -31,5 +33,9 @@ export class FooterComponent implements OnInit {
             .catch(error => {
                 console.error('ERRO: Não foi possível carregar as imagens', error);
             });
+    }
+
+    starRange(count: number | undefined): number[] {
+        return Array.from({ length: count ?? 0 });
     }
 }

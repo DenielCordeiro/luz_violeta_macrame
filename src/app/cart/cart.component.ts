@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { CartService } from '../services/cart/cart.service';
 import { Product } from 'src/app/interfaces/product.interface';
 import { Sale } from '../interfaces/sale.interface';
@@ -10,7 +12,7 @@ import { PaymentsComponent } from './payments/payments.component';
 @Component({
 	selector: 'app-cart',
 	standalone: true,
-	imports: [CommonModule],
+	imports: [CommonModule, MatButtonModule, MatIconModule],
 	templateUrl: './cart.component.html',
 	styleUrls: ['./cart.component.sass'],
 })

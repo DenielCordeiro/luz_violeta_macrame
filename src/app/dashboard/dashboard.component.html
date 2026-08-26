@@ -3,44 +3,21 @@
 </section>
 
 <section id="salesHistory">
+  <div class="sales-summary">
+    <article class="sales-card">
+      <p>Quantidade de Vendas: <span>{{ sales }}</span></p>
+    </article>
 
-  <div class="container mt-5">
-    <div class="row">
-      <div class="col-6">
-        <div class="row">
-          <div class="col-2"></div>
-
-          <div class="col-9">
-            <div class="card cardSales">
-              <p>Quantidade de Vendas: <span>{{ sales }}</span> </p>
-            </div>
-          </div>
-
-          <div class="col-1"></div>
-        </div>
-      </div>
-
-      <div class="col-6">
-        <div class="row">
-          <div class="col-1"></div>
-
-          <div class="col-9">
-            <div class="card cardSales">
-              <p>Produto mais vendido: <span>{{ product }}, </span> <span>com {{ highestSellingProduct }} Vendas</span></p>
-            </div>
-          </div>
-
-          <div class="col-2"></div>
-        </div>
-      </div>
-    </div>
+    <article class="sales-card">
+      <p>Produto mais vendido: <span>{{ product }}, </span> <span>com {{ highestSellingProduct }} Vendas</span></p>
+    </article>
   </div>
 
-  <hr class="mb-2">
+  <hr class="section-divider">
 </section>
 
 <section id="charts">
-  <div class="VerticalChart mt-4">
+  <div class="vertical-chart">
     <h2>Número de Clientes Registrados</h2>
     <app-vertical-chart></app-vertical-chart>
   </div>

@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 import { StorageService } from '../services/storage/storage.service';
 import { ProductsService } from '../services/products/products.service';
@@ -23,7 +26,10 @@ import { DeleteProductComponent } from '../products/delete-product/delete-produc
 	standalone: true,
 	imports: [
 		ReactiveFormsModule,
-		MatIconModule
+		MatIconModule,
+		MatButtonModule,
+		MatFormFieldModule,
+		MatInputModule
 	],
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.sass',

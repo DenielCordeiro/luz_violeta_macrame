@@ -1,18 +1,14 @@
 @use '../../../assets/sass/display'
-
-*
-  margin: 0px
-  padding: 0px
+@use '../../../assets/sass/colors'
 
 .contents
-  padding: 0px 2vw 0px 2vw
+  padding: 0 2vw
 
   .content-header
+    display: flex
+    align-items: center
+    justify-content: space-between
     width: 100%
-
-    .button-x
-      display: flex
-      justify-content: flex-end
 
   .content-image
     display: flex
@@ -22,6 +18,7 @@
       width: 15vw
       height: 25vh
       border-radius: 5px
+      object-fit: cover
 
       @include display.hd
         width: 50vw
@@ -30,3 +27,13 @@
       @include display.mobile
         width: 60vw
         height: 20vh
+
+  .content-footer
+    display: flex
+    justify-content: flex-end
+    gap: 0.75rem
+    margin: 1rem 0
+
+  .button-red
+    background: colors.$red2
+    color: colors.$black

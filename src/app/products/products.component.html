@@ -10,22 +10,22 @@
 		@for (product of products; track product._id) {
 			<div class="product">
 				<div class="product-buttons">
-					<div class="update-and-delete-buttons update-product" (click)="dialogUpdate(product)">
+					<button mat-button type="button" class="update-and-delete-buttons update-product" (click)="dialogUpdate(product)">
 						<span>Editar</span>
-						<i class="bi bi-pencil-fill"></i>
-					</div>
+						<mat-icon class="material-symbols-outlined" aria-hidden="true">edit</mat-icon>
+					</button>
 
-					<div class="update-and-delete-buttons delete-product" (click)="dialogDelete(product)">
+					<button mat-button type="button" class="update-and-delete-buttons delete-product" (click)="dialogDelete(product)">
 						<span>Excluir</span>
-						<i class="bi bi-trash3-fill"></i>
-					</div>
+						<mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
+					</button>
 				</div>
 
-				<div class="card" (click)="setProductInLocalStorage(product)" routerLink="/product/{{ product._id }}">
-					<img src="{{ product?.file?.url }}" alt="...">
+				<a class="product-card" (click)="setProductInLocalStorage(product)" [routerLink]="['/product', product._id]">
+					<img src="{{ product?.file?.url }}" [alt]="product.name">
 					<p class="itemTitle" >{{ product?.name }}</p>
 					<p class="itemValor">R$ {{ product?.price }}</p>
-				</div>
+				</a>
 			</div>
 		}
 	</div>  

@@ -1,36 +1,25 @@
 <section id="dialogDelete">
-  <div class="container contents">
-    <div class="content-header py-2 row">
-      <div class="title col-8">
-        <h2>Excluir imagem</h2>
-      </div>
+  <div class="contents" aria-labelledby="delete-image-title">
+    <div class="content-header">
+      <h2 id="delete-image-title">Excluir imagem</h2>
 
-      <div class="button-x col-4 py-2" type="button" (click)="closeModal()">
-        <span>X</span>
-      </div>
+      <button mat-icon-button type="button" class="button-x" aria-label="Fechar" (click)="closeModal()">
+        <mat-icon class="material-symbols-outlined" aria-hidden="true">close</mat-icon>
+      </button>
     </div>
 
-    <hr class="mx-2">
+    <hr>
 
-    <p class="mx-1">Imagem a ser excluída:</p>
+    <p>Imagem a ser excluída:</p>
     <div class="content-image">
-      <img src="{{ this.imageUrl }}">
+      <img src="{{ this.imageUrl }}" alt="Imagem selecionada para exclusão">
     </div>
 
-    <hr class="mx-2">
+    <hr>
 
-    <div class="content-footer my-3 row">
-      <div class="col">
-        <div type="button" class="buttons button-close mx-2" (click)="closeModal()">
-          <span>Fechar</span>
-        </div>
-      </div>
-
-      <div class="col">
-        <div type="button" class="buttons button-red mx-2" (click)="delettingImage()">
-          <span>Excluir</span>
-        </div>
-      </div>
+    <div class="content-footer">
+      <button mat-button type="button" class="button-close" (click)="closeModal()">Fechar</button>
+      <button mat-flat-button type="button" class="button-red" (click)="delettingImage()">Excluir</button>
     </div>
   </div>
 </section>

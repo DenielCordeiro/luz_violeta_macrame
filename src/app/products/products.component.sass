@@ -29,6 +29,29 @@ main
             display: flex
             justify-content: space-around
 
+        .update-and-delete-buttons
+            display: inline-flex
+            align-items: center
+            gap: 0.25rem
+
+        .update-product
+            color: colors.$pourple
+
+        .delete-product
+            color: colors.$black
+
+            mat-icon
+                color: colors.$red2
+
+        .product-card
+            display: block
+            color: inherit
+            text-decoration: none
+
+            &:focus-visible
+                outline: 2px solid colors.$pourple
+                outline-offset: 4px
+
     .loading-container
         position: fixed
         top: 60px

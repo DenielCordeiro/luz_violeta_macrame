@@ -2,10 +2,13 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { News } from 'src/app/interfaces/news.interface';
 import { NewsletterService } from 'src/app/services/newsletter/newsletter.service';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-delete-image',
   standalone: true,
+  imports: [MatButtonModule, MatIconModule],
   templateUrl: './delete-image.component.html',
   styleUrls: ['./delete-image.component.sass'],
 })

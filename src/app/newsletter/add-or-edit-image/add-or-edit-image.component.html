@@ -1,16 +1,14 @@
-<div class="container content-form">
+<section class="content-form" aria-labelledby="image-form-title">
   <div class="content-header">
-    <div class="title col-8">
-      @if (updateData._id == undefined) {
-        <h2>Criar nova imagem</h2>
-      } @else {
-        <h2>Atualizar imagem</h2>
-      }
-    </div>
+    @if (updateData._id == undefined) {
+      <h2 id="image-form-title">Criar nova imagem</h2>
+    } @else {
+      <h2 id="image-form-title">Atualizar imagem</h2>
+    }
 
-    <div class="button-x col-4" type="button" (click)="closeModal()">
-      <span>X</span>
-    </div>
+    <button mat-icon-button type="button" class="button-x" aria-label="Fechar" (click)="closeModal()">
+      <mat-icon class="material-symbols-outlined" aria-hidden="true">close</mat-icon>
+    </button>
   </div>
 
   <hr>
@@ -18,25 +16,27 @@
   <form [formGroup]="form">
     <div class="content-inputs">
       <div class="content-link-product">
-        <label for="linkProduct">Digite o link do produto:</label>
-        <input type="text" formControlName="linkProduct" class="form-control input-lv" id="linkProduct">
+        <mat-form-field appearance="outline">
+          <mat-label>Digite o link do produto</mat-label>
+          <input matInput type="text" formControlName="linkProduct" id="linkProduct">
+        </mat-form-field>
       </div>
 
       @if (updateData._id == undefined) {
         <div class="content-file-image">
-          <label for="file">Adicionar imagem: </label>
-          <input type="file" class="form-control input-lv" (change)="onChangeFile($event)">
+          <label for="file">Adicionar imagem:</label>
+          <input id="file" type="file" class="file-input" accept="image/*" (change)="onChangeFile($event)">
         </div>
       } @else {
         <div>
           <p>Imagem atual:</p>
           <div class="current-image">
-            <img src="{{this.updateData.file?.url}}">
+            <img src="{{this.updateData.file?.url}}" alt="Imagem atual">
           </div>
 
           <div class="content-file-image">
-            <label for="file">Trocar imagem: </label>
-            <input type="file" class="form-control input-lv" (change)="onChangeFile($event)">
+            <label for="file">Trocar imagem:</label>
+            <input id="file" type="file" class="file-input" accept="image/*" (change)="onChangeFile($event)">
           </div>
         </div>
       }
@@ -44,24 +44,14 @@
 
     <hr>
 
-    <div class="content-footer row">
-      <div class="col">
-        <div type="button" class="buttons button-close" (click)="closeModal()">
-          <span>Fechar</span>
-        </div>
-      </div>
+    <div class="content-footer">
+      <button mat-button type="button" class="button-close" (click)="closeModal()">Fechar</button>
 
-      <div class="col">
-        @if (updateData._id == undefined) {
-          <div type="button" class="buttons button-send" (click)="addOrEditImage()">
-            <span>Criar</span>
-          </div>
-        } @else {
-          <div type="button" class="buttons button-send" (click)="addOrEditImage()">
-            <span>Atualizar</span>
-          </div>
-        }
-      </div>
+      @if (updateData._id == undefined) {
+        <button mat-flat-button type="button" class="button-send" (click)="addOrEditImage()">Criar</button>
+      } @else {
+        <button mat-flat-button type="button" class="button-send" (click)="addOrEditImage()">Atualizar</button>
+      }
     </div>
   </form>
-</div>
+</section>
