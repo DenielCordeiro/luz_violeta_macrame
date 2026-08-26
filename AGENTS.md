@@ -248,7 +248,7 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 - About e dashboard usam mocks.
 - Footer usa avaliação de teste e não chama `searchForReviews()`.
 - `openCart()` no perfil e `savingCart()` estão vazios.
-- Templates usam classes e ícones do Bootstrap sem dependência correspondente no `package.json` ou import global comprovado.
+- Templates usam Angular Material para controles e ícones, com Grid, Flexbox, espaçamento e responsividade implementados no Sass local.
 
 ### Contratos e manutenção
 
@@ -332,6 +332,7 @@ Não replique essas bases automaticamente no site. Primeiro defina fonte de verd
 - A paleta está centralizada em `src/assets/sass/colors.sass`. Nomes históricos como `pourple` permanecem como aliases para evitar uma renomeação transversal nesta tarefa.
 - Cores de erro, sucesso e aviso continuam separadas da paleta institucional; não comunique estado apenas por cor.
 - O Angular Material ainda carrega o tema predefinido `indigo-pink`; uma futura tematização deve alinhar componentes Material à paleta e ser validada isoladamente.
+- Bootstrap e Bootstrap Icons não fazem parte da aplicação. Use Angular Material para componentes, controles e ícones; use Flexbox/Grid e o Sass local com os tokens/mixins existentes para layout, espaçamento e responsividade.
 - Layouts usam Flexbox/Grid, cards, bordas suaves, Material Icons e Angular Material.
 - Breakpoints centralizados: `hd` em `max-width: 1400px` e `mobile` em `max-width: 440px`.
 - PWA habilitada com service worker e manifesto; valide instalação, cache e atualização ao alterar assets ou rotas.
