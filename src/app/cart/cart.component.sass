@@ -1,136 +1,134 @@
 @use '../../assets/sass/colors'
 @use '../../assets/sass/display'
 
-*
-  margin: 0px
-  padding: 0px
-
 #cart
   background-color: colors.$white
-  width: 100vw
+  width: 100%
   height: 100dvh
   padding-top: 10vh
 
-  @include display.mobile
+.title
+  text-align: start
+  font-size: 2rem
+  margin: 0 0 4vh 8vw
+
+.cart-content
+  display: flex
+  justify-content: space-around
+  width: 100%
+
+.products .product
+  display: flex
+  justify-content: space-around
+  width: 40vw
+  height: 19vh
+  border-radius: 4px
+  padding: 2vh 0
+  margin-bottom: 2vh
+  border: 2px solid colors.$black-transparent
+
+.product-info
+  flex: 1
+  min-width: 0
+
+.product img
+  width: 110px
+  height: 140px
+  border-radius: 4px
+
+.button-remove-from-cart
+  color: colors.$black
+  cursor: pointer
+  height: 20px
+
+.bi-cart-dash, .bi-cart-x
+  display: inline
+
+.bi-cart-dash-fill, .bi-cart-x-fill
+  display: none
+
+.button-remove-from-cart:hover
+  color: colors.$red
+
+  .bi-cart-dash
+    display: none
+
+  .bi-cart-dash-fill
+    display: flex
+
+.sale
+  background-color: colors.$white
+  border: 2px solid colors.$black-transparent
+  width: 28vw
+  height: 30vh
+  border-radius: 5px
+  padding: 2vh 2vw
+
+.clear-cart
+  color: colors.$black
+  cursor: pointer
+
+  &:hover
+    color: colors.$red
+    border-color: colors.$red
+
+    .bi-cart-x
+      display: none
+
+    .bi-cart-x-fill
+      display: inline
+
+.buttons-container
+  display: flex
+  justify-content: space-between
+  margin-top: 16vh
+
+.buy-products
+  color: colors.$green-light
+  border: 1px solid colors.$green-light
+  padding: 4px
+
+  &:hover
+    color: colors.$green
+    border-color: colors.$green
+
+@include display.hd
+  .products .product
+    padding: 1vh 0.5vw
+    height: 28vh
+
+@include display.mobile
+  #cart
     padding-top: 9vh
 
   .title
-    text-align: start
-    font-size: 2rem
-    margin: 0px 0px 4vh 8vw
-
-    @include display.mobile
-      margin-left: 0px
-      text-align: center
+    margin-left: 0
+    text-align: center
 
   .cart-content
+    display: block
+    height: 100dvh
+
+  .products,
+  .products .product,
+  .sale
+    box-sizing: border-box
+
+  .products
     display: flex
-    justify-content: space-around
-    width: 100vw
+    flex-direction: column
+    width: 100%
+    padding: 0 1rem 32vh
 
-    @include display.mobile
-      display: block
-      justify-content: center
-      height: 100dvh
+  .products .product
+    width: 100%
+    height: auto
+    min-height: 19vh
+    padding: 1rem
+    gap: 0.75rem
 
-      .products
-        display: none
-
-    .products
-      .product
-        display: flex
-        justify-content: space-around
-        width: 40vw
-        height: 19vh
-        border-radius: 4px
-        padding: 2vh 0px 2vh 0px
-        margin-bottom: 2vh
-        border: 2px solid colors.$black-transparent
-
-        @include display.hd
-          padding: 1vh 0.5vw
-          height: 28vh
-
-        img
-          width: 110px
-          height: 140px
-          border-radius: 4px
-
-        .button-remove-from-cart
-          color: colors.$black
-          cursor: pointer
-          height: 20px
-
-          .bi-cart-dash
-            display: inline
-
-          .bi-cart-dash-fill
-            display: none
-
-          &:hover
-            color: colors.$red
-
-            .bi-cart-dash
-              display: none
-
-            .bi-cart-dash-fill
-              display: flex
-
-    .products-mobile
-      display: none
-
-      @include display.mobile
-        display: flex
-        width: 100vw
-
-        img
-          width: 110px
-          height: 140px
-          border-radius: 4px
-
-    .sale
-      background-color: colors.$white
-      border: 2px solid colors.$black-transparent
-      width: 28vw
-      height: 30vh
-      border-radius: 5px
-      padding: 2vh 2vw
-
-      @include display.mobile
-        width: 100%
-        bottom: 0px
-        position: fixed
-
-      .clear-cart
-        color: colors.$black
-        cursor: pointer
-
-        .bi-cart-x
-          display: inline
-
-        .bi-cart-x-fill
-          display: none
-
-        &:hover
-          color: colors.$red
-          border-color: colors.$red
-
-          .bi-cart-x
-            display: none
-
-          .bi-cart-x-fill
-            display: inline
-
-      .buttons-container
-        display: flex
-        justify-content: space-between
-        margin-top: 16vh
-
-        .buy-products
-          color: colors.$green-light
-          border: 1px solid colors.$green-light
-          padding: 4px
-
-          &:hover
-            color: colors.$green
-            border-color: colors.$green
+  .sale
+    width: 100%
+    bottom: 0
+    left: 0
+    position: fixed

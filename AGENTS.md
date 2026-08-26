@@ -55,23 +55,41 @@ O Notion contém uma página de senhas e logins. **Nunca copie credenciais, toke
 1. Leia `package.json` e o lockfile correspondente antes de trabalhar com linguagem, framework, biblioteca ou API.
 2. Leia as seções relevantes deste arquivo e confirme se o código atual corresponde ao que está documentado.
 3. Verifique `git status --short --branch`; preserve alterações e arquivos do usuário.
-4. Para informação dependente de versão, consulte a documentação oficial da versão instalada ou da API atual.
-5. Se a pesquisa mudar uma regra durável, atualize a seção 12, com data e fonte. Se não houver diferença, registre apenas a verificação.
-6. Implemente a menor mudança coerente; não misture correções não solicitadas.
-7. Valide em proporção ao risco e informe comandos, resultados e lacunas.
+4. Leia `.local/HANDOFF.md`, quando existir, e confirme seu conteúdo contra o Git antes de agir.
+5. Para informação dependente de versão, consulte a documentação oficial da versão instalada ou da API atual.
+6. Se a pesquisa mudar uma regra durável, atualize a seção 12, com data e fonte. Se não houver diferença, registre apenas a verificação.
+7. Implemente a menor mudança coerente; não misture correções não solicitadas.
+8. Valide em proporção ao risco e informe comandos, resultados e lacunas.
 
 Não atualize dependências automaticamente. Quando uma nova dependência for indispensável, justifique, prefira a opção leve e compatível e confirme o impacto no bundle e no lockfile.
 
 ## 4. Git e colaboração
 
 - Nunca desenvolva diretamente em `main`.
-- Cada desenvolvimento deve ter branch própria e escopo único. Exemplos: `feat/estoque`, `fix/carrinho-remocao`, `docs/project-reference`.
+- Cada trabalho deve ter branch própria e encapsular um contexto reconhecível, como uma página, funcionalidade, refinamento visual ou conjunto coerente de correções. Não crie uma branch por seção pequena da mesma tela nem misture contextos independentes.
+- Use nomes curtos, simples, em minúsculas e fáceis de relacionar ao trabalho, preferencialmente uma a três palavras separadas por hífen e sem prefixos técnicos desnecessários. Exemplos: `home`, `pagamentos`, `limpeza-components` e `correcao-carrinho`.
+- Crie a branch a partir de `origin/main` atualizado, salvo quando a tarefa continuar explicitamente uma branch existente.
 - Daniel revisa a branch e decide ajustes ou merge em `main`.
 - Não force push, não reescreva histórico compartilhado e não descarte alterações alheias.
 - Commits do histórico usam predominantemente `feat[Área]:`, `fix[Área]:`, `refactor[Área]:` e `style[Área]:`. Preserve esse padrão quando ele não conflitar com a convenção definida para a branch.
 - Antes da entrega: informe branch, arquivos alterados, validações executadas e pendências reais.
 
 Branches remotas observadas em 16/08/2026: `main`, `fix`, `home`, `payments`, `product` e `docs/project-reference`. `main` apontava para `e92d6ec`.
+
+### Protocolo de handoff entre agentes
+
+O Git e o código continuam sendo a fonte de verdade. `.local/HANDOFF.md` é um resumo operacional desta máquina para continuidade entre conversas; ele é ignorado pelo Git e nunca substitui a conferência do repositório.
+
+Ao iniciar uma tarefa, todo agente deve:
+
+1. ler `.local/HANDOFF.md`, se existir;
+2. conferir branch, `git status`, histórico recente e PR relacionado;
+3. validar se as pendências registradas continuam atuais antes de retomá-las;
+4. consultar `.local/ROADMAP.md` quando a tarefa envolver planejamento ou escolha da próxima etapa.
+
+Ao concluir, pausar ou transferir uma tarefa, o agente deve atualizar `.local/HANDOFF.md` com data e hora, branch, objetivo, estado atual, arquivos relevantes, validações executadas, pendências, próximo passo e situação de commit/push/PR. Atualize `.local/ROADMAP.md` quando a situação de planejamento mudar. Nunca registre credenciais, tokens, dados pessoais ou outros segredos nesses arquivos.
+
+Se os arquivos locais não existirem, crie-os. Como `GEMINI.md` importa este documento, o protocolo vale igualmente para Codex e Gemini CLI.
 
 ## 5. Ambiente e comandos
 
@@ -117,6 +135,14 @@ Não grave caminhos pessoais no código. O projeto possui `package-lock.json` e 
 - Não há script de lint.
 - Os testes existentes são apenas esqueletos de criação para dois services; cobertura funcional não está estabelecida.
 
+### Atualização verificada em 24/08/2026
+
+- `pnpm exec tsc --noEmit -p tsconfig.app.json`: passou.
+- `pnpm build`: passou sem alteração dos budgets; `product.component.sass` caiu para 3,82 kB e permanece com aviso acima de 2 kB, mas abaixo do limite de erro de 4 kB.
+- `cart.component.sass` e `delete-product.component.sass` ficaram abaixo do limite de aviso; o carrossel placeholder e seus estilos sem uso foram removidos.
+- O teste automatizado continua bloqueado por erros anteriores nos specs genéricos de products/payments e no contrato `BaseAPI<T>`.
+- Permanecem os avisos do bundle inicial e de CommonJS (`quill-delta`), fora do escopo da redução Sass.
+
 Não declare a base saudável apenas porque o typecheck passou. O `tsconfig.app.json` parte de `src/main.ts`, portanto arquivos não alcançados pelo grafo podem ficar fora da verificação.
 
 ## 6. Arquitetura do front-end
@@ -139,7 +165,7 @@ Providers globais: HTTP, router, `ngx-webstorage`, service worker e configuraç�
 | Rota | Componente | Estado observado |
 | --- | --- | --- |
 | `/` | redireciona para `/newsletter` | ativo |
-| `/newsletter` | vitrine/carrossel | carregamento vazio e carrossel placeholder |
+| `/newsletter` | vitrine futura | rota vazia após remoção do carrossel placeholder |
 | `/products` | catálogo e CRUD | integração principal existente |
 | `/product/:product_id` | detalhe, frete e carrinho | usa produto selecionado no localStorage |
 | `/cart` | carrinho e checkout | fluxo parcial |
@@ -191,9 +217,11 @@ Estes endpoints são inferências do cliente, não prova do contrato do back-end
 
 Trate esta lista como diagnóstico, não como autorização para corrigir tudo:
 
-### Planejamento no Trello - fotografia de 16/08/2026
+### Planejamento no Trello - fotografia de 25/08/2026
 
-O Trello registra `Product` em desenvolvimento (3/8 itens), `Home Page` e `Filter Products` aguardando, e `Menu`, `Payments API, "PAGBANK"` e um novo problema de `Cart` na lista de problemas. O cartão PagBank está pausado, com 0/5 itens; o problema atual do carrinho é redirecionar ao produto ao clicar no card. Há um cartão anterior de carrinho concluído (4/4), portanto não interprete o nome repetido como contradição: são escopos diferentes.
+O Trello registra `Product` como concluído (7/7). Permanecem `Home Page` em Features (0/5), `Filter Products` em desenvolvimento, `Cart` em correção (0/1), `Menu` aguardando correção (0/3) e `Payments API, "PAGBANK"` pausado (0/5). `Dashboard` (0/9) e `Google Analytics` (0/2) continuam em Ideas. Há um cartão anterior de carrinho concluído (4/4); o cartão atual é outro escopo, relacionado ao redirecionamento ao clicar no card.
+
+O roadmap operacional detalhado fica em `.local/ROADMAP.md`, somente nesta máquina.
 
 O quadro é fonte de planejamento e comunicação, não prova de implementação. Confirme no código e na API antes de considerar um item concluído.
 
@@ -216,7 +244,7 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 
 ### Conteúdo incompleto
 
-- Newsletter não chama o service; carrossel mostra apenas “carrosel”.
+- Newsletter permanece vazia e ainda não chama o service; o carrossel placeholder foi removido.
 - About e dashboard usam mocks.
 - Footer usa avaliação de teste e não chama `searchForReviews()`.
 - `openCart()` no perfil e `savingCart()` estão vazios.
@@ -229,7 +257,7 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 - Há `any`, `Object[]`, `String` e assinaturas genéricas demais.
 - Subscriptions não são sempre encerradas.
 - `ngx-charts` está em alpha; valide compatibilidade antes de ampliar o dashboard.
-- O build de produção falha por budget Sass.
+- O build de produção passa; `product.component.sass` ainda gera aviso de budget, abaixo do limite de erro.
 
 Ao trabalhar em uma dessas áreas, escreva teste de regressão ou validação reproduzível para o comportamento alterado.
 

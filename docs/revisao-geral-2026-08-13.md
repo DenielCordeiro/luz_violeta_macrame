@@ -56,7 +56,7 @@ Referências: [CodeRabbit no Windows/WSL](https://docs.coderabbit.ai/cli/wsl-win
 
 ## Bloqueadores
 
-### B-01 — O build de produção falha
+### B-01 — O build de produção falha — resolvido em 24/08/2026
 
 **Evidência:** o `npm run build` chegou ao compilador Angular, mas `src/app/product/product.component.sass` gerou 5,13 kB e ultrapassou o limite de erro de 4 kB. Também houve avisos em `cart.component.sass` (2,61 kB) e `carousel.component.sass` (2,19 kB). Os limites estão em `angular.json:44-54`.
 
@@ -65,6 +65,8 @@ Referências: [CodeRabbit no Windows/WSL](https://docs.coderabbit.ai/cli/wsl-win
 **Correção sugerida:** reduzir/compartilhar os estilos dos componentes ou ajustar os budgets de forma deliberada e justificada. Não apenas aumentar o limite sem entender o crescimento.
 
 **Aceite:** `npm run build` termina com código 0 e sem warnings de budget aceitos por acidente.
+
+**Resolução (24/08/2026):** sem mudar os limites, o Sass foi reorganizado para reduzir seletores redundantes. O build passou; Product caiu para 3,82 kB, Cart e Delete Product ficaram abaixo do aviso de 2 kB e o carrossel placeholder, sem uso funcional, foi removido. Product ainda gera aviso acima de 2 kB, deliberadamente mantido para uma otimização posterior sem mudança visual ampla.
 
 ### B-02 — A suíte de testes não compila
 
@@ -205,8 +207,7 @@ O único arquivo declara `production: false` e API em `http://localhost:3333` (`
 
 ### M-02 — Áreas importantes ainda são mocks ou placeholders
 
-- newsletter: `gettingImages()` vazio (`src/app/newsletter/newsletter.component.ts:22-26`);
-- carrossel: apenas `<h1>carrosel</h1>` (`src/app/newsletter/carousel/carousel.component.html:1`);
+- newsletter: a rota permanece vazia após a remoção do carrossel placeholder; a integração com o service ainda não foi implementada;
 - sobre: usa `ABOUT_MOCK` em vez do serviço (`src/app/about/about.component.ts:5-25`);
 - dashboard: vendas e produto mais vendido fixos (`src/app/dashboard/dashboard.component.ts:11-15`);
 - perfil: `openCart()` vazio (`src/app/profile/profile.component.ts:56`).
