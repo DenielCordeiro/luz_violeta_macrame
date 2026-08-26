@@ -70,6 +70,8 @@ Não atualize dependências automaticamente. Quando uma nova dependência for in
 - Use nomes curtos, simples, em minúsculas e fáceis de relacionar ao trabalho, preferencialmente uma a três palavras separadas por hífen e sem prefixos técnicos desnecessários. Exemplos: `home`, `pagamentos`, `limpeza-components` e `correcao-carrinho`.
 - Crie a branch a partir de `origin/main` atualizado, salvo quando a tarefa continuar explicitamente uma branch existente.
 - Daniel revisa a branch e decide ajustes ou merge em `main`.
+- Dentro da mesma branch, faça commits pequenos e semanticamente coesos por etapa revisável e validável. Exemplos de divisões úteis são estrutura/template, comportamento do componente ou service, estilos, testes e documentação; faça um commit assim que a etapa estiver consistente e sua validação pertinente passar.
+- Não imponha um commit por arquivo: mantenha no mesmo commit arquivos inseparáveis para o comportamento daquela etapa e separe alterações que Daniel possa entender, testar ou reverter de forma independente. Evite commits intermediários deliberadamente quebrados e não misture formatação ou refatorações alheias ao objetivo do commit.
 - Não force push, não reescreva histórico compartilhado e não descarte alterações alheias.
 - Commits do histórico usam predominantemente `feat[Área]:`, `fix[Área]:`, `refactor[Área]:` e `style[Área]:`. Preserve esse padrão quando ele não conflitar com a convenção definida para a branch.
 - Antes da entrega: informe branch, arquivos alterados, validações executadas e pendências reais.
