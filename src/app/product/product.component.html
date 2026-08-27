@@ -16,8 +16,12 @@
                     </div>
 
                     <div class="icons-edit-or-delete">
-                        <mat-icon class="material-symbols-outlined icon-btn edit" (click)="updateModal(product)">edit_square</mat-icon>
-                        <mat-icon class="material-symbols-outlined icon-btn delete" (click)="deleteModal(product?._id)">delete</mat-icon>
+                        <button mat-icon-button type="button" class="icon-btn edit" aria-label="Editar produto" (click)="updateModal(product)">
+                            <mat-icon class="material-symbols-outlined" aria-hidden="true">edit_square</mat-icon>
+                        </button>
+                        <button mat-icon-button type="button" class="icon-btn delete" aria-label="Excluir produto" (click)="deleteModal(product?._id)">
+                            <mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
+                        </button>
                     </div>
                 </div>
 
@@ -33,10 +37,13 @@
 
                     <form [formGroup]="freightForm" class="freight-form">
                         <div class="input-group">
-                            <input id="postalCode" type="text" class="input-postalcode" formControlName="postalCode" placeholder="13306-192">
-                            <button type="button" class="button-freight" (click)="searchShipping(this.freightForm.value.postalCode)">
+                            <mat-form-field class="input-postalcode" appearance="outline" subscriptSizing="dynamic">
+                                <mat-label>CEP</mat-label>
+                                <input matInput id="postalCode" type="text" formControlName="postalCode" placeholder="13306-192">
+                            </mat-form-field>
+                            <button mat-stroked-button type="button" class="button-freight" (click)="searchShipping(this.freightForm.value.postalCode)">
                                 <span>Calcular</span>
-                                <i class="bi bi-airplane-engines ms-1"></i>
+                                <mat-icon class="material-symbols-outlined" aria-hidden="true">flight</mat-icon>
                             </button>
                         </div>
                     </form>                    
@@ -63,12 +70,12 @@
                 <div class="products-quantity">
                     <span class="label">Quantidade:</span>
                     <div class="quantity-selector">
-                        <button type="button" class="btn-qty" (click)="changeQuantity('remove')">
-                            <span class="material-symbols-outlined">remove</span>
+                        <button mat-icon-button type="button" class="btn-qty" aria-label="Diminuir quantidade" (click)="changeQuantity('remove')">
+                            <mat-icon class="material-symbols-outlined" aria-hidden="true">remove</mat-icon>
                         </button>
                         <span class="quantity">{{ productsQuantity }}</span>
-                        <button type="button" class="btn-qty" (click)="changeQuantity('add')">
-                            <span class="material-symbols-outlined">add</span>
+                        <button mat-icon-button type="button" class="btn-qty" aria-label="Aumentar quantidade" (click)="changeQuantity('add')">
+                            <mat-icon class="material-symbols-outlined" aria-hidden="true">add</mat-icon>
                         </button>
                     </div>
                 </div>
@@ -76,19 +83,19 @@
                 <!-- Botões de Ação do Carrinho -->
                 <div class="add-to-cart">
                     @if (!productAddedToCart) {
-                        <button type="button" class="btn-action add-btn" (click)="addingToCart()">
+                        <button mat-stroked-button type="button" class="btn-action add-btn" (click)="addingToCart()">
                             <span>Adicionar ao Carrinho</span>
-                            <i class="bi bi-cart4"></i>
+                            <mat-icon class="material-symbols-outlined" aria-hidden="true">add_shopping_cart</mat-icon>
                         </button>
                     } @else {
                         <div class="cart-actions-group">
-                            <button type="button" class="btn-action remove-btn" (click)="removingProductFromCart()">
+                            <button mat-stroked-button type="button" class="btn-action remove-btn" (click)="removingProductFromCart()">
                                 <span>Remover</span>
-                                <i class="bi bi-trash"></i>
+                                <mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
                             </button>
-                            <button type="button" class="btn-action go-btn" (click)="goToCart()">
+                            <button mat-stroked-button type="button" class="btn-action go-btn" (click)="goToCart()">
                                 <span>Ir para o Carrinho</span>
-                                <i class="bi bi-cart-check"></i>
+                                <mat-icon class="material-symbols-outlined" aria-hidden="true">shopping_cart_checkout</mat-icon>
                             </button>
                         </div>
                     }

@@ -70,8 +70,10 @@ Não atualize dependências automaticamente. Quando uma nova dependência for in
 - Use nomes curtos, simples, em minúsculas e fáceis de relacionar ao trabalho, preferencialmente uma a três palavras separadas por hífen e sem prefixos técnicos desnecessários. Exemplos: `home`, `pagamentos`, `limpeza-components` e `correcao-carrinho`.
 - Crie a branch a partir de `origin/main` atualizado, salvo quando a tarefa continuar explicitamente uma branch existente.
 - Daniel revisa a branch e decide ajustes ou merge em `main`.
+- Dentro da mesma branch, faça commits pequenos e semanticamente coesos por etapa revisável e validável. Exemplos de divisões úteis são estrutura/template, comportamento do componente ou service, estilos, testes e documentação; faça um commit assim que a etapa estiver consistente e sua validação pertinente passar.
+- Não imponha um commit por arquivo: mantenha no mesmo commit arquivos inseparáveis para o comportamento daquela etapa e separe alterações que Daniel possa entender, testar ou reverter de forma independente. Evite commits intermediários deliberadamente quebrados e não misture formatação ou refatorações alheias ao objetivo do commit.
 - Não force push, não reescreva histórico compartilhado e não descarte alterações alheias.
-- Commits do histórico usam predominantemente `feat[Área]:`, `fix[Área]:`, `refactor[Área]:` e `style[Área]:`. Preserve esse padrão quando ele não conflitar com a convenção definida para a branch.
+- Commits do histórico usam predominantemente `feat[Área]:`, `fix[Área]:`, `refactor[Área]:`, `style[Área]:`, `test[Área]:` e `docs[Área]:`. Preserve esse padrão quando ele não conflitar com a convenção definida para a branch. Após o prefixo, use um assunto curto, preferencialmente uma única palavra que identifique a etapa e dê a Daniel uma noção clara do conteúdo, como `feat[Home]: estrutura`, `feat[Home]: conteúdo`, `style[Home]: responsividade` ou `test[Home]: estados`. Quando uma palavra não for suficiente, use a menor expressão explicativa possível.
 - Antes da entrega: informe branch, arquivos alterados, validações executadas e pendências reais.
 
 Branches remotas observadas em 16/08/2026: `main`, `fix`, `home`, `payments`, `product` e `docs/project-reference`. `main` apontava para `e92d6ec`.
@@ -248,7 +250,7 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 - About e dashboard usam mocks.
 - Footer usa avaliação de teste e não chama `searchForReviews()`.
 - `openCart()` no perfil e `savingCart()` estão vazios.
-- Templates usam classes e ícones do Bootstrap sem dependência correspondente no `package.json` ou import global comprovado.
+- Templates usam Angular Material para controles e ícones, com Grid, Flexbox, espaçamento e responsividade implementados no Sass local.
 
 ### Contratos e manutenção
 
@@ -332,6 +334,7 @@ Não replique essas bases automaticamente no site. Primeiro defina fonte de verd
 - A paleta está centralizada em `src/assets/sass/colors.sass`. Nomes históricos como `pourple` permanecem como aliases para evitar uma renomeação transversal nesta tarefa.
 - Cores de erro, sucesso e aviso continuam separadas da paleta institucional; não comunique estado apenas por cor.
 - O Angular Material ainda carrega o tema predefinido `indigo-pink`; uma futura tematização deve alinhar componentes Material à paleta e ser validada isoladamente.
+- Bootstrap e Bootstrap Icons não fazem parte da aplicação. Use Angular Material para componentes, controles e ícones; use Flexbox/Grid e o Sass local com os tokens/mixins existentes para layout, espaçamento e responsividade.
 - Layouts usam Flexbox/Grid, cards, bordas suaves, Material Icons e Angular Material.
 - Breakpoints centralizados: `hd` em `max-width: 1400px` e `mobile` em `max-width: 440px`.
 - PWA habilitada com service worker e manifesto; valide instalação, cache e atualização ao alterar assets ou rotas.

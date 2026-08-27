@@ -6,45 +6,45 @@
   }
  
 
-  <div class="default-button newsletter item" (click)="closingMenu('/newsletter')">
+  <button mat-button type="button" class="default-button newsletter item" (click)="closingMenu('/newsletter')">
      <mat-icon class="material-symbols-outlined">newspaper</mat-icon>
     <span translate="no">Newsletter</span>
-  </div>
+  </button>
 
-  <div class="default-button item" (click)="changeMenuProducts()">
+  <button mat-button type="button" class="default-button item" (click)="changeMenuProducts()">
     @if (this.isOpen == false) {
       <mat-icon class="material-symbols-outlined">arrow_drop_down</mat-icon>
     } @else {
       <mat-icon class="material-symbols-outlined">arrow_drop_up</mat-icon>
     }
     <span>Acessórios</span>
-  </div>
+  </button>
 
   @if (this.isOpen == true) {
     <div class="menu-products">
-      <div class="default-button light" (click)="closingMenu('/products')">
-        <i class="bi bi-arrow-right-short"></i>
+      <button mat-button type="button" class="default-button light" (click)="closingMenu('/products')">
+        <mat-icon class="material-symbols-outlined" aria-hidden="true">arrow_right_alt</mat-icon>
         <span>Todos</span>
-      </div>
+      </button>
     </div>
   }
 
-  <div class="default-button about item" (click)="closingMenu('/about')">
+  <button mat-button type="button" class="default-button about item" (click)="closingMenu('/about')">
     <mat-icon class="material-symbols-outlined">article_person</mat-icon>
     <span>Sobre</span>
-  </div>
+  </button>
 
   @if (this.userId !== 0) {
-    <div class="default-button profile item" (click)="closingMenu('/profile/{{ this.userId }}')">Minha Conta</div>
+    <button mat-button type="button" class="default-button profile item" (click)="closingMenu('/profile/{{ this.userId }}')">Minha Conta</button>
   }
   
   @if (this.administrator == true) {
-    <div class="default-button dashboard item" (click)="closingMenu('/dashboard')">Dashboard</div>
+    <button mat-button type="button" class="default-button dashboard item" (click)="closingMenu('/dashboard')">Dashboard</button>
   }
  
   @if (this.userId !== 0) {
     <div class="content-button-logout">
-      <div class="logout button-one" (click)="modalLogoutIsOpen()">Sair</div>
+      <button mat-button type="button" class="logout button-one" (click)="modalLogoutIsOpen()">Sair</button>
     </div>
   }
 </section>
@@ -53,9 +53,9 @@
   <div class="modal-logout">
     <h2>Deseja sair de sua conta ?</h2>
 
-    <div class="row">
-      <div class="close-modal-logout col-7"  (click)="modalLogoutIsOpen()">Não</div>
-      <div class="button-logout col-5" (click)="isLogout()">Sim</div>
+    <div class="modal-actions">
+      <button mat-button type="button" class="close-modal-logout" (click)="modalLogoutIsOpen()">Não</button>
+      <button mat-flat-button type="button" class="button-logout" (click)="isLogout()">Sim</button>
     </div>
   </div>
 }

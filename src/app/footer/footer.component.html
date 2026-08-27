@@ -3,56 +3,24 @@
     <h2>avaliações</h2>
 
     @for (avaliation of avaliations; track 0) {
-      <p>
-        @if(avaliation.filledStars == 1) {
-          <span class="filled-stars">
-            <i class='bi bi-star-fill'></i>
-          </span>
-        } @else if (avaliation.filledStars == 2) {
-          <span class="filled-stars">
-            <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i>
-          </span>
-        } @else if (avaliation.filledStars == 3) {
-          <span class="filled-stars">
-            <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i>
-          </span>
-        } @else if (avaliation.filledStars == 4) {
-          <span class="filled-stars">
-            <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i>
-          </span>
-        } @else if (avaliation.filledStars == 5) {
-          <span class="filled-stars">
-            <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i> <i class='bi bi-star-fill'></i>
-          </span>
-        }
+      <p class="rating" [attr.aria-label]="'Avaliação: ' + (avaliation.filledStars ?? 0) + ' estrelas preenchidas'">
+        <span class="filled-stars" aria-hidden="true">
+          @for (_ of starRange(avaliation.filledStars); track $index) {
+            <mat-icon class="material-symbols-outlined">star</mat-icon>
+          }
+        </span>
 
-        @if (avaliation.stars == 1) {
-          <span class="stars">
-            <i class="bi bi-star"></i>
-          </span>
-        } @else if (avaliation.stars == 2) {
-          <span class="stars">
-            <i class="bi bi-star"></i> <i class="bi bi-star"></i>
-          </span>
-        } @else if (avaliation.stars == 3) {
-          <span class="stars">
-            <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i>
-          </span>
-        } @else if (avaliation.stars == 4) {
-          <span class="stars">
-            <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i>
-          </span>
-        } @else if (avaliation.stars == 5) {
-          <span class="stars">
-            <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i> <i class="bi bi-star"></i>
-          </span>
-        }
+        <span class="stars" aria-hidden="true">
+          @for (_ of starRange(avaliation.stars); track $index) {
+            <mat-icon class="material-symbols-outlined">star_outline</mat-icon>
+          }
+        </span>
       </p>
     }
   </div>
 
   <div class="signature">
     <span class="company-name">Luz Violeta Macrâme</span>
-    <span class="creator-name">Camila Ribeiro Pedroso, <i class="bi bi-r-circle"></i>.</span>
+    <span class="creator-name">Camila Ribeiro Pedroso, <mat-icon class="material-symbols-outlined" aria-label="Marca registrada">copyright</mat-icon>.</span>
   </div>
 </section>

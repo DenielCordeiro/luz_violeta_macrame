@@ -1,15 +1,19 @@
 <mat-tab-group>
   <mat-tab label="Boleto" class="content-bank-slip">
     <div class="bank-slip">
-      <i class="bi bi-receipt fs-3 text-primary mb-3"></i>
-      <div (click)="processPayment(paymentMethods.bankSlip)">Baixar boleto</div>
+      <button mat-stroked-button type="button" class="payment-action" (click)="processPayment(paymentMethods.bankSlip)">
+        <mat-icon class="material-symbols-outlined bank-slip-icon" aria-hidden="true">receipt_long</mat-icon>
+        <span>Baixar boleto</span>
+      </button>
     </div>
   </mat-tab>
 
   <mat-tab label="PIX" class="content-pix">
     <div class="pix">
-      <i class="bi bi-qr-code fs-3 text-success mb-3"></i>
-      <div (click)="processPayment(paymentMethods.pix)">Gerar código pix</div>
+      <button mat-stroked-button type="button" class="payment-action" (click)="processPayment(paymentMethods.pix)">
+        <mat-icon class="material-symbols-outlined pix-icon" aria-hidden="true">qr_code_2</mat-icon>
+        <span>Gerar código pix</span>
+      </button>
 
       @for (qrCode of this.QRCodePix; track qrCode._id) {
         <img [src]="qrCode.imagemQrcode" alt="QRCODE PIX">
@@ -19,8 +23,10 @@
 
   <mat-tab label="Cartão de Crédito" class="content-credit-card">
     <div class="credit-card">
-      <i class="bi bi-credit-card fs-3 text-danger mb-3"></i>
-      <div (click)="processPayment(paymentMethods.credit)">Pagar com cartão de crédito</div>
+      <button mat-stroked-button type="button" class="payment-action" (click)="processPayment(paymentMethods.credit)">
+        <mat-icon class="material-symbols-outlined credit-card-icon" aria-hidden="true">credit_card</mat-icon>
+        <span>Pagar com cartão de crédito</span>
+      </button>
     </div>
   </mat-tab>
 </mat-tab-group>

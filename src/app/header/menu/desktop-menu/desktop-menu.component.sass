@@ -4,6 +4,13 @@
 #menu-desktop
   font-size: 21px
 
+  .default-button,
+  .logout
+    width: 100%
+    min-height: 44px
+    justify-content: flex-start
+    font-size: inherit
+
   @include display.hd
     font-size: 17px
 
@@ -13,13 +20,13 @@
     cursor: pointer
 
   .item
-    padding-top: 3.5vh
+    margin-top: 3.5vh
     cursor: pointer
 
     &:hover
       color: colors.$pourple
 
-    i
+    mat-icon
       color: colors.$pourple-light
       margin: 0px 1vw
 
@@ -27,7 +34,7 @@
         color: colors.$pourple
 
   .newsletter
-    margin-top: 2vh
+    margin-top: 5.5vh
 
   .menu-products
     padding-top: 2.5vh
@@ -36,9 +43,18 @@
     &:hover
       color: colors.$pourple
 
-    i
+    mat-icon
       color: colors.$pourple-light
       margin: 0px 0.3vw 0px 1.5vw
 
       &:hover
         color: colors.$pourple
+
+.modal-actions
+  display: flex
+  justify-content: flex-end
+  gap: 0.75rem
+
+.button-logout
+  background: colors.$pourple
+  color: colors.$white

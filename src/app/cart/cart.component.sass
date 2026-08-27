@@ -38,23 +38,11 @@
 
 .button-remove-from-cart
   color: colors.$black
-  cursor: pointer
-  height: 20px
-
-.bi-cart-dash, .bi-cart-x
-  display: inline
-
-.bi-cart-dash-fill, .bi-cart-x-fill
-  display: none
+  height: auto
 
 .button-remove-from-cart:hover
-  color: colors.$red
-
-  .bi-cart-dash
-    display: none
-
-  .bi-cart-dash-fill
-    display: flex
+  color: colors.$black
+  background: colors.$light-red
 
 .sale
   background-color: colors.$white
@@ -66,17 +54,11 @@
 
 .clear-cart
   color: colors.$black
-  cursor: pointer
 
   &:hover
-    color: colors.$red
+    color: colors.$black
+    background: colors.$light-red
     border-color: colors.$red
-
-    .bi-cart-x
-      display: none
-
-    .bi-cart-x-fill
-      display: inline
 
 .buttons-container
   display: flex
@@ -86,7 +68,7 @@
 .buy-products
   color: colors.$green-light
   border: 1px solid colors.$green-light
-  padding: 4px
+  background: colors.$white
 
   &:hover
     color: colors.$green

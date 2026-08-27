@@ -89,13 +89,6 @@
 
             .input-postalcode
                 flex: 1
-                padding: 0.5rem 0.8rem
-                border: 1px solid colors.$gray
-                border-radius: 6px
-                outline: none
-
-                &:focus
-                    border-color: colors.$green-light
 
             .button-freight
                 display: flex
@@ -149,7 +142,6 @@
             .btn-qty
                 background: none
                 border: none
-                padding: 0.3rem 0.6rem
                 cursor: pointer
                 display: flex
                 align-items: center
@@ -176,6 +168,9 @@
             cursor: pointer
             transition: 0.2s
 
+            mat-icon
+                margin: 0
+
         .add-btn, .go-btn
             color: colors.$pourple-light
             border: 1px solid colors.$pourple-light
@@ -195,11 +190,11 @@
                 flex: 1
                 background: transparent
                 border: 1px solid colors.$red
-                color: colors.$red
+                color: colors.$black
 
                 &:hover
                     background: colors.$red
-                    color: colors.$white
+                    color: colors.$black
 
             .go-btn
                 flex: 2
@@ -216,3 +211,9 @@
     .payment
         width: 100%
         padding: 1.5rem
+
+        .freight .input-group
+            flex-direction: column
+
+            .button-freight
+                width: 100%
