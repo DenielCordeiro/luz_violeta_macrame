@@ -1,0 +1,55 @@
+<section class="filters-panel" aria-labelledby="filters-title">
+	<div class="filters-heading">
+		<div>
+			<h2 id="filters-title">Filtrar produtos</h2>
+			<p>Os filtros são aplicados aos produtos já carregados.</p>
+		</div>
+
+		<button
+			mat-stroked-button
+			type="button"
+			[disabled]="!filtersAreActive()"
+			(click)="clearFilters()">
+			<mat-icon class="material-symbols-outlined" aria-hidden="true">filter_alt_off</mat-icon>
+			Limpar filtros
+		</button>
+	</div>
+
+	<form class="filters-grid" [formGroup]="filterForm" aria-label="Filtros do catálogo">
+		<mat-form-field appearance="outline">
+			<mat-label>Nome</mat-label>
+			<input matInput type="search" formControlName="name" autocomplete="off">
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Tipo</mat-label>
+			<input matInput type="search" formControlName="type" autocomplete="off">
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Categoria</mat-label>
+			<input matInput type="search" formControlName="category" autocomplete="off">
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Seleção</mat-label>
+			<select matNativeControl formControlName="selection">
+				<option value="all">Todos</option>
+				<option value="selected">Selecionados</option>
+				<option value="not-selected">Não selecionados</option>
+			</select>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Preço mínimo</mat-label>
+			<span matTextPrefix>R$&nbsp;</span>
+			<input matInput type="number" min="0" step="0.01" formControlName="minPrice">
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Preço máximo</mat-label>
+			<span matTextPrefix>R$&nbsp;</span>
+			<input matInput type="number" min="0" step="0.01" formControlName="maxPrice">
+		</mat-form-field>
+	</form>
+</section>

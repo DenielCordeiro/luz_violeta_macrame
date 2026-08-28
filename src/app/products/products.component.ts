@@ -1,4 +1,14 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
+import {
+	AfterViewInit,
+	Component,
+	ElementRef,
+	OnDestroy,
+	OnInit,
+	ViewChild,
+	computed,
+	inject,
+	signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -14,7 +24,71 @@ import { Product, PaginatedProductsResponse } from '../interfaces/product.interf
 import { CreateProductComponent } from './create-product/create-product.component';
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { DeleteProductComponent } from './delete-product/delete-product.component';
+import {
+	EMPTY_PRODUCT_FILTERS,
+	ProductFilters,
+	ProductFiltersComponent,
+} from './product-filters/product-filters.component';
 
+function normalizeText(value: string | undefined): string {
+	return (value ?? '')
+		.trim()
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLocaleLowerCase('pt-BR');
+}
+
+function matchesPrice(productPrice: number | undefined, minimum: number | null, maximum: number | null): boolean {
+	if (minimum === null && maximum === null) return true;
+	if (typeof productPrice !== 'number' || !Number.isFinite(productPrice)) return false;
+
+	return (minimum === null || productPrice >= minimum)
+		&& (maximum === null || productPrice <= maximum);
+}
+
+export function hasProductFilters(filters: ProductFilters): boolean {
+	return normalizeText(filters.name) !== ''
+		|| normalizeText(filters.type) !== ''
+		|| normalizeText(filters.category) !== ''
+		|| filters.selection !== 'all'
+		|| filters.minPrice !== null
+		|| filters.maxPrice !== null;
+}
+
+export function filterProducts(products: readonly Product[], filters: ProductFilters): Product[] {
+	const name = normalizeText(filters.name);
+	const type = normalizeText(filters.type);
+	const category = normalizeText(filters.category);
+
+	return products.filter((product) => {
+		const matchesName = name === '' || normalizeText(product.name).includes(name);
+		const matchesType = type === '' || normalizeText(product.type?.name).includes(type);
+		const matchesCategory = category === '' || normalizeText(product.category?.name).includes(category);
+		const matchesSelection = filters.selection === 'all'
+			|| (filters.selection === 'selected' && product.selection === true)
+			|| (filters.selection === 'not-selected' && product.selection === false);
+
+		return matchesName
+			&& matchesType
+			&& matchesCategory
+			&& matchesSelection
+			&& matchesPrice(product.price, filters.minPrice, filters.maxPrice);
+	});
+}
+
+export function mergeProductPages(currentProducts: readonly Product[], newProducts: readonly Product[]): Product[] {
+	const knownIds = new Set(currentProducts.flatMap((product) => product._id ? [product._id] : []));
+	const mergedProducts = [...currentProducts];
+
+	for (const product of newProducts) {
+		if (product._id && knownIds.has(product._id)) continue;
+
+		mergedProducts.push(product);
+		if (product._id) knownIds.add(product._id);
+	}
+
+	return mergedProducts;
+}
 
 @Component({
 	selector: 'app-products',
@@ -24,26 +98,31 @@ import { DeleteProductComponent } from './delete-product/delete-product.componen
 		RouterModule,
 		MatButtonModule,
 		MatIconModule,
-		MatProgressBarModule
+		MatProgressBarModule,
+		ProductFiltersComponent,
 	],
 	templateUrl: './products.component.html',
 	styleUrls: ['./products.component.sass'],
 })
 export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
-	@ViewChild('scrollAnchor') public anchor!: ElementRef;
-	public observer!: IntersectionObserver;
+	@ViewChild('scrollAnchor') public anchor!: ElementRef<HTMLElement>;
+	public observer?: IntersectionObserver;
 
-	private productsService: ProductsService = inject(ProductsService);
+	private readonly productsService = inject(ProductsService);
+	private readonly loadedProductsState = signal<Product[]>([]);
+	private readonly filterValues = signal<ProductFilters>(EMPTY_PRODUCT_FILTERS);
+	private loadingDelay?: ReturnType<typeof setTimeout>;
 
-	public products: Product[] = [];
+	public readonly products = this.loadedProductsState.asReadonly();
+	public readonly filteredProducts = computed(() => filterProducts(this.products(), this.filterValues()));
+	public readonly filtersAreActive = computed(() => hasProductFilters(this.filterValues()));
 
 	public productId: number | undefined;
-	public currentPage: number = 1;
-    public pageSize: number = 6;
-
-	public title: string = 'Trabalhos disponíveis';
-	public hasNextPage: boolean = true;
-	public isLoading: boolean = false;
+	public currentPage = 1;
+	public pageSize = 6;
+	public hasNextPage = true;
+	public isLoading = false;
+	public loadError: string | null = null;
 
 	constructor(public dialog: MatDialog) { }
 
@@ -53,80 +132,79 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngAfterViewInit(): void {
-		window.addEventListener('resize', () => {
-		  const oldPageSize = this.pageSize;
-
-		  if (oldPageSize !== this.pageSize) {
-		    this.resetAndReload();
-		  }
-		});
-
 		this.createObserver();
 	}
 
 	public resetAndReload(): void {
-		this.products = [];
+		this.loadedProductsState.set([]);
 		this.currentPage = 1;
 		this.hasNextPage = true;
 		this.loadProducts();
 	}
 
 	public createObserver(): void {
-		// Cria um IntersectionObserver para detectar quando o usuário chega ao final da lista de produtos
 		this.observer = new IntersectionObserver((entries) => {
-			const entry = entries[0]; // Verifica se o elemento âncora está visível na tela e se não está carregando produtos e se há mais páginas para carregar
+			const entry = entries[0];
 
 			if (entry.isIntersecting && !this.isLoading && this.hasNextPage) {
-				this.loadProducts(this.currentPage + 1); // Carrega a próxima página de produtos
+				this.loadNextPage();
 			}
 		}, {
 			root: null,
-        	threshold: 0 // O callback será chamado assim que qualquer parte do elemento âncora estiver visível
+			threshold: 0,
 		});
 
 		if (this.anchor?.nativeElement) {
-			this.observer.observe(this.anchor.nativeElement); // Inicia a observação do elemento âncora
+			this.observer.observe(this.anchor.nativeElement);
 		}
 	}
 
-	public loadProducts(page: number = 1): void {
+	public loadNextPage(): void {
+		if (this.hasNextPage) this.loadProducts(this.currentPage + 1);
+	}
+
+	public loadProducts(page = 1): void {
 		if (this.isLoading || (!this.hasNextPage && page !== 1)) return;
 
 		this.isLoading = true;
+		this.loadError = null;
 
 		this.productsService.getProducts(page, this.pageSize)
 			.then((response: PaginatedProductsResponse) => {
-				if (!response || !response.products) {
-					this.isLoading = false;
-					return;
+				if (!response?.products || !Array.isArray(response.products.docs)) {
+					throw new Error('Resposta de produtos inválida');
 				}
 
 				const docs = response.products.docs;
-				
-				if (page === 1) {
-					this.products = docs;
-				} else {
-					this.products = [...this.products, ...docs];
-				}
+				this.loadedProductsState.update((currentProducts) => page === 1
+					? mergeProductPages([], docs)
+					: mergeProductPages(currentProducts, docs));
 
 				this.currentPage = response.products.page || page;
-				this.hasNextPage = response.products.hasNextPage ?? (this.currentPage < (response.products.pages || 1));
-				
+				this.hasNextPage = response.products.hasNextPage
+					?? (this.currentPage < (response.products.pages || 1));
 
-				// Pequeno atraso para o usuário visualizar o indicador de progresso renderizando os novos cards
-				setTimeout(() => {
+				this.loadingDelay = setTimeout(() => {
 					this.isLoading = false;
 
-					// Se a tela ainda não tem scroll vertical, carrega a próxima
 					if (document.body.scrollHeight <= window.innerHeight && this.hasNextPage) {
-						this.loadProducts(this.currentPage + 1);
+						this.loadNextPage();
 					}
 				}, 800);
 			})
-			.catch(error => {
+			.catch((error: unknown) => {
 				console.error('Erro ao carregar produtos:', error);
+				this.loadError = 'Não foi possível carregar os produtos. Tente novamente.';
 				this.isLoading = false;
 			});
+	}
+
+	public updateFilters(filters: ProductFilters): void {
+		this.filterValues.set(filters);
+	}
+
+	public retryLoading(): void {
+		this.loadProducts(this.products().length === 0 ? 1 : this.currentPage + 1);
 	}
 
 	public clearProductLocalStorage(): void {
@@ -135,17 +213,17 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public gettingProducts(): void {
 		this.productsService.getProducts()
-			.then(loadedProducts => {
-				if (loadedProducts == null || loadedProducts == undefined) {
-					alert("[Atenção]: Não existe nenhum produto a venda!")
+			.then((loadedProducts) => {
+				if (!loadedProducts?.products?.docs) {
+					alert('[Atenção]: Não existe nenhum produto à venda!');
 				} else {
-					this.products = loadedProducts.products.docs as Product[];
+					this.loadedProductsState.set(mergeProductPages([], loadedProducts.products.docs));
 				}
 			})
-			.catch(error => {
+			.catch((error: unknown) => {
 				alert('ERRO: não conseguiu trazer os produtos');
 				console.log(error);
-			})
+			});
 	}
 
 	public setProductInLocalStorage(product: Product): void {
@@ -159,10 +237,10 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	public dialogUpdate(product: Product | null): void {
 		if (product !== null) {
 			this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
-				data: product
+				data: product,
 			});
 		} else {
-			console.log("[Error]: não foi possível encontrar produto selecionado para atualizar");
+			console.log('[Error]: não foi possível encontrar produto selecionado para atualizar');
 		}
 	}
 
@@ -172,17 +250,12 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 				data: product,
 			});
 		} else {
-			console.log("[Error]: não foi possível encontrar produto selecionado para excluir");
-		};
-	}
-
-	public filter(newTitle: string): void {
-		this.title = newTitle;
+			console.log('[Error]: não foi possível encontrar produto selecionado para excluir');
+		}
 	}
 
 	ngOnDestroy(): void {
-		if (this.observer) {
-			this.observer.disconnect();
-		}
+		this.observer?.disconnect();
+		if (this.loadingDelay) clearTimeout(this.loadingDelay);
 	}
 }
