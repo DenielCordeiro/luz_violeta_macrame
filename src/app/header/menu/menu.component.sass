@@ -1,85 +1,96 @@
 @use '../../../assets/sass/colors'
 @use '../../../assets/sass/display'
 
-.burguer-icon
-	position: fixed
-	z-index: 100
-	cursor: pointer
-	
-	&:hover
-		.line
-			background-color: colors.$pourple
+.menu-toggle
+  position: fixed
+  top: 8px
+  left: calc(16.6667% - 22px)
+  z-index: 30
+  width: 44px
+  height: 44px
+  color: colors.$black
 
-	.line
-		width: 30px
-		height: 3px
-		background-color: colors.$black
-		margin: 0px 0px 7px 0px
+  &:hover
+    .line
+      background-color: colors.$pourple
 
-		@include display.hd
-			width: 28px
-			height: 3px
-			margin: 0px 0px 5px 0px
+  &:focus-visible
+    outline: 2px solid colors.$pourple
+    outline-offset: 2px
 
-		@include display.mobile
-			width: 28px
-			height: 3px
-			margin-bottom: 4px
+.menu-icon
+  position: relative
+  display: block
+  width: 30px
+  height: 19px
 
-	.line-one
-		transform: rotate(0deg)
-		transition: all 700ms
+  @include display.hd
+    width: 28px
+    height: 17px
 
-	.line-two
-		transition: all 600ms
+  @include display.mobile
+    width: 26px
+    height: 16px
 
-	.line-three
-		transform: rotate(-0deg)
-		transition: all 700ms
+.line
+  position: absolute
+  left: 0
+  width: 100%
+  height: 3px
+  border-radius: 2px
+  background-color: currentColor
+  transition: top 300ms ease, transform 300ms ease, opacity 200ms ease, background-color 200ms ease
+
+.line-one
+  top: 0
+
+.line-two
+  top: calc(50% - 1.5px)
+
+.line-three
+  top: calc(100% - 3px)
 
 .selected
-	.line
-		background-color: colors.$black
+  .line-one,
+  .line-three
+    top: calc(50% - 1.5px)
 
-	.line-one
-		transform: rotate(40deg)
-		transition: all 700ms
+  .line-one
+    transform: rotate(45deg)
 
-	.line-two
-		display: none
+  .line-two
+    opacity: 0
 
-	.line-three
-		position: fixed
-		transform: rotate(-40deg)
-		top: 3.4vh
+  .line-three
+    transform: rotate(-45deg)
 
-		transition: all 700ms
-
-.menu
-	position: fixed
-	display: flex
-	justify-content: flex-end
-	background-color: colors.$white
-	z-index: -1
-	top: 62px
-	width: 0%
-	height: 100%
-	left: -1px
-	transition: width 800ms ease, left 800ms ease
+.side-menu
+  position: fixed
+  top: 0
+  bottom: 0
+  left: 0
+  z-index: 10
+  display: flex
+  justify-content: center
+  box-sizing: border-box
+  width: 0
+  padding-top: 60px
+  overflow-x: hidden
+  overflow-y: auto
+  visibility: hidden
+  pointer-events: none
+  background-color: colors.$white
+  transition: width 800ms ease, visibility 0s linear 800ms
 
 .menu-open
-	position: fixed
-	display: flex
-	justify-content: center
-	z-index: 1
-	width: 260px
-	height: 100%
-	left: -1px
-	box-shadow: 1px 1px 0px 0px colors.$pourple-gray
-	transition: width 800ms ease, left 800ms ease
+  width: 260px
+  visibility: visible
+  pointer-events: auto
+  box-shadow: 1px 1px 0 0 colors.$pourple-gray
+  transition: width 800ms ease
 
-	@include display.hd
-		width: 210px
+  @include display.hd
+    width: 210px
 
-	@include display.mobile
-		width: 190px
+  @include display.mobile
+    width: 190px
