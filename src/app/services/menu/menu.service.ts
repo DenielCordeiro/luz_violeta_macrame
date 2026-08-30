@@ -5,25 +5,25 @@ import { Router } from "@angular/router";
     providedIn: 'root'
 })
 export class MenuService {
-    private _menuAberto = signal(false);
-    public menuAberto = this._menuAberto.asReadonly();
+    private _menuOpen = signal(false);
+    public menuOpen = this._menuOpen.asReadonly();
     public lastUrl = signal('');
 
     constructor(private router: Router) { }
 
-    toggleMenu(): void {
-        this._menuAberto.update(valor => !valor);
+    public toggleMenu(): void {
+        this._menuOpen.update(valor => !valor);
     }
 
-    closeMenu(nextUrl: string): void {
+    public closeMenu(nextUrl: string): void {
         const activeRoute = this.router.url;
 
         if (nextUrl === 'noAction') {
-            this._menuAberto.set(false);
+            this._menuOpen.set(false);
         } else if (nextUrl === activeRoute) {
             console.log('Você já está nesta página!');
         } else {
-            this._menuAberto.set(false);
+            this._menuOpen.set(false);
             this.router.navigate([nextUrl]);
         }
     }
@@ -35,7 +35,7 @@ export class MenuService {
         return this.lastUrl();
     }
 
-    returnLastUrl(): string {
+    public returnLastUrl(): string {
         const lastUrl = localStorage.getItem('lastUrl');
 
         if (lastUrl) {

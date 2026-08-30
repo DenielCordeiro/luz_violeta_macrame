@@ -32,7 +32,7 @@ export class DesktopMenuComponent {
         this.getLogin();
     }
 
-    changeMenuProducts(): void {
+    public changeMenuProducts(): void {
         if (this.isOpen == false) {
             this.isOpen = true;
         } else {
@@ -40,7 +40,7 @@ export class DesktopMenuComponent {
         }
     }
 
-    getLogin(): void {
+    public getLogin(): void {
         const id = localStorage.getItem('user_id');
 
         if (id !== null) {
@@ -50,7 +50,7 @@ export class DesktopMenuComponent {
         }
     }
 
-    modalLogoutIsOpen(): void {
+    public modalLogoutIsOpen(): void {
         if (this.modalLogout == false) {
             this.modalLogout = true;
         } else {
@@ -58,14 +58,14 @@ export class DesktopMenuComponent {
         }
     }
 
-    isLogout(): void {
+    public isLogout(): void {
         const noAction: string = 'noAction';
 
         this.authService.logout();
         this.closingMenu(noAction);
     }
 
-    closingMenu(url: string): void {
+    public closingMenu(url: string): void {
         this.menuService.closeMenu(url);
     }
 }

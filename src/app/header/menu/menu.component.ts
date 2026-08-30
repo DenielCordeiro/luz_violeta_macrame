@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { Component, Signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MenuService } from 'src/app/services/menu/menu.service';
 import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
 
@@ -7,8 +7,8 @@ import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
   selector: 'app-menu',
   standalone: true,
   imports: [
-    CommonModule,
-    DesktopMenuComponent
+    DesktopMenuComponent,
+    MatButtonModule,
   ],
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.sass'],
@@ -16,7 +16,7 @@ import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
 export class MenuComponent {
   constructor(public menuService: MenuService) {}
 
-  changeIconBurguer(): void {
-    this.menuService.toggleMenu(); 
+  public changeIconBurguer(): void {
+    this.menuService.toggleMenu();
   }
 }
