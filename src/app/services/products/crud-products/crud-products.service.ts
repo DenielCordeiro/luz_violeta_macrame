@@ -12,6 +12,7 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 	route!: string;
 	header: any = this.buildHeader();
 	products: Product[] = [];
+	productSelected!: Product;
 
 	constructor(
 		http: HttpClient,
@@ -44,17 +45,28 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 		localStorage.setItem('selectedProduct', JSON.stringify(product));
 	}
 
-	public getProductSelected(): Product {
+	public getProductLocalStorage(): Promise<Product | null> {
 		const productInLocalStorage = localStorage.getItem('selectedProduct');
 
 		if (productInLocalStorage !== null) {
-			const product = JSON.parse(productInLocalStorage)
-			this.products.push(product)
-		} else {
-			console.error({ "message": "[ERRO!] Produto não está sendo carregado do LocalStorage" })
+			return Promise.resolve(JSON.parse(productInLocalStorage));
 		}
 
-		return this.products[0];
+		return Promise.resolve(null);
+	}
+
+
+	public async getProduct(productId: string): Promise<Product> {
+		try {
+			const product = await lastValueFrom(this.http.get<Product>(`${this.route}/${productId}`, { headers: this.header }));
+
+			this.productSelected = product;
+			this.addProductLocalStorage(this.productSelected);
+
+			return this.productSelected;
+		} catch (error) {
+			throw new Error(`[ERRO!] Produto não encontrado! Id enviado (${productId}), mas a API retornou erro.`);
+		}
 	}
 
 	public removeProductSelected(): void {

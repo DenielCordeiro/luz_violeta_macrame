@@ -51,6 +51,7 @@ export class ProductComponent implements OnInit, OnDestroy {
 	public userProfile: User = {};
 
 	public postalCode: string = '';
+	public productId: string | undefined = undefined;
 	public productsQuantity: number = 1;
 	public productAddedToCart: boolean = false;
 
@@ -67,21 +68,35 @@ export class ProductComponent implements OnInit, OnDestroy {
 		this.checkIfProductIsInCart();
 	}
 
-	public getProductSelected(): void {
+	public async getProductSelected(): Promise<void> {
 		try {
-			this.product = this.productsService.getProductSelected();
+			// 1. Aguarda a leitura do LocalStorage
+			const localProduct = await this.productsService.getProductLocalStorage();
+
+			// 2. Se encontrou no LocalStorage, define o produto e encerra a função
+			if (localProduct !== null) {
+				this.product = localProduct;
+				this.products.push(this.product);
+				return; // Agora sim o return encerra o método getProductSelected()!
+			}
+
+			// 3. Se não encontrou no LocalStorage, busca o ID da URL
+			this.productId = this.route.url.split('/').pop();
+
+			if (!this.productId) {
+				console.error('Nenhum produto selecionado e nenhum ID de produto fornecido na URL.');
+				return;
+			}
+
+			// 4. Busca o produto na API
+			this.product = await this.productsService.getProduct(this.productId);
+			this.products.push(this.product);
+
 		} catch (error) {
 			console.error({
-				"message:": "Não foi possível buscar o produto do serviço.",
-				"fail: ": error,
-			})
-		}
-
-		if (!this.product) {
-			console.error('Nenhum produto selecionado!');
-			return;
-		} else {
-			this.products.push(this.product);
+				message: "Não foi possível buscar o produto do serviço.",
+				fail: error,
+			});
 		}
 	}
 
@@ -223,6 +238,6 @@ export class ProductComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.productsService.removeProductSelected();
+		// this.productsService.removeProductSelected();
 	}
 }

@@ -7,7 +7,7 @@
     <div class="cart-content">
       <div class="products">
         @for (product of productsInCart; track product._id) {
-          <div class="product">
+          <div class="product" (click)="goToProductPage(product)">
             <div class="product-image">
               <img src="{{ product?.file?.url }}" alt="{{ product?.file?.name }}">
             </div>

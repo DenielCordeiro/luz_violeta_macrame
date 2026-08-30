@@ -1,37 +1,53 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router, RouterModule } from '@angular/router';
+
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
+import { ProductsService } from '../services/products/products.service';
 import { CartService } from '../services/cart/cart.service';
+
 import { Product } from 'src/app/interfaces/product.interface';
 import { Sale } from '../interfaces/sale.interface';
 import { User } from '../interfaces/user.interface';
+
 import { PaymentsComponent } from './payments/payments.component';
 
 @Component({
 	selector: 'app-cart',
 	standalone: true,
-	imports: [CommonModule, MatButtonModule, MatIconModule],
+	imports: [
+		CommonModule,
+		MatButtonModule,
+		MatIconModule,
+		RouterModule,
+	],
 	templateUrl: './cart.component.html',
 	styleUrls: ['./cart.component.sass'],
 })
 export class CartComponent implements OnInit {
-	productsInCart: Product[] = [];
-	buildedSale: Sale = {};
-	userProfile: User = {};
-	finalValue: number = 0;
+	private productsService: ProductsService = inject(ProductsService);
+	private cartService: CartService = inject(CartService);
+
+	public productsInCart: Product[] = [];
+
+	public buildedSale: Sale = {};
+	public userProfile: User = {};
+
+	public finalValue: number = 0;
 
 	constructor(
-		private cartService: CartService,
-		public dialog: MatDialog
-	) { }
+		public dialog: MatDialog,
+		private route: Router,
+	) {}
 
 	ngOnInit(): void {
 		this.getProductsInCart();
 	}
 
-	getProductsInCart(): void {
+	public getProductsInCart(): void {
 		this.cartService.getProductsInCart()
 			.then((products: Product[]) => {
 				this.productsInCart = products;
@@ -39,7 +55,7 @@ export class CartComponent implements OnInit {
 			});
 	}
 
-	calculateFinalValue(products: Product[]): number {
+	public calculateFinalValue(products: Product[]): number {
 		const total = products.reduce((accumulator, product) => {
 			const productPrice = product.price || 0;
 
@@ -62,15 +78,15 @@ export class CartComponent implements OnInit {
 	}
 
 
-	cartCleaning(): void {
+	public cartCleaning(): void {
 		this.cartService.clearCart();
 		this.productsInCart = [];
 		this.finalValue = 0;
 	}
 
-	savingCart(): void { }
+	public savingCart(): void { }
 
-	completePurchase(): void {
+	public completePurchase(): void {
 		this.userProfile = this.cartService.getUserProfile();
 
 		this.buildedSale = {
@@ -90,5 +106,10 @@ export class CartComponent implements OnInit {
 		this.dialog.open<PaymentsComponent>(PaymentsComponent, {
 			data: this.buildedSale
 		});
+	}
+
+	public goToProductPage(product: Product): void {
+		this.productsService.addProductLocalStorage(product);
+		this.route.navigate(['/product', product._id]);
 	}
 }
