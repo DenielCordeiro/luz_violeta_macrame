@@ -16,7 +16,7 @@ import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
 export class MenuComponent {
   constructor(public menuService: MenuService) {}
 
-  changeIconBurguer(): void {
+  public changeIconBurguer(): void {
     this.menuService.toggleMenu();
   }
 }

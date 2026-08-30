@@ -1,26 +1,14 @@
-<button
-  mat-icon-button
-  type="button"
-  class="menu-toggle"
-  [class.selected]="this.menuService.menuAberto()"
-  [attr.aria-label]="this.menuService.menuAberto() ? 'Fechar menu' : 'Abrir menu'"
-  [attr.aria-expanded]="this.menuService.menuAberto()"
-  aria-controls="side-menu"
-  (click)="changeIconBurguer()"
->
-  <span class="menu-icon" aria-hidden="true">
-    <span class="line line-one"></span>
-    <span class="line line-two"></span>
-    <span class="line line-three"></span>
-  </span>
+<button mat-icon-button type="button" class="menu-toggle" [class.selected]="this.menuService.menuOpen()"
+	[attr.aria-label]="this.menuService.menuOpen() ? 'close' : 'open'"
+	[attr.aria-expanded]="this.menuService.menuOpen()" aria-controls="side-menu" (click)="changeIconBurguer()">
+	<span class="menu-icon">
+		<span class="line line-one"></span>
+		<span class="line line-two"></span>
+		<span class="line line-three"></span>
+	</span>
 </button>
 
-<aside
-  id="side-menu"
-  class="side-menu"
-  [class.menu-open]="this.menuService.menuAberto()"
-  [attr.aria-hidden]="!this.menuService.menuAberto()"
-  [inert]="!this.menuService.menuAberto()"
->
-  <app-desktop-menu></app-desktop-menu>
+<aside id="side-menu" class="side-menu" [class.menu-open]="this.menuService.menuOpen()"
+	[attr.aria-hidden]="!this.menuService.menuOpen()" [inert]="!this.menuService.menuOpen()">
+	<app-desktop-menu></app-desktop-menu>
 </aside>

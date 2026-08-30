@@ -2,59 +2,58 @@
 @use '../../../../assets/sass/display'
 
 #menu-desktop
-  font-size: 21px
+	font-size: 21px
 
-  .default-button,
-  .logout
-    width: 100%
-    min-height: 44px
-    justify-content: flex-start
-    font-size: inherit
+	.default-button, .logout
+		width: 100%
+		min-height: 44px
+		justify-content: flex-start
+		font-size: inherit
 
-  @include display.hd
-    font-size: 17px
+	@include display.hd
+		font-size: 17px
 
-  .login
-    padding: 2vh 3vw
-    border-bottom: 1px solid colors.$pourple-gray
-    cursor: pointer
+	.login
+		padding: 2vh 3vw
+		border-bottom: 1px solid colors.$pourple-gray
+		cursor: pointer
 
-  .item
-    margin-top: 3.5vh
-    cursor: pointer
+	.item
+		margin-top: 3.5vh
+		cursor: pointer
 
-    &:hover
-      color: colors.$pourple
+		&:hover
+			color: colors.$pourple
 
-    mat-icon
-      color: colors.$pourple-light
-      margin: 0px 1vw
+		mat-icon
+			color: colors.$pourple-light
+			margin: 0px 1vw
 
-      &:hover
-        color: colors.$pourple
+		&:hover
+			color: colors.$pourple
 
-  .newsletter
-    margin-top: 5.5vh
+	.newsletter
+		margin-top: 5.5vh
 
-  .menu-products
-    padding-top: 2.5vh
-    cursor: pointer
+	.menu-products
+		padding-top: 2.5vh
+		cursor: pointer
 
-    &:hover
-      color: colors.$pourple
+		&:hover
+			color: colors.$pourple
 
-    mat-icon
-      color: colors.$pourple-light
-      margin: 0px 0.3vw 0px 1.5vw
+		mat-icon
+			color: colors.$pourple-light
+			margin: 0px 0.3vw 0px 1.5vw
 
-      &:hover
-        color: colors.$pourple
+		&:hover
+			color: colors.$pourple
 
 .modal-actions
-  display: flex
-  justify-content: flex-end
-  gap: 0.75rem
+	display: flex
+	justify-content: flex-end
+	gap: 0.75rem
 
 .button-logout
-  background: colors.$pourple
-  color: colors.$white
+	background: colors.$pourple
+	color: colors.$white
