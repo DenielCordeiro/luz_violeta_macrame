@@ -1,62 +1,61 @@
 <section id="menu-desktop">
-  @if (this.userId == 0) {
-    <div class="login">
-      <app-login></app-login>
-    </div>
-  }
- 
+	@if (this.userId == 0) {
+		<div class="login">
+			<app-login></app-login>
+		</div>
+	}
 
-  <button mat-button type="button" class="default-button newsletter item" (click)="closingMenu('/newsletter')">
-     <mat-icon class="material-symbols-outlined">newspaper</mat-icon>
-    <span translate="no">Newsletter</span>
-  </button>
+	<button mat-button type="button" class="default-button newsletter item" (click)="closingMenu('/home')">
+		<mat-icon class="material-symbols-outlined">newspaper</mat-icon>
+		<span translate="no">Newsletter</span>
+	</button>
 
-  <button mat-button type="button" class="default-button item" (click)="changeMenuProducts()">
-    @if (this.isOpen == false) {
-      <mat-icon class="material-symbols-outlined">arrow_drop_down</mat-icon>
-    } @else {
-      <mat-icon class="material-symbols-outlined">arrow_drop_up</mat-icon>
-    }
-    <span>Acessórios</span>
-  </button>
+	<button mat-button type="button" class="default-button item" (click)="changeMenuProducts()">
+		@if (this.isOpen == false) {
+			<mat-icon class="material-symbols-outlined">arrow_drop_down</mat-icon>
+		} @else {
+			<mat-icon class="material-symbols-outlined">arrow_drop_up</mat-icon>
+		}
 
-  @if (this.isOpen == true) {
-    <div class="menu-products">
-      <button mat-button type="button" class="default-button light" (click)="closingMenu('/products')">
-        <mat-icon class="material-symbols-outlined" aria-hidden="true">arrow_right_alt</mat-icon>
-        <span>Todos</span>
-      </button>
-    </div>
-  }
+		<span>Acessórios</span>
+	</button>
 
-  <button mat-button type="button" class="default-button about item" (click)="closingMenu('/about')">
-    <mat-icon class="material-symbols-outlined">article_person</mat-icon>
-    <span>Sobre</span>
-  </button>
+	@if (this.isOpen == true) {
+		<div class="menu-products">
+			<button mat-button type="button" class="default-button light" (click)="closingMenu('/products')">
+				<mat-icon class="material-symbols-outlined" aria-hidden="true">arrow_right_alt</mat-icon>
+				<span>Todos</span>
+			</button>
+		</div>
+	}
 
-  @if (this.userId !== 0) {
-    <button mat-button type="button" class="default-button profile item" (click)="closingMenu('/profile/{{ this.userId }}')">Minha Conta</button>
-  }
-  
-  @if (this.administrator == true) {
-    <button mat-button type="button" class="default-button dashboard item" (click)="closingMenu('/dashboard')">Dashboard</button>
-  }
- 
-  @if (this.userId !== 0) {
-    <div class="content-button-logout">
-      <button mat-button type="button" class="logout button-one" (click)="modalLogoutIsOpen()">Sair</button>
-    </div>
-  }
+	<button mat-button type="button" class="default-button about item" (click)="closingMenu('/about')">
+		<mat-icon class="material-symbols-outlined">article_person</mat-icon>
+		<span>Sobre</span>
+	</button>
+
+	@if (this.userId !== 0) {
+		<button mat-button type="button" class="default-button profile item" (click)="closingMenu('/profile/{{ this.userId }}')">Minha Conta</button>
+	}
+
+	@if (this.administrator == true) {
+		<button mat-button type="button" class="default-button dashboard item" (click)="closingMenu('/dashboard')">Dashboard</button>
+	}
+
+	@if (this.userId !== 0) {
+		<div class="content-button-logout">
+			<button mat-button type="button" class="logout button-one" (click)="modalLogoutIsOpen()">Sair</button>
+		</div>
+	}
 </section>
 
 @if (this.modalLogout == true) {
-  <div class="modal-logout">
-    <h2>Deseja sair de sua conta ?</h2>
+	<div class="modal-logout">
+		<h2>Deseja sair de sua conta ?</h2>
 
-    <div class="modal-actions">
-      <button mat-button type="button" class="close-modal-logout" (click)="modalLogoutIsOpen()">Não</button>
-      <button mat-flat-button type="button" class="button-logout" (click)="isLogout()">Sim</button>
-    </div>
-  </div>
+		<div class="modal-actions">
+			<button mat-button type="button" class="close-modal-logout" (click)="modalLogoutIsOpen()">Não</button>
+			<button mat-flat-button type="button" class="button-logout" (click)="isLogout()">Sim</button>
+		</div>
+	</div>
 }
-

@@ -1,9 +1,14 @@
-<div class="burguer-icon" [ngClass]="this.menuService.menuAberto()  ? 'selected' : ''" (click)="changeIconBurguer()">
-  <div class="line line-one"></div>
-  <div class="line line-two"></div>
-  <div class="line line-three"></div>
-</div>
+<button mat-icon-button type="button" class="menu-toggle" [class.selected]="this.menuService.menuOpen()"
+	[attr.aria-label]="this.menuService.menuOpen() ? 'close' : 'open'"
+	[attr.aria-expanded]="this.menuService.menuOpen()" aria-controls="side-menu" (click)="changeIconBurguer()">
+	<span class="menu-icon">
+		<span class="line line-one"></span>
+		<span class="line line-two"></span>
+		<span class="line line-three"></span>
+	</span>
+</button>
 
-<div class="menu" [ngClass]="this.menuService.menuAberto() ? 'menu-open' : ''">
-  <app-desktop-menu></app-desktop-menu>
-</div>
+<aside id="side-menu" class="side-menu" [class.menu-open]="this.menuService.menuOpen()"
+	[attr.aria-hidden]="!this.menuService.menuOpen()" [inert]="!this.menuService.menuOpen()">
+	<app-desktop-menu></app-desktop-menu>
+</aside>
