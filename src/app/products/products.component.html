@@ -1,40 +1,75 @@
-<header>
-	<button matButton="elevated" (click)="dialogCreate()">
+<header class="page-header">
+	<h1>Trabalhos disponíveis</h1>
+
+	<button matButton="elevated" type="button" (click)="dialogCreate()">
 		<span>Adicionar</span>
-		<mat-icon class="material-symbols-outlined">add_box</mat-icon>
+		<mat-icon class="material-symbols-outlined" aria-hidden="true">add_box</mat-icon>
 	</button>
 </header>
 
 <main>
-	<div class="products">
-		@for (product of products; track product._id) {
-			<div class="product">
-				<div class="product-buttons">
-					<button mat-button type="button" class="update-and-delete-buttons update-product" (click)="dialogUpdate(product)">
-						<span>Editar</span>
-						<mat-icon class="material-symbols-outlined" aria-hidden="true">edit</mat-icon>
-					</button>
+	<app-product-filters (filtersChange)="updateFilters($event)" />
 
-					<button mat-button type="button" class="update-and-delete-buttons delete-product" (click)="dialogDelete(product)">
-						<span>Excluir</span>
-						<mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
-					</button>
-				</div>
+	<p class="results-summary" aria-live="polite">
+		{{ filteredProducts().length }} de {{ products().length }} produtos carregados exibidos
+	</p>
 
-				<a class="product-card" (click)="setProductInLocalStorage(product)" [routerLink]="['/product', product._id]">
-					<img src="{{ product?.file?.url }}" [alt]="product.name">
-					<p class="itemTitle" >{{ product?.name }}</p>
-					<p class="itemValor">R$ {{ product?.price }}</p>
-				</a>
-			</div>
-		}
-	</div>  
-
-	@if (isLoading) {
-		<div class="loading-container">
-            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-        </div>
+	@if (loadError) {
+		<section class="feedback error" role="alert">
+			<p>{{ loadError }}</p>
+			<button mat-stroked-button type="button" (click)="retryLoading()">Tentar novamente</button>
+		</section>
 	}
 
-	<div #scrollAnchor></div>
+	@if (filteredProducts().length > 0) {
+		<div class="products">
+			@for (product of filteredProducts(); track product._id) {
+				<article class="product">
+					<div class="product-buttons">
+						<button mat-button type="button" class="update-and-delete-buttons update-product" (click)="dialogUpdate(product)">
+							<span>Editar</span>
+							<mat-icon class="material-symbols-outlined" aria-hidden="true">edit</mat-icon>
+						</button>
+
+						<button mat-button type="button" class="update-and-delete-buttons delete-product" (click)="dialogDelete(product)">
+							<span>Excluir</span>
+							<mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
+						</button>
+					</div>
+
+					<a class="product-card" (click)="setProductInLocalStorage(product)" [routerLink]="['/product', product._id]">
+						<img [src]="product.file?.url" [alt]="product.name || 'Produto artesanal em macramê'">
+						<p class="itemTitle">{{ product.name }}</p>
+						<p class="itemValor">R$ {{ product.price }}</p>
+					</a>
+				</article>
+			}
+		</div>
+	} @else if (!isLoading && !loadError) {
+		<section class="feedback empty" role="status">
+			@if (filtersAreActive()) {
+				<h2>Nenhum produto carregado corresponde aos filtros</h2>
+				<p>Limpe os filtros ou carregue outra página para ampliar a busca.</p>
+
+				@if (hasNextPage) {
+					<button mat-stroked-button type="button" (click)="loadNextPage()">Carregar mais produtos</button>
+				}
+			} @else {
+				<h2>Nenhum produto disponível</h2>
+				<p>Novos trabalhos aparecerão aqui quando forem cadastrados.</p>
+			}
+		</section>
+	}
+
+	@if (filtersAreActive() && hasNextPage && filteredProducts().length > 0) {
+		<p class="pagination-note">Continue rolando para filtrar também as próximas páginas.</p>
+	}
+
+	@if (isLoading) {
+		<div class="loading-container" aria-label="Carregando produtos">
+			<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+		</div>
+	}
+
+	<div #scrollAnchor class="scroll-anchor" aria-hidden="true"></div>
 </main>
