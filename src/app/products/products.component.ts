@@ -49,7 +49,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.loadProducts();
-		this.clearProductLocalStorage();
 	}
 
 	ngAfterViewInit(): void {
@@ -127,10 +126,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 				console.error('Erro ao carregar produtos:', error);
 				this.isLoading = false;
 			});
-	}
-
-	public clearProductLocalStorage(): void {
-		this.productsService.removeProductSelected();
 	}
 
 	public gettingProducts(): void {
