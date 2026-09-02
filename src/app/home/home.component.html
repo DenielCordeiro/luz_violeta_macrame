@@ -1,0 +1,19 @@
+<main class="home-container">
+  @if (isLoading()) {
+    <div class="loading-state">
+      <p>Carregando destaques...</p>
+    </div>
+  } @else if (hasError()) {
+    <div class="error-state">
+      <p>Ocorreu um erro ao carregar os destaques. Tente novamente mais tarde.</p>
+    </div>
+  } @else if (isEmpty()) {
+    <div class="empty-state">
+      <p>Nenhum destaque disponível no momento.</p>
+    </div>
+  } @else {
+    <div class="content-state">
+      <!-- O design específico será tratado na próxima rodada -->
+    </div>
+  }
+</main>

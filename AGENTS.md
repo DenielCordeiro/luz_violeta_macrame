@@ -166,8 +166,9 @@ Providers globais: HTTP, router, `ngx-webstorage`, service worker e configuraç�
 
 | Rota | Componente | Estado observado |
 | --- | --- | --- |
-| `/` | redireciona para `/newsletter` | ativo |
-| `/newsletter` | vitrine futura | rota vazia após remoção do carrossel placeholder |
+| `/` | redireciona para `/home` | ativo |
+| `/home` | vitrine futura | estrutura renomeada e modelada, aguardando integração |
+| `/newsletter` | redirecionamento temporário | alias para `/home` |
 | `/products` | catálogo e CRUD | integração principal existente |
 | `/product/:product_id` | detalhe, frete e carrinho | usa produto selecionado no localStorage |
 | `/cart` | carrinho e checkout | fluxo parcial |
@@ -246,7 +247,8 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 
 ### Conteúdo incompleto
 
-- Newsletter permanece vazia e ainda não chama o service; o carrossel placeholder foi removido.
+- A estrutura base da Home foi implementada (branch `home`), incluindo modelagem visual dos estados de loading, vazio e erro.
+- A Home permanece sem chamar dados, bloqueada pela ausência de confirmação do contrato do endpoint `/newsletter`. O carrossel placeholder foi permanentemente removido.
 - About e dashboard usam mocks.
 - Footer usa avaliação de teste e não chama `searchForReviews()`.
 - `openCart()` no perfil e `savingCart()` estão vazios.
