@@ -1,6 +1,6 @@
 # Luz Violeta Macramê - referência geral do projeto
 
-> Documento canônico para humanos e agentes. Última curadoria: 16/08/2026.
+> Documento canônico para humanos e agentes. Última curadoria: 01/09/2026.
 > Leia primeiro as seções ligadas à tarefa; consulte o restante apenas quando necessário.
 
 ## 1. Propósito e estado do projeto
@@ -38,6 +38,7 @@ Referências principais:
 - Manual de marca: `.local/references/manual-da-marca-luz-violeta-macrame.pdf` (Agência Transcender, 2024; referência visual oficial, mantida somente na máquina).
 - Documento técnico histórico: `.local/references/documentacao-tecnica-historica-luz-violeta-macrame.pdf` (original de 12/02/2026; mantido somente na máquina, fora do Git por decisão de Daniel).
 - Revisão técnica vigente: `docs/revisao-geral-2026-08-13.md` (build, testes, segurança, jornadas críticas e ordem de correção).
+- Revisão dos padrões de criação: `docs/revisao-padroes-criacao-2026-09-01.md` (causas dos desvios observados em Menu/Filtros e critérios aprovados para código novo).
 
 Referências privadas da máquina ficam em `.local/references/`, caminho protegido pelo `.gitignore` versionado. Não remova essa regra nem use `git add -f` nesses arquivos. O diretório não é criado pelo clone: copie os PDFs localmente quando precisar consultá-los.
 
@@ -343,6 +344,19 @@ Para novas telas, reutilize tokens e padrões existentes, mas valide contraste, 
 
 ## 11. Regras de implementação e revisão
 
+### Padrão local para código novo
+
+As regras abaixo refletem a preferência explícita de Daniel e prevalecem sobre exemplos divergentes do código legado. Elas valem para arquivos criados e para trechos novos em arquivos existentes; não reformate código alheio fora do escopo apenas para uniformizá-lo.
+
+- Antes de criar um arquivo, leia `.editorconfig` e ao menos um arquivo análogo já aceito por Daniel. Use o análogo para arquitetura e organização, mas use esta seção e `.editorconfig` quando o legado estiver inconsistente.
+- Indente `.ts`, `.html`, `.sass` e specs com **quatro espaços por nível**, nunca tabs. Preserve a quebra de linha final e elimine whitespace no fim das linhas.
+- Declare `public`, `private` ou `protected` em todo método de classe. As exceções são o `constructor` e os lifecycle hooks implementados do Angular, como `ngOnInit`, `ngAfterViewInit` e `ngOnDestroy`.
+- Nomeie variáveis, propriedades, métodos, tipos e demais identificadores em inglês. Textos da interface, mensagens ao usuário e termos editoriais da marca permanecem em português brasileiro.
+- Em templates, prefira HTML sem binding para atributos e valores estáticos e Angular Material para componentes, controles e ícones. Use interpolação, event binding e property/attribute binding somente quando o valor ou o estado for realmente dinâmico; estados ARIA dinâmicos são um uso válido.
+- Revise o arquivo novo inteiro, não apenas o diff em torno da funcionalidade. Build, typecheck e testes não comprovam indentação, idioma de identificadores, modificadores de acesso nem simplicidade do template.
+
+Contexto e evidências: `docs/revisao-padroes-criacao-2026-09-01.md`.
+
 ### TypeScript e Angular
 
 - Preserve `strict`, templates estritos e imports standalone.
@@ -359,6 +373,7 @@ Referências da versão instalada: [componentes Angular v20](https://v20.angular
 
 - Corrigir ou adicionar testes para lógica alterada.
 - Executar typecheck e build; distinguir erro anterior de regressão nova.
+- Executar `git diff --check` e conferir nos arquivos tocados se não foram introduzidos tabs ou níveis diferentes de quatro espaços. Fazer a verificação de estilo apenas no escopo da mudança, pois o legado ainda contém inconsistências.
 - Testar manualmente estados feliz, vazio, loading e erro da funcionalidade.
 - Para UI: verificar desktop, 440 px e uma largura intermediária; teclado e contraste.
 - Para pagamento/frete: usar Sandbox, idempotência, arredondamento, timeout e retry controlado.
@@ -370,6 +385,7 @@ Referências da versão instalada: [componentes Angular v20](https://v20.angular
 - Bloqueie segredos, PII e credenciais em código ou logs.
 - Bloqueie chamadas diretas do navegador a APIs que exijam segredo do Cloudinary/PagBank.
 - Bloqueie alteração em `main` sem branch e revisão.
+- Bloqueie código novo que contrarie o padrão local de indentação, visibilidade, idioma dos identificadores ou templates sem justificativa registrada.
 - Sinalize contratos enfraquecidos por campos opcionais/casts e erros engolidos por `catch` que retorna sucesso.
 - Sinalize assinaturas/subscriptions sem ciclo de vida e headers de autenticação calculados uma única vez.
 - Sinalize mudanças que expandem a plataforma de gestão sem decisão de produto e modelo de permissões.
