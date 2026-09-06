@@ -17,8 +17,8 @@
                 <p class="price">R$ {{ product.price }}</p>
                 
                 <div class="tags">
-                    <span class="tag">{{ product.category }}</span>
-                    <span class="tag">{{ product.type }}</span>
+                    <span class="tag">{{ product.category?.name }}</span>
+                    <span class="tag">{{ product.type?.name }}</span>
                 </div>
             </div>
         </div>

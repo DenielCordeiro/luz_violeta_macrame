@@ -92,10 +92,10 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 			})
 	}
 
-	public deleteProduct(productId: string): Promise<boolean> {
+	public deleteProduct(productId: string): Promise<string> {
 		return lastValueFrom(this.http.delete<BaseProduct<T>>(`${this.route}/${productId}`, { headers: this.header }))
 			.then(result => {
-				return this.handleResponse(result) as unknown as true;
+				return this.handleResponse(result) as unknown as string;
 			});
 	}
 

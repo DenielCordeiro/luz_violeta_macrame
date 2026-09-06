@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -34,7 +34,7 @@ import { DeleteProductComponent } from '../products/delete-product/delete-produc
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.sass',
 })
-export class ProductComponent implements OnInit, OnDestroy {
+export class ProductComponent implements OnInit {
 	public freightForm!: FormGroup;
 
 	private storage: StorageService = inject(StorageService);
@@ -227,17 +227,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 			this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
 				data: this.product,
 			});
-
-			this.dialog.afterAllClosed.subscribe(() => {
-				this.productsService.removeProductSelected();
-				this.route.navigate(['/products']);
-			});
 		} else {
 			console.error('ID do produto não encontrado para excluir.');
 		}
-	}
-
-	ngOnDestroy(): void {
-		// this.productsService.removeProductSelected();
 	}
 }
