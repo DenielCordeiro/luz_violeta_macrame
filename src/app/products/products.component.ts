@@ -1,12 +1,14 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { ProductsService } from '../services/products/products.service';
 
 import { Product, PaginatedProductsResponse } from '../interfaces/product.interface';
@@ -24,18 +26,26 @@ import { DeleteProductComponent } from './delete-product/delete-product.componen
 		RouterModule,
 		MatButtonModule,
 		MatIconModule,
-		MatProgressBarModule
+		MatProgressBarModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		FormsModule,
+		ReactiveFormsModule
 	],
 	templateUrl: './products.component.html',
 	styleUrls: ['./products.component.sass'],
 })
 export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild('scrollAnchor') public anchor!: ElementRef;
+	public filtersForm!: FormGroup;
 	public observer!: IntersectionObserver;
 
 	private productsService: ProductsService = inject(ProductsService);
+	private formBuilder: FormBuilder = inject(FormBuilder);
 
 	public products: Product[] = [];
+	public categories: string[] = [];
+	public types: string[] = [];
 
 	public productId: number | undefined;
 	public currentPage: number = 1;
@@ -45,10 +55,11 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	public hasNextPage: boolean = true;
 	public isLoading: boolean = false;
 
-	constructor(public dialog: MatDialog) { }
+	constructor(public dialog: MatDialog) {}
 
 	ngOnInit(): void {
 		this.loadProducts();
+		this.buildingFormFilters();
 	}
 
 	ngAfterViewInit(): void {
@@ -62,7 +73,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		this.createObserver();
 	}
-
+	
 	public resetAndReload(): void {
 		this.products = [];
 		this.currentPage = 1;
@@ -87,6 +98,19 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 			this.observer.observe(this.anchor.nativeElement); // Inicia a observação do elemento âncora
 		}
 	}
+
+	public buildingFormFilters(): void {
+		this.productsService.getCharacteristics()
+			.then((characteristics) => {
+				this.categories.push(...characteristics.categories.name);
+				this.types.push(...characteristics.types.name);
+			});
+
+        this.filtersForm = this.formBuilder.group({
+            "types": [[]],
+            "categories": [[]],
+        });
+    }
 
 	public loadProducts(page: number = 1): void {
 		if (this.isLoading || (!this.hasNextPage && page !== 1)) return;
@@ -128,21 +152,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 			});
 	}
 
-	public gettingProducts(): void {
-		this.productsService.getProducts()
-			.then(loadedProducts => {
-				if (loadedProducts == null || loadedProducts == undefined) {
-					alert("[Atenção]: Não existe nenhum produto a venda!")
-				} else {
-					this.products = loadedProducts.products.docs as Product[];
-				}
-			})
-			.catch(error => {
-				alert('ERRO: não conseguiu trazer os produtos');
-				console.log(error);
-			})
-	}
-
 	public setProductInLocalStorage(product: Product): void {
 		this.productsService.addProductLocalStorage(product);
 	}
@@ -171,8 +180,8 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 		};
 	}
 
-	public filter(newTitle: string): void {
-		this.title = newTitle;
+	public sendingFilters(): void {
+		console.log('Filtros enviados:', this.filtersForm.value);
 	}
 
 	ngOnDestroy(): void {

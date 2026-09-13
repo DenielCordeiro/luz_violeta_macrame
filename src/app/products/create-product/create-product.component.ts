@@ -26,8 +26,9 @@ import { Deadline, Warranty } from "src/app/interfaces/product.interface";
     styleUrls: ['./create-product.component.sass'],
 })
 export class CreateProductComponent implements OnInit {
-    public form!: FormGroup;
+    private formBuilder: FormBuilder = inject(FormBuilder);
     private productService: ProductsService = inject(ProductsService);
+    public form!: FormGroup;
     public files!: Set<File>;
     public categories: string[] = [];
     public types: string[] = [];
@@ -57,7 +58,6 @@ export class CreateProductComponent implements OnInit {
     };
 
     constructor(
-        private formBuilder: FormBuilder,
         public dialogRef: MatDialogRef<CreateProductComponent>,
     ){};
 
