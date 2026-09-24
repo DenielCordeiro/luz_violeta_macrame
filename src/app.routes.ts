@@ -4,7 +4,7 @@ import { authGuard } from './app/guards/auth.guard';
 export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'newsletter',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -12,8 +12,13 @@ export const appRoutes: Routes = [
     loadComponent: () => import('./app/dashboard/dashboard.component').then(module => module.DashboardComponent),
   },
   {
+    path: 'home',
+    loadComponent: () => import('./app/home/home.component').then(module => module.HomeComponent),
+  },
+  {
     path: 'newsletter',
-    loadComponent: () => import('./app/newsletter/newsletter.component').then(module => module.NewsletterComponent),
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
     path: 'register',
