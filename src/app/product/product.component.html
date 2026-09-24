@@ -16,10 +16,11 @@
                     </div>
 
                     <div class="icons-edit-or-delete">
-                        <button mat-icon-button type="button" class="icon-btn edit" aria-label="Editar produto" (click)="updateModal(product)">
+                        <button mat-icon-button type="button" class="icon-btn edit" aria-label="Editar produto" (click)="updatingProduct(product)">
                             <mat-icon class="material-symbols-outlined" aria-hidden="true">edit_square</mat-icon>
                         </button>
-                        <button mat-icon-button type="button" class="icon-btn delete" aria-label="Excluir produto" (click)="deleteModal(product?._id)">
+                        
+                        <button mat-icon-button type="button" class="icon-btn delete" aria-label="Excluir produto" (click)="deletingProduct(product)">
                             <mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
                         </button>
                     </div>
@@ -41,6 +42,7 @@
                                 <mat-label>CEP</mat-label>
                                 <input matInput id="postalCode" type="text" formControlName="postalCode" placeholder="13306-192">
                             </mat-form-field>
+
                             <button mat-stroked-button type="button" class="button-freight" (click)="searchShipping(this.freightForm.value.postalCode)">
                                 <span>Calcular</span>
                                 <mat-icon class="material-symbols-outlined" aria-hidden="true">flight</mat-icon>
@@ -55,6 +57,7 @@
                                     <div class="image-shipping">
                                         <img [src]="shipping?.company?.picture" alt="Transportadora">
                                     </div>
+
                                     <div class="price-shipping">
                                         <span>R$ {{ shipping?.price }}</span>
                                     </div>
@@ -73,7 +76,9 @@
                         <button mat-icon-button type="button" class="btn-qty" aria-label="Diminuir quantidade" (click)="changeQuantity('remove')">
                             <mat-icon class="material-symbols-outlined" aria-hidden="true">remove</mat-icon>
                         </button>
+
                         <span class="quantity">{{ productsQuantity }}</span>
+
                         <button mat-icon-button type="button" class="btn-qty" aria-label="Aumentar quantidade" (click)="changeQuantity('add')">
                             <mat-icon class="material-symbols-outlined" aria-hidden="true">add</mat-icon>
                         </button>
@@ -93,6 +98,7 @@
                                 <span>Remover</span>
                                 <mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
                             </button>
+
                             <button mat-stroked-button type="button" class="btn-action go-btn" (click)="goToCart()">
                                 <span>Ir para o Carrinho</span>
                                 <mat-icon class="material-symbols-outlined" aria-hidden="true">shopping_cart_checkout</mat-icon>

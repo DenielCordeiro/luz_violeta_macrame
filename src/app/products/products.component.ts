@@ -1,11 +1,15 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewInit, OnDestroy, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { ProductsService } from '../services/products/products.service';
 
@@ -14,6 +18,7 @@ import { Product, PaginatedProductsResponse } from '../interfaces/product.interf
 import { CreateProductComponent } from './create-product/create-product.component';
 import { UpdateProductComponent } from './update-product/update-product.component';
 import { DeleteProductComponent } from './delete-product/delete-product.component';
+import { Characteristics } from '../interfaces/characteristics';
 
 
 @Component({
@@ -22,32 +27,42 @@ import { DeleteProductComponent } from './delete-product/delete-product.componen
 	imports: [
 		CommonModule,
 		RouterModule,
+		MatExpansionModule,
 		MatButtonModule,
 		MatIconModule,
-		MatProgressBarModule
+		MatProgressBarModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		FormsModule,
+		ReactiveFormsModule,
 	],
 	templateUrl: './products.component.html',
 	styleUrls: ['./products.component.sass'],
 })
 export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild('scrollAnchor') public anchor!: ElementRef;
+	public filtersForm!: FormGroup;
 	public observer!: IntersectionObserver;
 
 	private productsService: ProductsService = inject(ProductsService);
+	private formBuilder: FormBuilder = inject(FormBuilder);
 
 	public products: Product[] = [];
+	public characteristics: Characteristics = {};
 
 	public productId: number | undefined;
 	public currentPage: number = 1;
     public pageSize: number = 6;
 
 	public title: string = 'Trabalhos disponíveis';
+	readonly panelOpenState = signal(false);
 	public hasNextPage: boolean = true;
 	public isLoading: boolean = false;
 
-	constructor(public dialog: MatDialog) { }
+	constructor(public dialog: MatDialog) {}
 
 	ngOnInit(): void {
+		this.buildingFilterForm();
 		this.loadProducts();
 	}
 
@@ -62,7 +77,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 		this.createObserver();
 	}
-
+	
 	public resetAndReload(): void {
 		this.products = [];
 		this.currentPage = 1;
@@ -88,6 +103,26 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 		}
 	}
 
+	public buildingFilterForm(): void {
+		this.filtersForm = this.formBuilder.group({
+            "types": [[]],
+            "categories": [[]],
+        });
+	}
+
+	public getCharacteristics(): void {
+        this.productsService.getCharacteristics()
+            .then((response) => {
+                this.characteristics = response;
+
+				console.log("Caracteristicas: ", this.characteristics);
+				
+            })
+            .catch((error) => {
+                console.error('Erro ao obter características:', error);
+            });
+    }
+
 	public loadProducts(page: number = 1): void {
 		if (this.isLoading || (!this.hasNextPage && page !== 1)) return;
 
@@ -110,7 +145,6 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 				this.currentPage = response.products.page || page;
 				this.hasNextPage = response.products.hasNextPage ?? (this.currentPage < (response.products.pages || 1));
-				
 
 				// Pequeno atraso para o usuário visualizar o indicador de progresso renderizando os novos cards
 				setTimeout(() => {
@@ -128,41 +162,26 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 			});
 	}
 
-	public gettingProducts(): void {
-		this.productsService.getProducts()
-			.then(loadedProducts => {
-				if (loadedProducts == null || loadedProducts == undefined) {
-					alert("[Atenção]: Não existe nenhum produto a venda!")
-				} else {
-					this.products = loadedProducts.products.docs as Product[];
-				}
-			})
-			.catch(error => {
-				alert('ERRO: não conseguiu trazer os produtos');
-				console.log(error);
-			})
-	}
-
 	public setProductInLocalStorage(product: Product): void {
 		this.productsService.addProductLocalStorage(product);
 	}
 
-	public dialogCreate(): void {
+	public creatingProduct(): void {
 		this.dialog.open<CreateProductComponent>(CreateProductComponent);
 	}
 
-	public dialogUpdate(product: Product | null): void {
-		if (product !== null) {
+	public updatingProduct(product: Product | undefined): void {
+		if (product) {
 			this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
-				data: product
+				data: product,
 			});
 		} else {
-			console.log("[Error]: não foi possível encontrar produto selecionado para atualizar");
+			console.error('[Error]: não foi possível encontrar produto selecionado para atualizar');
 		}
 	}
 
-	public dialogDelete(product: Product | null): void {
-		if (product !== null) {
+	public deletingProduct(product: Product | undefined): void {
+		if (product) {
 			this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
 				data: product,
 			});
@@ -171,8 +190,8 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 		};
 	}
 
-	public filter(newTitle: string): void {
-		this.title = newTitle;
+	public sendingFilters(): void {
+		console.log('Filtros enviados:', this.filtersForm.value);
 	}
 
 	ngOnDestroy(): void {

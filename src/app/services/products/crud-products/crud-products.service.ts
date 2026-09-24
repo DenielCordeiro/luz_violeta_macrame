@@ -5,6 +5,7 @@ import { BaseCrud } from "src/app/interfaces/base-crud.interface";
 import { environment } from "src/environments/environment";
 import { PaginatedProductsResponse, Product } from './../../../interfaces/product.interface';
 import { BaseProduct } from "./base-products.interface";
+import { Characteristics } from "src/app/interfaces/characteristics";
 
 export abstract class CrudProductsService<T extends BaseCrud> {
 	http!: HttpClient;
@@ -33,12 +34,11 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 		return headers;
 	}
 
-	public getProducts(page: number = 1, limit: number = 9): Promise<PaginatedProductsResponse> {
-		return lastValueFrom(this.http.get<PaginatedProductsResponse>(`${this.route}?page=${page}&limit=${limit}`, { headers: this.header }))
+	public async getProducts(page: number = 1, limit: number = 5): Promise<PaginatedProductsResponse> {
+		return await lastValueFrom(this.http.get<PaginatedProductsResponse>(`${this.route}?page=${page}&limit=${limit}`, { headers: this.header }))
 			.then(products => {
 				return this.handleResponse(products) as unknown as PaginatedProductsResponse;
-			})
-			.catch(error => this.handleResponse(error) as unknown as PaginatedProductsResponse);
+			});
 	}
 
 	public addProductLocalStorage(product: Product): void {
@@ -55,7 +55,6 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 		return Promise.resolve(null);
 	}
 
-
 	public async getProduct(productId: string): Promise<Product> {
 		try {
 			const product = await lastValueFrom(this.http.get<Product>(`${this.route}/${productId}`, { headers: this.header }));
@@ -69,6 +68,13 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 		}
 	}
 
+	public async getCharacteristics(): Promise<Characteristics> {
+		return await lastValueFrom(this.http.get<Characteristics>(`${this.route}/characteristics`, { headers: this.header }))
+			.then(characteristics => {
+				return characteristics;
+			});
+	}
+
 	public removeProductSelected(): void {
 		this.products.pop();
 		localStorage.removeItem('selectedProduct');
@@ -76,26 +82,23 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 	}
 
 	public createProduct(product: FormData): Promise<T> {
-	  return lastValueFrom(this.http.post<BaseProduct<T>>(this.route, product, { headers: this.header }))
-	    .then(result => {
-	    return this.handleResponse(result) as unknown as T;
-	  });
+		return lastValueFrom(this.http.post<BaseProduct<T>>(this.route, product, { headers: this.header }))
+			.then(result => {
+				return this.handleResponse(result) as unknown as T;
+			});
 	}
 
 	public updateProduct(product: FormData, productId: string | undefined): Promise<T> {
 		return lastValueFrom(this.http.put<BaseProduct<T>>(`${this.route}/${productId}`, product, { headers: this.header }))
 			.then(result => {
 				return this.handleResponse(result) as unknown as T;
-			})
-			.catch(error => {
-				return this.handleResponse(error) as unknown as T;
-			})
+			});
 	}
 
-	public deleteProduct(productId: string): Promise<boolean> {
+	public deleteProduct(productId: string): Promise<string> {
 		return lastValueFrom(this.http.delete<BaseProduct<T>>(`${this.route}/${productId}`, { headers: this.header }))
 			.then(result => {
-				return this.handleResponse(result) as unknown as true;
+				return this.handleResponse(result) as unknown as string;
 			});
 	}
 

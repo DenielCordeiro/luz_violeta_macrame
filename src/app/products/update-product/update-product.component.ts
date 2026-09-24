@@ -11,6 +11,7 @@ import { QuillEditorComponent } from 'ngx-quill';
 import { ProductsService } from "src/app/services/products/products.service";
 
 import { Deadline, Product, Warranty } from "src/app/interfaces/product.interface";
+import { Characteristics } from "src/app/interfaces/characteristics";
 
 @Component({
     selector: 'app-update-product',
@@ -26,10 +27,9 @@ import { Deadline, Product, Warranty } from "src/app/interfaces/product.interfac
 })
 export class UpdateProductComponent implements OnInit {
     public form!: FormGroup;
-    private productService: ProductsService = inject(ProductsService);
+    private productsService: ProductsService = inject(ProductsService);
     public files!: Set<File>;
-    public categories: string[] = [];
-    public types: string[] = [];
+    public characteristics: Characteristics = {};
     public newOrExistCategory: string = "Existente";
     public newOrExistTypes: string = "Existente";
 
@@ -62,8 +62,19 @@ export class UpdateProductComponent implements OnInit {
     ) {};
 
     ngOnInit(): void {
+        this.getCharacteristics();
         this.buildingForm();
     };
+
+    private getCharacteristics(): void {
+        this.productsService.getCharacteristics()
+            .then((response) => {
+                this.characteristics = response;
+            })
+            .catch((error) => {
+                console.error('Erro ao obter características:', error);
+            });
+    }
 
     public buildingForm(): void {
         this.form = this.formBuilder.group({
@@ -75,7 +86,6 @@ export class UpdateProductComponent implements OnInit {
             "stock": this.product?.stock,
             "type": this.product?.type?.name,
             "category": this.product?.category?.name,
-            "characteristics": this.product?.characteristics,
             "deadline": this.product?.deadline,
             "packaging": this.formBuilder.group({
                 "weight": this.product?.packaging?.weight,
@@ -159,7 +169,7 @@ export class UpdateProductComponent implements OnInit {
         const formData = this.buildFormData();
         const productId = this.product._id;
 
-        this.productService.updateProduct(formData, productId)
+        this.productsService.updateProduct(formData, productId)
             .then((response) => {
                 this.dialogRef.close(response);
             })

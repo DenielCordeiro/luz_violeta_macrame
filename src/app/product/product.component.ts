@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -34,7 +34,7 @@ import { DeleteProductComponent } from '../products/delete-product/delete-produc
 	templateUrl: './product.component.html',
 	styleUrl: './product.component.sass',
 })
-export class ProductComponent implements OnInit, OnDestroy {
+export class ProductComponent implements OnInit {
 	public freightForm!: FormGroup;
 
 	private storage: StorageService = inject(StorageService);
@@ -212,32 +212,23 @@ export class ProductComponent implements OnInit, OnDestroy {
 		this.route.navigate(['/cart']);
 	}
 
-	public updateModal(product: Product | undefined): void {
+	public updatingProduct(product: Product | undefined): void {
 		if (product) {
 			this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
 				data: product,
 			});
 		} else {
-			console.error('ID do produto não encontrado para atualização.');
+			console.error('[Error]: não foi possível encontrar produto selecionado para atualizar');
 		}
 	}
 
-	public deleteModal(id: string | undefined): void {
-		if (id) {
+	public deletingProduct(product: Product | undefined): void {
+		if (product) {
 			this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
-				data: this.product,
-			});
-
-			this.dialog.afterAllClosed.subscribe(() => {
-				this.productsService.removeProductSelected();
-				this.route.navigate(['/products']);
+				data: product,
 			});
 		} else {
-			console.error('ID do produto não encontrado para excluir.');
+			console.error('[Error]: não foi possível encontrar produto selecionado para excluir');
 		}
-	}
-
-	ngOnDestroy(): void {
-		// this.productsService.removeProductSelected();
 	}
 }
