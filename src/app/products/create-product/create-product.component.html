@@ -35,12 +35,22 @@
         <div class="form-grid">
             <mat-form-field appearance="outline" class="inputs-in-left">
                 <mat-label>Categoria</mat-label>
-                <input matInput formControlName="category" placeholder="Ex: Cortinas, Almofadas">
+                
+                <mat-select matNativeControl formControlName="category">
+                    @for (category of this.characteristics.categories; track category) {
+                        <mat-option [value]="category">{{category}}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
                 <mat-label>Tipo</mat-label>
-                <input matInput formControlName="type" placeholder="Ex: Veludo, Linho">
+
+                <mat-select matNativeControl formControlName="type">
+                    @for (type of this.characteristics.types; track type) {
+                        <mat-option [value]="type">{{type}}</mat-option>
+                    }
+                </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" class="full-width">
@@ -56,11 +66,6 @@
             <mat-form-field appearance="outline" class="full-width">
                 <mat-label>Itens Inclusos</mat-label>
                 <input matInput formControlName="included_items" placeholder="Ex: 1 Cortina, 2 Ilhós">
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Características</mat-label>
-                <input matInput formControlName="characteristics" placeholder="Ex: Lavável, Antialérgico">
             </mat-form-field>
 
             <mat-label>Descrição</mat-label>

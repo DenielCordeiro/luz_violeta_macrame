@@ -11,6 +11,7 @@ import { QuillEditorComponent } from 'ngx-quill';
 import { ProductsService } from "src/app/services/products/products.service";
 
 import { Deadline, Warranty } from "src/app/interfaces/product.interface";
+import { Characteristics } from "src/app/interfaces/characteristics";
 
 
 @Component({
@@ -29,6 +30,7 @@ export class CreateProductComponent implements OnInit {
     private formBuilder: FormBuilder = inject(FormBuilder);
     private productService: ProductsService = inject(ProductsService);
     public form!: FormGroup;
+    public characteristics: Characteristics = {};
     public files!: Set<File>;
     public categories: string[] = [];
     public types: string[] = [];
@@ -62,8 +64,19 @@ export class CreateProductComponent implements OnInit {
     ){};
 
     ngOnInit(): void {
+        this.getCharacteristics();
         this.buildingForm();
     };
+
+    private getCharacteristics(): void {
+        this.productService.getCharacteristics()
+            .then((response) => {
+                this.characteristics = response;
+            })
+            .catch((error) => {
+                console.error('Erro ao obter características:', error);
+            });
+    }
 
     public buildingForm(): void {
         this.form = this.formBuilder.group({
@@ -75,7 +88,6 @@ export class CreateProductComponent implements OnInit {
             "stock": [null],
             "type": [null],
             "category": [null],
-            "characteristics": [null],
             "deadline": [null],
             "packaging": this.formBuilder.group({
                 "weight": [null],

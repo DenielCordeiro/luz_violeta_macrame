@@ -5,6 +5,7 @@ import { BaseCrud } from "src/app/interfaces/base-crud.interface";
 import { environment } from "src/environments/environment";
 import { PaginatedProductsResponse, Product } from './../../../interfaces/product.interface';
 import { BaseProduct } from "./base-products.interface";
+import { Characteristics } from "src/app/interfaces/characteristics";
 
 export abstract class CrudProductsService<T extends BaseCrud> {
 	http!: HttpClient;
@@ -67,10 +68,10 @@ export abstract class CrudProductsService<T extends BaseCrud> {
 		}
 	}
 
-	public async getCharacteristics(): Promise<any> {
-		await lastValueFrom(this.http.get<any>(`${this.route}/characteristics`, { headers: this.header }))
+	public async getCharacteristics(): Promise<Characteristics> {
+		return await lastValueFrom(this.http.get<Characteristics>(`${this.route}/characteristics`, { headers: this.header }))
 			.then(characteristics => {
-				return this.handleResponse(characteristics) as unknown as any;
+				return characteristics;
 			});
 	}
 

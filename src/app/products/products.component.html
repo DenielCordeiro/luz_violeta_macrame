@@ -1,40 +1,45 @@
 <header>
-	<button matButton="elevated" (click)="dialogCreate()">
+	<button class="add-product" matButton="elevated" (click)="creatingProduct()">
 		<span>Adicionar</span>
 		<mat-icon class="material-symbols-outlined">add_box</mat-icon>
 	</button>
 
-	<div class="fiters-container" [formGroup]="filtersForm" (ngSubmit)="sendingFilters()">
-		<mat-form-field>
-			<mat-label>
-				<span>Categorias</span>
-			</mat-label>
-			
-			<mat-select  multiple matNativeControl formControlName="categories">
-				@for (category of this.categories; track category) {
-					<mat-option [value]="category">{{category}}</mat-option>
-				}
-			</mat-select>
-		</mat-form-field>
+	<mat-accordion (click)="getCharacteristics()">
+		<mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+			<mat-expansion-panel-header>
+				<mat-panel-title>Filtros</mat-panel-title>
+			</mat-expansion-panel-header>
 
-		<mat-form-field>
-			<mat-label>
-				<span>Tipos</span>
-			</mat-label>
-			
-			<mat-select  multiple matNativeControl formControlName="types">
-				@for (type of this.types; track type) {
-					<mat-option [value]="type">{{type}}</mat-option>
-				}
-			</mat-select>
-		</mat-form-field>
+			<mat-expansion-panel>
+				<form class="fiters-container" [formGroup]="filtersForm" (ngSubmit)="sendingFilters()">
+					<mat-form-field>
+						<mat-label>Categorias</mat-label>
+					
+						<mat-select multiple matNativeControl formControlName="categories">
+							@for (category of this.characteristics.categories; track category) {
+								<mat-option [value]="category">{{category}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
 
-		<button matButton="elevated" (click)="sendingFilters()">
-			<span>Filtrar</span>
-			<mat-icon class="material-symbols-outlined">search</mat-icon>
-		</button>
-	</div>
+					<mat-form-field>
+						<mat-label>Tipos</mat-label>
+						
+						<mat-select multiple matNativeControl formControlName="types">
+							@for (type of this.characteristics.types; track type) {
+								<mat-option [value]="type">{{type}}</mat-option>
+							}
+						</mat-select>
+					</mat-form-field>
 
+					<button matButton="elevated" (click)="sendingFilters()">
+						<span>Filtrar</span>
+						<mat-icon class="material-symbols-outlined">search</mat-icon>
+					</button>
+				</form>
+			</mat-expansion-panel>
+		</mat-expansion-panel>		
+	</mat-accordion>
 </header>
 
 <main>
@@ -42,12 +47,12 @@
 		@for (product of products; track product._id) {
 			<div class="product">
 				<div class="product-buttons">
-					<button mat-button type="button" class="update-and-delete-buttons update-product" (click)="dialogUpdate(product)">
+					<button mat-button type="button" class="update-and-delete-buttons update-product" (click)="updatingProduct(product)">
 						<span>Editar</span>
 						<mat-icon class="material-symbols-outlined" aria-hidden="true">edit</mat-icon>
 					</button>
 
-					<button mat-button type="button" class="update-and-delete-buttons delete-product" (click)="dialogDelete(product)">
+					<button mat-button type="button" class="update-and-delete-buttons delete-product" (click)="deletingProduct(product)">
 						<span>Excluir</span>
 						<mat-icon class="material-symbols-outlined" aria-hidden="true">delete</mat-icon>
 					</button>

@@ -212,23 +212,23 @@ export class ProductComponent implements OnInit {
 		this.route.navigate(['/cart']);
 	}
 
-	public updateModal(product: Product | undefined): void {
+	public updatingProduct(product: Product | undefined): void {
 		if (product) {
 			this.dialog.open<UpdateProductComponent>(UpdateProductComponent, {
 				data: product,
 			});
 		} else {
-			console.error('ID do produto não encontrado para atualização.');
+			console.error('[Error]: não foi possível encontrar produto selecionado para atualizar');
 		}
 	}
 
-	public deleteModal(id: string | undefined): void {
-		if (id) {
+	public deletingProduct(product: Product | undefined): void {
+		if (product) {
 			this.dialog.open<DeleteProductComponent>(DeleteProductComponent, {
-				data: this.product,
+				data: product,
 			});
 		} else {
-			console.error('ID do produto não encontrado para excluir.');
+			console.error('[Error]: não foi possível encontrar produto selecionado para excluir');
 		}
 	}
 }

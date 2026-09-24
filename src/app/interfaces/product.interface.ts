@@ -12,7 +12,6 @@ export interface Product {
   category?: {
     name?: string;
   };
-  characteristics?: string;
   deadline?: string;
   packaging?: {
     weight?: number;
