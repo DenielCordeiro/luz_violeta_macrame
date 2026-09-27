@@ -64,6 +64,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	ngOnInit(): void {
 		this.buildingFilterForm();
 		this.loadProducts();
+		this.getCharacteristics();
 	}
 
 	ngAfterViewInit(): void {
