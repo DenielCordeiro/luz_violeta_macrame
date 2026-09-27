@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './app/guards/auth.guard';
 
 export const appRoutes: Routes = [
   {
@@ -33,7 +32,7 @@ export const appRoutes: Routes = [
   },
   {
     path: 'product/:product_id',
-    loadComponent: () => import('./app/product/product.component').then(module => module.ProductComponent),
+    loadComponent: () => import('./app/products/product/product.component').then(module => module.ProductComponent),
   },
   {
     path: 'about',

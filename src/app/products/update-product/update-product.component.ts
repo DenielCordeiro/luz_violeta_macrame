@@ -62,8 +62,11 @@ export class UpdateProductComponent implements OnInit {
     ) {};
 
     ngOnInit(): void {
-        this.getCharacteristics();
         this.buildingForm();
+    };
+
+    ngAfterViewInit(): void {
+        this.getCharacteristics();
     };
 
     private getCharacteristics(): void {
