@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	public productId: number | undefined;
 	public currentPage: number = 1;
-    public pageSize: number = 6;
+    public pageSize: number = 10;
 
 	public title: string = 'Trabalhos disponíveis';
 	readonly panelOpenState = signal(false);
@@ -114,10 +114,7 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	public getCharacteristics(): void {
         this.productsService.getCharacteristics()
             .then((response) => {
-                this.characteristics = response;
-
-				console.log("Caracteristicas: ", this.characteristics);
-				
+                this.characteristics = response;				
             })
             .catch((error) => {
                 console.error('Erro ao obter características:', error);
@@ -192,7 +189,23 @@ export class ProductsComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	public sendingFilters(): void {
-		console.log('Filtros enviados:', this.filtersForm.value);
+		const selectedCategories: string[] = this.filtersForm.get('categories')?.value || [];
+		const selectedTypes: string[] = this.filtersForm.get('types')?.value || [];
+
+		this.productsService.filterProducts(selectedCategories, selectedTypes)
+			.then((response: PaginatedProductsResponse) => {
+				if (!response || !response.products) {
+					console.error('Erro ao filtrar produtos: resposta inválida');
+					return;
+				}
+
+				this.products = response.products.docs;
+				this.currentPage = response.products.page || 1;
+				this.hasNextPage = response.products.hasNextPage ?? (this.currentPage < (response.products.pages || 1));
+			})
+			.catch(error => {
+				console.error('Erro ao filtrar produtos:', error);
+			});
 	}
 
 	ngOnDestroy(): void {

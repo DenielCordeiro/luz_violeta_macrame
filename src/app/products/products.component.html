@@ -32,7 +32,7 @@
 					</mat-select>
 				</mat-form-field>
 
-				<button matButton="elevated" (click)="sendingFilters()">
+				<button matButton="elevated" type="submit" [disabled]="filtersForm.invalid">
 					<span>Filtrar</span>
 					<mat-icon class="material-symbols-outlined">search</mat-icon>
 				</button>
