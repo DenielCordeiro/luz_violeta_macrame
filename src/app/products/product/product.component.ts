@@ -8,18 +8,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { StorageService } from '../services/storage/storage.service';
-import { ProductsService } from '../services/products/products.service';
-import { MelhorEnvioService } from '../services/melhor-envio/melhor-envio.service';
-import { CartService } from '../services/cart/cart.service';
+import { StorageService } from '../../services/storage/storage.service';
+import { ProductsService } from '../../services/products/products.service';
+import { MelhorEnvioService } from '../../services/melhor-envio/melhor-envio.service';
+import { CartService } from '../../services/cart/cart.service';
 
-import { Product } from '../interfaces/product.interface';
-import { Shipping } from '../interfaces/shipping.interface';
-import { Sale } from '../interfaces/sale.interface';
-import { User } from '../interfaces/user.interface';
+import { Product } from '../../interfaces/product.interface';
+import { Shipping } from '../../interfaces/shipping.interface';
+import { Sale } from '../../interfaces/sale.interface';
+import { User } from '../../interfaces/user.interface';
 
-import { UpdateProductComponent } from '../products/update-product/update-product.component';
-import { DeleteProductComponent } from '../products/delete-product/delete-product.component';
+import { UpdateProductComponent } from '../update-product/update-product.component';
+import { DeleteProductComponent } from '../delete-product/delete-product.component';
 
 @Component({
 	selector: 'app-product',

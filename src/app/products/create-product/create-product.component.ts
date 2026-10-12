@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from "@angular/core";
+import { AfterViewInit, Component, inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, ReactiveFormsModule } from "@angular/forms";
 
 import { MATERIAL_IMPORTS } from "src/app/shared/material.imports";
@@ -26,7 +26,7 @@ import { Characteristics } from "src/app/interfaces/characteristics";
     templateUrl: './create-product.component.html',
     styleUrls: ['./create-product.component.sass'],
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder = inject(FormBuilder);
     private productService: ProductsService = inject(ProductsService);
     public form!: FormGroup;
@@ -64,8 +64,11 @@ export class CreateProductComponent implements OnInit {
     ){};
 
     ngOnInit(): void {
-        this.getCharacteristics();
         this.buildingForm();
+    };
+
+    ngAfterViewInit(): void {
+        this.getCharacteristics();
     };
 
     private getCharacteristics(): void {
