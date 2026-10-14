@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const appRoutes: Routes = [
   {
     path: '',
-    redirectTo: 'newsletter',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -11,8 +11,8 @@ export const appRoutes: Routes = [
     loadComponent: () => import('./app/dashboard/dashboard.component').then(module => module.DashboardComponent),
   },
   {
-    path: 'newsletter',
-    loadComponent: () => import('./app/newsletter/newsletter.component').then(module => module.NewsletterComponent),
+    path: 'home',
+    loadComponent: () => import('./app/home/home.component').then(module => module.HomeComponent),
   },
   {
     path: 'register',
@@ -37,5 +37,9 @@ export const appRoutes: Routes = [
   {
     path: 'about',
     loadComponent: () => import('./app/about/about.component').then(module => module.AboutComponent),
-  }
+  },
+  {
+    path: '**',
+    redirectTo: 'home',
+  },
 ];
