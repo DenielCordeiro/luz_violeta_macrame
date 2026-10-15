@@ -1,47 +1,31 @@
-<section id="header-content">
-    <div class="header">
-        <div class="button add">
-            <span>Adicionar</span>
-        </div>
-        <div class="button update">
-            <span>Atualizar</span>
-        </div>
-        <div class="button delte">
-            <span>Excluir</span>
-        </div>
-    </div>
+<section class="intro" aria-labelledby="about-title">
+    <p class="eyebrow">Nossa história</p>
+    <h1 id="about-title">Entre fios, natureza<br>e significado.</h1>
+    <p>A Luz Violeta Macramê é a marca da artesã Camila Ribeiro Pedroso, de Itu, no interior de São Paulo. Um encontro entre trabalho manual, decoração e o desejo de acolher.</p>
 </section>
-
-<section id="main-content">
-    <mat-tab-group>
-        <mat-tab label="Sobre a Luz Violeta Macrame">
-            <div class="tab-content">
-                <h2>{{ this.about.company.title }}</h2>
-
-                @for (companyParagraph of companyParagraphs; track companyParagraph._id) {
-                    <p>
-                        <span>{{ companyParagraph.phrases }}</span>
-                    </p>
-                }
-            </div>
-        </mat-tab>
-
-        <mat-tab label="Tragetória de Camila Ribeiro">
-            <div class="tab-content">
-                <h2>{{ about.businesswoman.title }}</h2>
-
-                @for(businesswomanParagraph of businesswomanParagraphs; track businesswomanParagraph._id) {
-                    <p>
-                        <span>{{ businesswomanParagraph.phrases }}</span>
-                    </p>
-                }
-            </div>
-        </mat-tab>
-    </mat-tab-group>
-</section>
-
-<section id="footer-content">
-    <div class="footer">
-        <h1>social midia</h1>
-    </div>
+<div class="story">
+    <section aria-labelledby="brand-title">
+        <span class="eyebrow">01 / A Luz Violeta</span>
+        <h2 id="brand-title">Um olhar afetuoso para a casa</h2>
+        <p>Macramê, iluminação, decoração e pedras naturais fazem parte do universo da marca. Fios e formas se encontram em peças que convidam a compor ambientes com personalidade.</p>
+        <p>Natureza, intenção e aconchego orientam essa criação. São referências para uma casa que acolhe e expressa a história de quem vive nela.</p>
+    </section>
+    <section aria-labelledby="artisan-title">
+        <span class="eyebrow">02 / Quem faz</span>
+        <h2 id="artisan-title">As mãos de Camila</h2>
+        <p>Camila é a artesã e proprietária da Luz Violeta. Em Itu, seu trabalho reúne a técnica do macramê e um olhar cuidadoso para os detalhes.</p>
+        <p>O feito à mão ocupa o centro dessa história: cada nó participa da construção da peça, do desenho às texturas que ganham espaço no lar.</p>
+    </section>
+    <section aria-labelledby="craft-title">
+        <span class="eyebrow">03 / Como criamos</span>
+        <h2 id="craft-title">Cuidado em cada etapa</h2>
+        <p>Entre a escolha dos materiais, a construção das tramas e o acabamento, o processo artesanal dá forma às criações da Luz Violeta.</p>
+        <p>No catálogo, cada peça tem suas próprias informações. Consulte sua descrição, o conteúdo que a acompanha e o prazo informado antes de escolher.</p>
+        <a class="text-link" routerLink="/home" fragment="process">Conheça o processo na home</a>
+    </section>
+</div>
+<section class="invitation" aria-labelledby="about-invitation">
+    <h2 id="about-invitation">Leve essa história para o seu lar.</h2>
+    <a mat-flat-button routerLink="/products">Conhecer as peças</a>
+    <a class="text-link" routerLink="/home" fragment="atelier">Voltar ao ateliê</a>
 </section>
