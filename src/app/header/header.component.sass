@@ -8,7 +8,7 @@
     box-sizing: border-box
     display: flex
     align-items: center
-    gap: 40px
+    gap: 24px
     padding: 0 max(32px, calc((100% - 1160px) / 2)) 0 max(80px, calc((100% - 1160px) / 2 + 50px))
     background: colors.$brand-ivory
     border-bottom: 1px solid colors.$brand-stone
@@ -62,7 +62,7 @@ nav a:hover
     background: colors.$brand-violet
     color: colors.$white
 
-@media (max-width: 900px)
+@media (max-width: 1100px)
     .site-header
         padding: 0 20px 0 76px
         gap: 16px
@@ -70,9 +70,13 @@ nav a:hover
     nav
         display: none
 
-    .cart
+    app-login
         margin-left: auto
 
 @media (max-width: 440px)
+    .site-header
+        padding: 0 8px 0 64px
+        gap: 4px
+
     .brand
-        font-size: 1.35rem
+        font-size: 1.1rem

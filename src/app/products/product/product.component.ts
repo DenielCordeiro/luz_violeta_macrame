@@ -1,5 +1,6 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -28,6 +29,7 @@ import { DeleteProductComponent } from '../delete-product/delete-product.compone
 		ReactiveFormsModule,
 		MatIconModule,
 		MatButtonModule,
+        RouterLink,
 		MatFormFieldModule,
 		MatInputModule
 	],
@@ -51,7 +53,12 @@ export class ProductComponent implements OnInit {
 	public userProfile: User = {};
 
 	public postalCode: string = '';
-	public productId: string | undefined = undefined;
+    public productId: string | undefined = undefined;
+    public isLoading = false;
+    public hasLoadError = false;
+    private readonly activatedRoute = inject(ActivatedRoute);
+    private readonly destroyRef = inject(DestroyRef);
+    private loadVersion = 0;
 	public productsQuantity: number = 1;
 	public productAddedToCart: boolean = false;
 
@@ -61,44 +68,38 @@ export class ProductComponent implements OnInit {
 		public dialog: MatDialog
 	) {}
 
-	ngOnInit(): void {
-		this.getProductSelected();
-		this.getCurrentShipping();
-		this.buildingForm();
-		this.checkIfProductIsInCart();
-	}
+    ngOnInit(): void {
+        this.buildingForm();
+        this.activatedRoute.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(params => {
+            void this.getProductSelected(params.get('product_id'));
+        });
+    }
 
-	public async getProductSelected(): Promise<void> {
-		try {
-			// 1. Aguarda a leitura do LocalStorage
-			const localProduct = await this.productsService.getProductLocalStorage();
-
-			// 2. Se encontrou no LocalStorage, define o produto e encerra a função
-			if (localProduct !== null) {
-				this.product = localProduct;
-				this.products.push(this.product);
-				return; // Agora sim o return encerra o método getProductSelected()!
-			}
-
-			// 3. Se não encontrou no LocalStorage, busca o ID da URL
-			this.productId = this.route.url.split('/').pop();
-
-			if (!this.productId) {
-				console.error('Nenhum produto selecionado e nenhum ID de produto fornecido na URL.');
-				return;
-			}
-
-			// 4. Busca o produto na API
-			this.product = await this.productsService.getProduct(this.productId);
-			this.products.push(this.product);
-
-		} catch (error) {
-			console.error({
-				message: "Não foi possível buscar o produto do serviço.",
-				fail: error,
-			});
-		}
-	}
+    public async getProductSelected(productId: string | null = this.activatedRoute.snapshot.paramMap.get('product_id')): Promise<void> {
+        const loadVersion = ++this.loadVersion;
+        this.productId = productId ?? undefined;
+        this.products = [];
+        this.product = {};
+        this.shippings = [];
+        this.productsQuantity = 1;
+        this.productAddedToCart = false;
+        this.isLoading = true;
+        this.hasLoadError = false;
+        try {
+            if (!productId) throw new Error('Missing product ID');
+            const product = await this.productsService.getProduct(productId);
+            if (loadVersion !== this.loadVersion || this.destroyRef.destroyed) return;
+            if (!product || product._id !== productId) throw new Error('Unexpected product');
+            this.product = product;
+            this.products = [product];
+            this.checkIfProductIsInCart();
+            this.getCurrentShipping();
+        } catch {
+            if (loadVersion === this.loadVersion && !this.destroyRef.destroyed) this.hasLoadError = true;
+        } finally {
+            if (loadVersion === this.loadVersion && !this.destroyRef.destroyed) this.isLoading = false;
+        }
+    }
 
 	public getUserProfile(): User {
 		let userProfile: User = {}

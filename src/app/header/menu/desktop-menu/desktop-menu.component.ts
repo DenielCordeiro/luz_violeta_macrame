@@ -1,71 +1,38 @@
 import { Component, inject } from '@angular/core';
-
+import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
-import { MenuService } from 'src/app/services/menu/menu.service';
-import { AuthService } from 'src/app/guards/auth.service';
-
-import { LoginComponent } from '../../login/login.component'; 
-
+import { MenuService } from '../../../services/menu/menu.service';
+import { AuthService } from '../../../guards/auth.service';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
     selector: 'app-desktop-menu',
     standalone: true,
-    imports: [
-        LoginComponent,
-        MatIconModule,
-        MatButtonModule,
-    ],
+    imports: [RouterLink, LoginComponent, MatIconModule, MatButtonModule],
     templateUrl: './desktop-menu.component.html',
     styleUrls: ['./desktop-menu.component.sass'],
 })
 export class DesktopMenuComponent {
-    authService: AuthService = inject(AuthService);
-    menuService: MenuService = inject(MenuService);
-    isOpen: boolean = false;
-    modalLogout: boolean = false;
-    administrator: boolean = false;
-    userId: number = 0;
+    public readonly authService = inject(AuthService);
+    public readonly menuService = inject(MenuService);
+    public administrator = false;
+    public modalLogout = false;
+    public logoutError = false;
+    public isLoggingOut = false;
 
-    constructor() {
-        this.getLogin();
-    }
-
-    public changeMenuProducts(): void {
-        if (this.isOpen == false) {
-            this.isOpen = true;
-        } else {
-            this.isOpen = false;
-        }
-    }
-
-    public getLogin(): void {
-        const id = localStorage.getItem('user_id');
-
-        if (id !== null) {
-            this.userId = JSON.parse(id);
-        } else {
-            console.log('Necessário fazer login');
-        }
-    }
-
-    public modalLogoutIsOpen(): void {
-        if (this.modalLogout == false) {
-            this.modalLogout = true;
-        } else {
+    public async isLogout(): Promise<void> {
+        if (this.isLoggingOut) return;
+        this.isLoggingOut = true;
+        this.logoutError = false;
+        try {
+            await this.authService.logout();
             this.modalLogout = false;
+            this.menuService.closeMenu('noAction');
+        } catch {
+            this.logoutError = true;
+        } finally {
+            this.isLoggingOut = false;
         }
-    }
-
-    public isLogout(): void {
-        const noAction: string = 'noAction';
-
-        this.authService.logout();
-        this.closingMenu(noAction);
-    }
-
-    public closingMenu(url: string): void {
-        this.menuService.closeMenu(url);
     }
 }

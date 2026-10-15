@@ -1,61 +1,27 @@
-<section id="menu-desktop">
-	@if (this.userId == 0) {
-		<div class="login">
-			<app-login></app-login>
-		</div>
-	}
-
-    <button mat-button type="button" class="default-button newsletter item" (click)="closingMenu('/home')">
-        <mat-icon class="material-symbols-outlined">home</mat-icon>
-        <span>Início</span>
-    </button>
-
-	<button mat-button type="button" class="default-button item" (click)="changeMenuProducts()">
-		@if (this.isOpen == false) {
-			<mat-icon class="material-symbols-outlined">arrow_drop_down</mat-icon>
-		} @else {
-			<mat-icon class="material-symbols-outlined">arrow_drop_up</mat-icon>
-		}
-
-		<span>Acessórios</span>
-	</button>
-
-	@if (this.isOpen == true) {
-		<div class="menu-products">
-			<button mat-button type="button" class="default-button light" (click)="closingMenu('/products')">
-				<mat-icon class="material-symbols-outlined" aria-hidden="true">arrow_right_alt</mat-icon>
-				<span>Todos</span>
-			</button>
-		</div>
-	}
-
-	<button mat-button type="button" class="default-button about item" (click)="closingMenu('/about')">
-		<mat-icon class="material-symbols-outlined">article_person</mat-icon>
-		<span>Sobre</span>
-	</button>
-
-	@if (this.userId !== 0) {
-		<button mat-button type="button" class="default-button profile item" (click)="closingMenu('/profile/{{ this.userId }}')">Minha Conta</button>
-	}
-
-	@if (this.administrator == true) {
-		<button mat-button type="button" class="default-button dashboard item" (click)="closingMenu('/dashboard')">Dashboard</button>
-	}
-
-	@if (this.userId !== 0) {
-		<div class="content-button-logout">
-			<button mat-button type="button" class="logout button-one" (click)="modalLogoutIsOpen()">Sair</button>
-		</div>
-	}
-</section>
-
-@if (this.modalLogout == true) {
-	<div class="modal-logout">
-		<h2>Deseja sair de sua conta ?</h2>
-
-		<div class="modal-actions">
-			<button mat-button type="button" class="close-modal-logout" (click)="modalLogoutIsOpen()">Não</button>
-			<button mat-flat-button type="button" class="button-logout" (click)="isLogout()">Sim</button>
-		</div>
-	</div>
-}
+<nav id="menu-desktop" aria-label="Menu principal">
+    <div class="login"><app-login [showRegister]="true"></app-login></div>
+    <a mat-button class="default-button item" routerLink="/home" fragment="top" (click)="menuService.closeMenu('noAction')">Início</a>
+    <a mat-button class="default-button item" routerLink="/products" (click)="menuService.closeMenu('noAction')">Peças</a>
+    <a mat-button class="default-button item" routerLink="/home" fragment="atelier" (click)="menuService.closeMenu('noAction')">O ateliê</a>
+    <a mat-button class="default-button item" routerLink="/home" fragment="process" (click)="menuService.closeMenu('noAction')">O processo</a>
+    <a mat-button class="default-button item" routerLink="/about" (click)="menuService.closeMenu('noAction')">Nossa história</a>
+    <a mat-button class="default-button item" routerLink="/cart" (click)="menuService.closeMenu('noAction')">Carrinho</a>
+    @if (administrator) {
+        <a mat-button class="default-button item" routerLink="/dashboard" (click)="menuService.closeMenu('noAction')">Dashboard</a>
+    }
+    @if (authService.profile()) {
+        <button mat-button type="button" class="logout item" (click)="modalLogout = !modalLogout">Sair</button>
+    }
+    @if (modalLogout) {
+        <div class="logout-confirmation">
+            <p>Deseja sair da sua conta?</p>
+            @if (logoutError) {
+                <p role="alert">Não foi possível sair agora. Tente novamente.</p>
+            }
+            <div class="modal-actions">
+                <button mat-button type="button" [disabled]="isLoggingOut" (click)="modalLogout = false">Não</button>
+                <button mat-flat-button type="button" class="button-logout" [disabled]="isLoggingOut" (click)="isLogout()">Sim, sair</button>
+            </div>
+        </div>
+    }
+</nav>

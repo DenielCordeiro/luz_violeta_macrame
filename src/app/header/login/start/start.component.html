@@ -1,29 +1,34 @@
 <section id="form">
-	<form [formGroup]="loginForm">
-		<header>
-			<span class="title">Acesse sua conta</span>
-			<mat-icon class="material-symbols-outlined close" (click)="closeDialog()">tab_close</mat-icon>
-		</header>
-
-		<main>
-			<mat-form-field appearance="outline">
-				<mat-label>Digite seu e-mail:</mat-label>
-				<input matInput formControlName="email" placeholder="exemplo@exemplo.com">
-			</mat-form-field>
-
-			<mat-form-field appearance="outline">
-				<mat-label>Digite sua senha:</mat-label>
-				<input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
-				<mat-icon class="material-symbols-outlined icon-input" (click)="changeHidePassword($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword()">
-					{{ hidePassword() ? 'visibility' : 'visibility_off' }}
-				</mat-icon>
-			</mat-form-field>
-		</main>
-
-		<footer>
-			<button matButton = "elevated" (click)="closeDialog()">Fechar</button>
-			<button matButton = "elevated" (click)="registering('/register')">Cadastre-se</button>
-			<button matButton = "elevated" [disabled]="loginForm.invalid" (click)="makeLogin()">Entrar</button>
-		</footer>
-	</form>
+    <form [formGroup]="loginForm" (ngSubmit)="makeLogin()">
+        <header>
+            <h2 class="title">Acesse sua conta</h2>
+            <button mat-icon-button type="button" aria-label="Fechar login" (click)="closeDialog()">
+                <mat-icon class="material-symbols-outlined">close</mat-icon>
+            </button>
+        </header>
+        <main>
+            <mat-form-field appearance="outline">
+                <mat-label>Digite seu e-mail</mat-label>
+                <input matInput type="email" autocomplete="email" formControlName="email" placeholder="exemplo@exemplo.com">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Digite sua senha</mat-label>
+                <input matInput autocomplete="current-password" formControlName="password" [type]="hidePassword() ? 'password' : 'text'">
+                <button mat-icon-button matSuffix type="button" (click)="changeHidePassword($event)" [attr.aria-label]="hidePassword() ? 'Mostrar senha' : 'Ocultar senha'" [attr.aria-pressed]="!hidePassword()">
+                    <mat-icon class="material-symbols-outlined">{{ hidePassword() ? 'visibility' : 'visibility_off' }}</mat-icon>
+                </button>
+            </mat-form-field>
+            @if (loginError) {
+                <p role="alert">Não foi possível entrar. Confira seus dados e tente novamente.</p>
+            }
+            @if (isSubmitting) {
+                <p role="status">Entrando…</p>
+            }
+        </main>
+        <footer>
+            <button mat-button type="button" (click)="closeDialog()">Fechar</button>
+            <button mat-button type="button" (click)="registering('/register')">Criar conta</button>
+            <button mat-flat-button type="submit" [disabled]="loginForm.invalid || isSubmitting">Entrar</button>
+        </footer>
+    </form>
 </section>

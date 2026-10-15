@@ -1,3 +1,12 @@
+@if (isLoading) {
+    <p role="status">Carregando a peça…</p>
+} @else if (hasLoadError) {
+    <div role="status">
+        <p>Não foi possível carregar esta peça. Tente novamente ou explore o catálogo.</p>
+        <button mat-stroked-button type="button" (click)="getProductSelected()">Tentar novamente</button>
+        <a mat-button routerLink="/products">Ver catálogo</a>
+    </div>
+}
 <section id="desktop">
     @for (product of products; track product._id) {
         <div class="card-product">
@@ -27,6 +36,7 @@
                 </div>
 
                 <div class="description">
+                    <h1>{{ product.name }}</h1>
                     <div class="ql-editor" [innerHTML]="product?.description"></div>
                 </div>
 
