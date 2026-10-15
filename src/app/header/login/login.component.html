@@ -1,13 +1,12 @@
-<section id="buttons">
-	@if (isConnected == true){
-		<div class="button-login" (click)="loginDialog()">
-			<mat-icon class="material-symbols-outlined">login</mat-icon> <br>
-			<span>Entrar</span>
-		</div>
-	} @else {
-		<div class="button-my-account" (click)="this.closingMenu('/profile')" >
-			<mat-icon class="material-symbols-outlined">account_circle</mat-icon> <br>
-			<span>{{ this.firstName }}</span>
-		</div>
-	}
-</section>
+@if (authService.profile()) {
+    <a mat-button routerLink="/profile" (click)="menuService.closeMenu('noAction')">
+        <mat-icon class="material-symbols-outlined">account_circle</mat-icon>Minha conta
+    </a>
+} @else {
+    <button mat-button type="button" (click)="loginDialog()">
+        <mat-icon class="material-symbols-outlined">login</mat-icon>Entrar
+    </button>
+    @if (showRegister) {
+        <a mat-button routerLink="/register" (click)="menuService.closeMenu('noAction')">Criar conta</a>
+    }
+}

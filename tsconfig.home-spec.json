@@ -1,8 +1,12 @@
 {
     "extends": "./tsconfig.spec.json",
     "include": [
-        "src/app/home/home.component.spec.ts",
+        "src/app/app.component.spec.ts",
+        "src/app/home/**/*.spec.ts",
         "src/app/header/menu/menu.component.spec.ts",
+        "src/app/header/login/login.component.spec.ts",
+        "src/app/products/product/product.component.spec.ts",
+        "src/app/services/menu/menu.service.spec.ts",
         "src/**/*.d.ts"
     ]
 }

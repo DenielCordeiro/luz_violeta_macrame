@@ -31,6 +31,8 @@ export class StartComponent implements OnInit {
     private menuService: MenuService = inject(MenuService);
     public hidePassword: WritableSignal<boolean> = signal(true);
     public currentRoute: string = "";
+    public isSubmitting = false;
+    public loginError = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -51,21 +53,16 @@ export class StartComponent implements OnInit {
     }
 
     public async makeLogin(): Promise<void> {
+        if (this.loginForm.invalid || this.isSubmitting) return;
+        this.isSubmitting = true;
+        this.loginError = false;
         try {
-            if (this.loginForm.valid) {
-                await this.authService.authUser(this.loginForm.value);
-
-                this.closingMenu(this.currentRoute);                
-            } else {
-                console.log('[ERRO]: Formulário inválido!')
-            }
-        } catch (error) {
-            console.error({
-                fail: '[ERRO]: Não foi possível fazer login!',
-                message: error
-            });
-            
-            throw error; 
+            await this.authService.authUser(this.loginForm.value);
+            this.closingMenu(this.currentRoute);
+        } catch {
+            this.loginError = true;
+        } finally {
+            this.isSubmitting = false;
         }
     }
 

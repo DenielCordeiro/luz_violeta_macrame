@@ -1,35 +1,71 @@
 @use '../../assets/sass/colors'
-@use '../../assets/sass/display'
 
-#header-content
-    background-color: colors.$brand-stone
+:host
+    display: block
+    background: #faf8f5
+    color: #37332f
 
-    .header
-        display: flex
-        justify-content: center
+h1, h2
+    font-family: Georgia, 'Times New Roman', serif
+    font-weight: 400
+    color: colors.$brand-violet
 
-    .button
-        margin-right: 5vw
-        padding: 2vh 2vw
-        border-radius: 8px
-        cursor: pointer
-        background-color: colors.$pourple-gray
+h1
+    font-size: clamp(2.6rem, 5vw, 4.5rem)
+    line-height: 1.1
+    margin-block: 20px 28px
 
-#main-content
-    margin-top: 8vh
-    display: flex
-    justify-content: center
-            
-    .tab-content
-        width: 69vw
-        padding: 9vh 0px 0px 0px
+h2
+    font-size: clamp(1.8rem, 3vw, 2.6rem)
+    margin-block: 16px 24px
 
-#footer-content
-    bottom: 0px
-    width: 100vw
-    position: fixed
-    background-color: colors.$brand-stone
+p
+    line-height: 1.8
+    max-width: 700px
+    margin-bottom: 18px
 
-    .footer
-        display: flex
-        justify-content: center
+.eyebrow
+    font-size: .75rem
+    text-transform: uppercase
+    letter-spacing: .15em
+
+.intro, .story
+    max-width: 1000px
+    padding: 64px 32px
+    margin: auto
+
+.intro
+    padding-bottom: 24px
+
+.story
+    padding-top: 0
+
+    section
+        border-top: 1px solid colors.$brand-stone
+        padding-block: 40px
+
+.text-link
+    display: inline-block
+    color: colors.$brand-violet
+    padding-block: 12px
+
+a:focus-visible
+    outline: 3px solid colors.$brand-violet
+    outline-offset: 4px
+
+.invitation
+    padding: 48px 24px
+    background: colors.$brand-ivory
+    text-align: center
+
+    a
+        margin: 8px 12px
+
+    a[mat-flat-button]
+        background: colors.$brand-violet
+        color: colors.$white
+        min-height: 48px
+
+@media (max-width: 600px)
+    .intro, .story
+        padding-inline: 24px

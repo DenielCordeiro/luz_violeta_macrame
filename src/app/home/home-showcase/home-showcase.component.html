@@ -1,0 +1,46 @@
+<section aria-labelledby="showcase-title" [attr.aria-busy]="isLoading">
+    <div class="heading">
+        <div>
+            <p class="eyebrow">Texturas que acolhem</p>
+            <h2 id="showcase-title">Peças para fazer parte da sua história</h2>
+            <p>Conheça algumas das criações do nosso catálogo.</p>
+        </div>
+        <a class="text-link" routerLink="/products">Ver todas as peças <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon></a>
+    </div>
+    @if (isLoading) {
+        <div class="status" role="status">
+            <p>Carregando as peças…</p>
+            <mat-progress-bar mode="indeterminate" aria-label="Carregando peças"></mat-progress-bar>
+        </div>
+    } @else if (hasError) {
+        <div class="status" role="status">
+            <p>Não foi possível carregar as peças agora. Você pode continuar conhecendo nosso ateliê.</p>
+            <button mat-stroked-button type="button" (click)="loadProducts()">Tentar novamente</button>
+        </div>
+    } @else if (products.length === 0) {
+        <p class="status" role="status">Ainda não há peças para apresentar aqui. Conheça a história e o processo da Luz Violeta logo abaixo.</p>
+    } @else {
+        <div class="gallery" [class.three-items]="products.length === 3" [class.single-item]="products.length === 1">
+            @for (product of products; track product._id) {
+                <a class="product-card" [routerLink]="['/product', product._id]" [attr.aria-label]="'Ver peça: ' + product.name">
+                    <div class="photo">
+                        @if (product.file?.url && !failedImages.has(product._id)) {
+                            <img [src]="product.file?.url" [alt]="product.name" width="800" height="600" loading="lazy" (error)="markImageFailed(product)">
+                        } @else {
+                            <span class="placeholder"><mat-icon class="material-symbols-outlined">image_not_supported</mat-icon>Imagem indisponível</span>
+                        }
+                    </div>
+                    <div class="caption">
+                        <h3>{{ product.name }}</h3>
+                        @if (hasPrice(product)) {
+                            <p>{{ product.price | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</p>
+                        } @else {
+                            <p>Preço indisponível</p>
+                        }
+                        <span class="text-link">Ver peça <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon></span>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</section>

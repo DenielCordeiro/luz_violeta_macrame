@@ -1,59 +1,37 @@
 @use '../../../../assets/sass/colors'
-@use '../../../../assets/sass/display'
 
 #menu-desktop
-	font-size: 21px
+    padding: 16px
+    color: colors.$brand-violet
 
-	.default-button, .logout
-		width: 100%
-		min-height: 44px
-		justify-content: flex-start
-		font-size: inherit
+.login
+    padding-block: 12px
+    border-bottom: 1px solid colors.$brand-stone
 
-	@include display.hd
-		font-size: 17px
+.default-button, .logout
+    display: flex
+    width: 100%
+    min-height: 44px
+    justify-content: flex-start
+    color: colors.$brand-violet
 
-	.login
-		padding: 2vh 3vw
-		border-bottom: 1px solid colors.$pourple-gray
-		cursor: pointer
+.item
+    margin-top: 12px
 
-	.item
-		margin-top: 3.5vh
-		cursor: pointer
+a:focus-visible, button:focus-visible
+    outline: 3px solid colors.$brand-violet
+    outline-offset: 2px
 
-		&:hover
-			color: colors.$pourple
-
-		mat-icon
-			color: colors.$pourple-light
-			margin: 0px 1vw
-
-		&:hover
-			color: colors.$pourple
-
-	.newsletter
-		margin-top: 5.5vh
-
-	.menu-products
-		padding-top: 2.5vh
-		cursor: pointer
-
-		&:hover
-			color: colors.$pourple
-
-		mat-icon
-			color: colors.$pourple-light
-			margin: 0px 0.3vw 0px 1.5vw
-
-		&:hover
-			color: colors.$pourple
+.logout-confirmation
+    margin-top: 20px
+    line-height: 1.5
 
 .modal-actions
-	display: flex
-	justify-content: flex-end
-	gap: 0.75rem
+    display: flex
+    flex-wrap: wrap
+    gap: 8px
+    margin-top: 12px
 
 .button-logout
-	background: colors.$pourple
-	color: colors.$white
+    background: colors.$brand-violet
+    color: colors.$white

@@ -10,17 +10,19 @@ import { Product } from '../interfaces/product.interface';
 import { User } from '../interfaces/user.interface';
 import { CartService } from '../services/cart/cart.service';
 import { MenuComponent } from './menu/menu.component';
+import { LoginComponent } from './login/login.component';
 
 @Component({
 	selector: 'app-header',
 	standalone: true,
-	imports: [
-		CommonModule,
-		MatIconModule,
-		MatButtonModule,
-		RouterModule,
-		MenuComponent
-	],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatButtonModule,
+        RouterModule,
+        MenuComponent,
+        LoginComponent,
+    ],
 	templateUrl: './header.component.html',
 	styleUrls: ['./header.component.sass'],
 })

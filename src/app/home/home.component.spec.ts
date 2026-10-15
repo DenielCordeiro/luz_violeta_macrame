@@ -4,6 +4,7 @@ import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { appRoutes } from '../../app.routes';
 import { HomeComponent } from './home.component';
+import { ProductsService } from '../services/products/products.service';
 
 @Component({
     standalone: true,
@@ -16,7 +17,10 @@ describe('Home navigation', () => {
         TestBed.configureTestingModule({
             providers: [provideRouter(appRoutes.map(route => route.path === 'products'
                 ? { path: 'products', component: CatalogStubComponent }
-                : route))],
+                : route)), {
+                    provide: ProductsService,
+                    useValue: { getProducts: () => Promise.resolve({ products: { docs: [] } }) },
+                }],
         });
     });
 

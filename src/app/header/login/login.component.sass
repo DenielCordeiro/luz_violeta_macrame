@@ -1,9 +1,13 @@
 @use '../../../assets/sass/colors'
 
-#buttons
-	text-align: center
-	color: colors.$pourple-gray
+:host
+    display: inline-flex
+    flex-wrap: wrap
 
-.button-login, .button-my-account
-	&:hover
-		color: colors.$pourple
+a, button
+    color: colors.$brand-violet
+    min-height: 44px
+
+a:focus-visible, button:focus-visible
+    outline: 3px solid colors.$brand-violet
+    outline-offset: 2px

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BaseAPI } from '../interfaces/base-api.interface';
 import { User } from '../interfaces/user.interface';
 import { lastValueFrom } from 'rxjs';
@@ -12,6 +12,12 @@ export class AuthService {
     http!: HttpClient;
     accessToken: string | null = null;
     route: string = environment.api;
+    private readonly profileState = signal<User | null>(this.getUserProfile());
+    public readonly profile = this.profileState.asReadonly();
+
+    public refreshProfile(): void {
+        this.profileState.set(this.getUserProfile());
+    }
 
     constructor(httpClient: HttpClient) {
         this.http = httpClient;
@@ -65,6 +71,7 @@ export class AuthService {
                 
 
                     localStorage.setItem('session', JSON.stringify(profile));
+                    this.refreshProfile();
                 }
 
                 return userProfile;
@@ -76,6 +83,7 @@ export class AuthService {
             .then(() => {
                 this.accessToken = null;
                 localStorage.removeItem('session');
+                this.refreshProfile();
             });
     }
 

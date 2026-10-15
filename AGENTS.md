@@ -168,14 +168,14 @@ Providers globais: HTTP, router, `ngx-webstorage`, service worker e configuraç�
 | Rota | Componente | Estado observado |
 | --- | --- | --- |
 | `/` | redireciona para `/home` | ativo |
-| `/home` | HomeComponent | home editorial responsiva; ver `docs/home-2026-10-15.md` |
+| `/home` | HomeComponent | home editorial e vitrine de até três produtos; ver `docs/home-integracao-2026-10-15.md` |
 | `/newsletter` | redireciona para `/home` | compatibilidade com links antigos |
 | `/products` | catálogo e CRUD | integração principal existente |
-| `/product/:product_id` | detalhe, frete e carrinho | usa produto selecionado no localStorage |
+| `/product/:product_id` | detalhe, frete e carrinho | consulta o ID da URL; não prioriza produto anterior no localStorage |
 | `/cart` | carrinho e checkout | fluxo parcial |
 | `/register` | cadastro e ViaCEP | formulário reativo |
 | `/profile` | perfil | atualização/exclusão parciais |
-| `/about` | marca e Camila | usa mock local |
+| `/about` | marca e Camila | conteúdo editorial baseado em fatos documentados |
 | `/dashboard` | indicadores | usa valores mockados |
 
 `authGuard` é importado mas não aplicado. Sua implementação atual sempre redireciona e retorna `false`; não a reutilize sem corrigir e testar autorização.
@@ -248,8 +248,8 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 
 ### Conteúdo incompleto
 
-- Home editorial implementada sem dependência da API; galeria ilustrativa aponta para o catálogo. O service e os diálogos legados de Newsletter permanecem separados.
-- About e dashboard usam mocks.
+- Home mantém conteúdo editorial independente da API; a vitrine consulta os três primeiros produtos do catálogo, com loading, erro/retry e vazio. O service e os diálogos legados de Newsletter permanecem separados.
+- About apresenta marca, Camila e processo com fatos documentados; dashboard continua usando mocks.
 - Footer institucional com navegação; a avaliação fictícia foi removida. Avaliações reais ainda dependem de integração.
 - `openCart()` no perfil e `savingCart()` estão vazios.
 - Templates usam Angular Material para controles e ícones, com Grid, Flexbox, espaçamento e responsividade implementados no Sass local.

@@ -17,6 +17,7 @@ export class MenuService {
 
     public closeMenu(nextUrl: string): void {
         const activeRoute = this.router.url;
+        this._menuOpen.set(false);
 
         if (nextUrl === 'noAction') {
             this._menuOpen.set(false);
