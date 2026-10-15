@@ -6,14 +6,15 @@ export interface IBanner {
     link?: string;
     file?: {
         name: string;
-        size: string | number; // Às vezes o tamanho vem como número do banco
+        size: string | number;
         key: string;
         url: string;
         createdAt?: Date | string;
     };
 }
 
-export interface HomeData {
+export interface Home {
+    _id?: string;
     banners?: Array<IBanner>;
     featuredProducts?: Array<Product>;
 }
