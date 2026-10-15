@@ -1,3 +1,3 @@
 export interface BaseCrud {
-  _id?: string
+	_id?: string
 }

@@ -1,15 +1,15 @@
 export interface About {
-  _id: string;
-  company: Section;
-  businesswoman: Section;
+	_id: string;
+	company: Section;
+	businesswoman: Section;
 }
 
 interface Section {
-  title: string;
-  paragraph: Paragraph[];
+	title: string;
+	paragraph: Paragraph[];
 }
 
 export interface Paragraph {
-  _id: number;
-  phrases: string;
+	_id: number;
+	phrases: string;
 }
