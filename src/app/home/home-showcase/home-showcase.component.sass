@@ -1,0 +1,140 @@
+@use '../../../assets/sass/colors'
+
+:host
+    display: block
+    max-width: 1160px
+    margin: auto
+    padding: 80px 32px
+
+.heading
+    display: flex
+    align-items: end
+    justify-content: space-between
+    gap: 24px
+    margin-bottom: 32px
+
+h2, h3
+    font-family: Georgia, 'Times New Roman', serif
+    font-weight: 400
+    color: colors.$brand-violet
+
+h2
+    font-size: clamp(1.9rem, 3vw, 2.8rem)
+    margin-bottom: 14px
+
+h3
+    font-size: 1.5rem
+    overflow-wrap: anywhere
+
+p
+    line-height: 1.7
+
+.eyebrow
+    font-size: .7rem
+    letter-spacing: .17em
+    text-transform: uppercase
+    margin-bottom: 18px
+
+.text-link
+    display: inline-flex
+    align-items: center
+    gap: 10px
+    color: colors.$brand-violet
+    font-size: .85rem
+    padding-block: 8px
+    text-decoration: underline
+
+.gallery
+    display: grid
+    grid-template-columns: repeat(2, minmax(0, 1fr))
+    gap: 24px
+
+.single-item
+    grid-template-columns: 1fr
+
+.product-card
+    display: flex
+    flex-direction: column
+    color: #37332f
+    text-decoration: none
+    background: colors.$brand-ivory
+    border-radius: 5px
+    overflow: hidden
+
+    &:hover h3
+        text-decoration: underline
+
+a:focus-visible
+    outline: 3px solid colors.$brand-violet
+    outline-offset: 4px
+
+.photo
+    position: relative
+    height: 270px
+    flex-shrink: 0
+    background: colors.$brand-stone
+
+    img
+        position: absolute
+        width: 100%
+        height: 100%
+        object-fit: cover
+
+.placeholder
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: 12px
+    height: 100%
+
+.caption
+    padding: 20px 24px
+
+    p
+        margin-top: 8px
+
+.three-items
+    grid-template-columns: 1.4fr 1fr
+
+    .product-card:first-child
+        grid-row: span 2
+
+        .photo
+            flex: 1
+            min-height: 0
+
+    .photo
+        height: 180px
+
+.status
+    padding: 32px
+    min-height: 100px
+    background: colors.$brand-ivory
+
+    button, mat-progress-bar
+        margin-top: 20px
+
+@media (max-width: 800px)
+    :host
+        padding: 48px 24px
+
+    .heading
+        flex-direction: column
+        align-items: start
+
+@media (max-width: 600px)
+    :host
+        padding-inline: 20px
+
+    .gallery
+        grid-template-columns: 1fr
+
+    .three-items .product-card:first-child
+        grid-row: auto
+
+        .photo
+            flex: none
+
+    .three-items .photo
+        height: 270px

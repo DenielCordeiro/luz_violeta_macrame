@@ -1,38 +1,15 @@
-<section class="hero" aria-labelledby="home-title">
+<section id="top" class="hero" aria-labelledby="home-title">
     <img class="hero-image" src="assets/images/home/hero.webp" alt="Inspiração de sala acolhedora com painel de macramê, plantas e luz natural" width="1536" height="1024" fetchpriority="high">
     <div class="hero-content">
         <p class="eyebrow">Feito à mão. Sentido em casa.</p>
         <h1 id="home-title">A arte de<br>habitar com calma.</h1>
         <p>Entre fios, nós e natureza, nascem peças que levam acolhimento e significado para o seu lar.</p>
         <a mat-flat-button class="primary-link" routerLink="/products">Explorar peças <mat-icon class="material-symbols-outlined" iconPositionEnd>arrow_forward</mat-icon></a>
+        <a class="text-link secondary-link" routerLink="/home" fragment="atelier">Conheça o ateliê</a>
     </div>
 </section>
 
-<section class="collection section-wrap" aria-labelledby="collection-title">
-    <div class="section-heading">
-        <div>
-            <p class="eyebrow">Texturas que acolhem</p>
-            <h2 id="collection-title">Um novo olhar para o seu lar</h2>
-            <p>Inspirações para encontrar beleza nos pequenos detalhes.</p>
-        </div>
-        <a class="text-link" routerLink="/products">Ver catálogo <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon></a>
-    </div>
-    <div class="gallery">
-        <figure class="gallery-main">
-            <img src="assets/images/home/hero.webp" alt="Painel artesanal em uma composição de tons naturais" width="1536" height="1024" loading="lazy">
-            <figcaption><span>01 / Decorar</span><h3>Texturas que contam histórias</h3><p>Um toque de natureza em cada canto.</p></figcaption>
-        </figure>
-        <figure>
-            <img src="assets/images/home/plant.webp" alt="Suporte de macramê envolvendo um vaso com folhagens" width="1536" height="1024" loading="lazy">
-            <figcaption><span>02 / Cultivar</span><h3>Mais verde, mais vida</h3></figcaption>
-        </figure>
-        <figure>
-            <img src="assets/images/home/materials.webp" alt="Tramas de algodão e xícara sobre uma mesa de madeira" width="1536" height="1024" loading="lazy">
-            <figcaption><span>03 / Acolher</span><h3>Beleza no cotidiano</h3></figcaption>
-        </figure>
-    </div>
-    <p class="image-note">Imagens ilustrativas de inspiração. Consulte as peças disponíveis no catálogo.</p>
-</section>
+<app-home-showcase></app-home-showcase>
 
 <section id="atelier" class="atelier" aria-labelledby="atelier-title">
     <div class="atelier-layout section-wrap">
@@ -42,7 +19,7 @@
             <h2 id="atelier-title">Cada nó,<br>uma intenção.</h2>
             <p>A Luz Violeta nasce das mãos de Camila, em Itu, no interior de São Paulo. Um encontro entre o macramê, a natureza e o desejo de criar espaços que acolhem.</p>
             <p>Fios se transformam em formas. O cuidado se revela nos detalhes. E cada peça carrega um pouco de quem a faz.</p>
-            <a class="text-link" routerLink="/about">Conheça a Luz Violeta <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon></a>
+            <a class="text-link" routerLink="/about">Conheça nossa história <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon></a>
         </div>
     </div>
 </section>
@@ -75,10 +52,12 @@
             <div><h3>Do ateliê para o seu lar</h3><p>Peças para compor espaços com afeto e personalidade.</p></div>
         </article>
     </div>
+    <a class="text-link" routerLink="/products">Conhecer as peças <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon></a>
+    <p class="image-note">Imagens ilustrativas do ambiente e do processo artesanal.</p>
 </section>
 
 <section class="invitation" aria-labelledby="invitation-title">
     <p class="eyebrow">Encontre o seu próximo detalhe</p>
     <h2 id="invitation-title">Sua casa também conta uma história.</h2>
-    <a mat-flat-button class="primary-link" routerLink="/products">Conhecer as peças <mat-icon class="material-symbols-outlined" iconPositionEnd>arrow_forward</mat-icon></a>
+    <a mat-flat-button class="primary-link" routerLink="/products">Encontrar minha peça <mat-icon class="material-symbols-outlined" iconPositionEnd>arrow_forward</mat-icon></a>
 </section>
