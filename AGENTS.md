@@ -167,8 +167,9 @@ Providers globais: HTTP, router, `ngx-webstorage`, service worker e configuraç�
 
 | Rota | Componente | Estado observado |
 | --- | --- | --- |
-| `/` | redireciona para `/newsletter` | ativo |
-| `/newsletter` | vitrine futura | rota vazia após remoção do carrossel placeholder |
+| `/` | redireciona para `/home` | ativo |
+| `/home` | HomeComponent | home editorial responsiva; ver `docs/home-2026-10-15.md` |
+| `/newsletter` | redireciona para `/home` | compatibilidade com links antigos |
 | `/products` | catálogo e CRUD | integração principal existente |
 | `/product/:product_id` | detalhe, frete e carrinho | usa produto selecionado no localStorage |
 | `/cart` | carrinho e checkout | fluxo parcial |
@@ -247,9 +248,9 @@ O quadro é fonte de planejamento e comunicação, não prova de implementação
 
 ### Conteúdo incompleto
 
-- Newsletter permanece vazia e ainda não chama o service; o carrossel placeholder foi removido.
+- Home editorial implementada sem dependência da API; galeria ilustrativa aponta para o catálogo. O service e os diálogos legados de Newsletter permanecem separados.
 - About e dashboard usam mocks.
-- Footer usa avaliação de teste e não chama `searchForReviews()`.
+- Footer institucional com navegação; a avaliação fictícia foi removida. Avaliações reais ainda dependem de integração.
 - `openCart()` no perfil e `savingCart()` estão vazios.
 - Templates usam Angular Material para controles e ícones, com Grid, Flexbox, espaçamento e responsividade implementados no Sass local.
 
@@ -329,7 +330,7 @@ Não replique essas bases automaticamente no site. Primeiro defina fonte de verd
 ### Manual de marca e implementação atual
 
 - Paleta digital oficial: violeta `#523A82`, lilás `#9286B2`, pedra `#C4BDAD`, marfim `#EFEBE6` e areia `#B5A07D`.
-- Títulos usam **Arches**; textos longos usam **Neulis**. Os arquivos licenciados dessas fontes não estão no repositório, então a aplicação ainda usa Arial/Helvetica como fallback. Não importe cópias de procedência ou licença desconhecida.
+- Títulos oficiais usam **Arches**; textos longos usam **Neulis**. Os arquivos licenciados não estão no repositório. Textos usam Arial/Helvetica; a home e a assinatura textual do cabeçalho/rodapé usam Georgia como fallback editorial temporário. Não importe cópias de procedência ou licença desconhecida.
 - O logo possui versões principal, variação tipográfica e dois ícones. Não distorça, não reduza até perder legibilidade, não aplique sobre fundo sem contraste e respeite a área de proteção indicada no manual.
 - O manual mostra combinações preferenciais, mas isso não substitui WCAG: valide contraste de texto e controles. Lilás, pedra e areia podem servir como superfícies ou detalhes sem serem automaticamente adequados para texto pequeno.
 - A paleta está centralizada em `src/assets/sass/colors.sass`. Nomes históricos como `pourple` permanecem como aliases para evitar uma renomeação transversal nesta tarefa.

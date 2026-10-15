@@ -1,0 +1,281 @@
+@use '../../assets/sass/colors'
+@use '../../assets/sass/display'
+
+:host
+    display: block
+    color: #37332f
+    background: #faf8f5
+
+h1, h2, h3
+    font-family: Georgia, 'Times New Roman', serif
+    font-weight: 400
+
+h2
+    font-size: clamp(1.9rem, 3vw, 2.8rem)
+    line-height: 1.15
+    color: colors.$brand-violet
+
+h3
+    font-size: 1.6rem
+
+p
+    line-height: 1.75
+
+.eyebrow
+    font-size: .7rem
+    font-weight: 600
+    letter-spacing: .17em
+    text-transform: uppercase
+    margin-bottom: 18px
+
+.section-wrap
+    max-width: 1160px
+    margin-inline: auto
+    padding: 80px 32px
+
+.hero
+    position: relative
+    min-height: 620px
+    display: flex
+    align-items: center
+    background: colors.$brand-stone
+
+.hero-image
+    position: absolute
+    width: 100%
+    height: 100%
+    object-fit: cover
+    object-position: center 55%
+
+.hero-content
+    position: relative
+    box-sizing: border-box
+    width: 540px
+    margin: 50px max(32px, calc((100% - 1160px) / 2))
+    padding: 40px
+    background: rgba(colors.$brand-ivory, .95)
+    color: colors.$brand-violet
+
+    h1
+        font-size: clamp(2.7rem, 4.7vw, 4.5rem)
+        line-height: 1.04
+        margin-bottom: 24px
+
+    p:not(.eyebrow)
+        color: #49433e
+
+.primary-link
+    margin-top: 28px
+    background: colors.$brand-violet !important
+    color: colors.$white !important
+    border-radius: 4px
+    min-height: 48px
+
+.section-heading
+    display: flex
+    align-items: end
+    justify-content: space-between
+    gap: 24px
+    margin-bottom: 32px
+
+    h2
+        margin-bottom: 14px
+
+    p
+        font-size: .9rem
+
+.text-link
+    display: inline-flex
+    align-items: center
+    gap: 12px
+    color: colors.$brand-violet
+    text-decoration: none
+    border-bottom: 1px solid currentColor
+    padding-block: 8px
+    font-size: .85rem
+
+a:focus-visible
+    outline: 3px solid colors.$brand-violet
+    outline-offset: 5px
+
+.gallery
+    display: grid
+    grid-template-columns: 1.4fr 1fr
+    grid-template-rows: 250px 250px
+    gap: 22px
+
+    figure
+        position: relative
+        overflow: hidden
+        background: colors.$brand-stone
+
+    img
+        width: 100%
+        height: 100%
+        object-fit: cover
+
+    figcaption
+        position: absolute
+        inset: auto 0 0
+        padding: 42px 24px 22px
+        background: linear-gradient(transparent, rgba(0, 0, 0, .85))
+        color: colors.$white
+
+        span
+            display: block
+            font-size: .65rem
+            letter-spacing: .12em
+            text-transform: uppercase
+
+
+.gallery-main
+    grid-row: span 2
+
+.image-note
+    font-size: .75rem
+    color: #625c56
+    margin-top: 16px
+
+.atelier, .process
+    scroll-margin-top: 76px
+
+.atelier
+    background: #332d3c
+    color: colors.$brand-ivory
+
+.atelier-layout
+    display: grid
+    grid-template-columns: 1.15fr 1fr
+    align-items: center
+
+    > img
+        width: 100%
+        height: 590px
+        object-fit: cover
+
+.atelier-copy
+    position: relative
+    margin-left: -48px
+    padding: clamp(24px, 4vw, 48px)
+    background: #453d50
+
+    h2
+        color: colors.$brand-ivory
+        font-size: clamp(2.4rem, 4vw, 3.5rem)
+        margin-bottom: 24px
+
+    p:not(.eyebrow)
+        margin-bottom: 18px
+        font-size: .95rem
+
+    a
+        color: colors.$brand-ivory
+        white-space: normal
+
+    a:focus-visible
+        outline-color: colors.$brand-ivory
+
+.process-grid
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    gap: 22px
+
+    article
+        min-height: 265px
+        border-radius: 5px
+        overflow: hidden
+
+.photo-tile
+    position: relative
+    grid-column: span 2
+    background: colors.$brand-stone
+
+    img
+        position: absolute
+        width: 100%
+        height: 100%
+        object-fit: cover
+
+    > div
+        position: absolute
+        inset: auto 0 0
+        padding: 50px 28px 24px
+        color: colors.$white
+        background: linear-gradient(transparent, rgba(0, 0, 0, .85))
+
+    p
+        margin-top: 8px
+        font-size: .85rem
+
+.note-tile
+    box-sizing: border-box
+    padding: 32px
+    display: flex
+    flex-direction: column
+    justify-content: center
+    background: colors.$brand-ivory
+    color: colors.$brand-violet
+
+    h3
+        margin: 16px 0
+
+    p
+        font-size: .9rem
+
+.slow
+    background: colors.$brand-stone
+    color: #37332f
+
+.invitation
+    text-align: center
+    padding: 56px 24px 64px
+    background: colors.$brand-ivory
+
+@media (max-width: 800px)
+    .section-wrap
+        padding: 48px 24px
+
+    .section-heading
+        align-items: start
+        flex-direction: column
+
+    .hero-content
+        width: 430px
+        padding: 32px
+        margin-inline: 24px
+
+    .process-grid
+        grid-template-columns: 1fr 1fr
+
+    .photo-tile
+        grid-column: auto
+
+@media (max-width: 600px)
+    .hero
+        min-height: 640px
+        align-items: end
+
+    .hero-content
+        width: auto
+        margin: 220px 20px 54px
+        padding: 28px
+
+    .gallery
+        grid-template-columns: 1fr
+        grid-template-rows: 390px 270px 270px
+
+    .gallery-main
+        grid-row: auto
+
+    .atelier-layout, .process-grid
+        grid-template-columns: 1fr
+
+    .atelier-layout > img
+        height: 420px
+
+    .atelier-copy
+        margin: -40px 16px 0
+
+@include display.mobile
+    .section-wrap
+        padding-inline: 20px
