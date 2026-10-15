@@ -2,7 +2,7 @@
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { provideNgxWebstorage, withLocalStorage, withSessionStorage } from 'ngx-webstorage';
 
@@ -21,7 +21,7 @@ registerLocaleData(localePt, 'pt-BR');
 bootstrapApplication(AppComponent, {
   providers: [
     provideHttpClient(),
-    provideRouter(appRoutes),
+    provideRouter(appRoutes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' })),
     provideNgxWebstorage(
       withLocalStorage(),
       withSessionStorage()

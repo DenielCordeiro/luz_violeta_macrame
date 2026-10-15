@@ -1,26 +1,20 @@
-<section id="body">
-  <div class="reviews">
-    <h2>avaliações</h2>
-
-    @for (avaliation of avaliations; track 0) {
-      <p class="rating" [attr.aria-label]="'Avaliação: ' + (avaliation.filledStars ?? 0) + ' estrelas preenchidas'">
-        <span class="filled-stars" aria-hidden="true">
-          @for (_ of starRange(avaliation.filledStars); track $index) {
-            <mat-icon class="material-symbols-outlined">star</mat-icon>
-          }
-        </span>
-
-        <span class="stars" aria-hidden="true">
-          @for (_ of starRange(avaliation.stars); track $index) {
-            <mat-icon class="material-symbols-outlined">star_outline</mat-icon>
-          }
-        </span>
-      </p>
-    }
-  </div>
-
-  <div class="signature">
-    <span class="company-name">Luz Violeta Macrâme</span>
-    <span class="creator-name">Camila Ribeiro Pedroso, <mat-icon class="material-symbols-outlined" aria-label="Marca registrada">copyright</mat-icon>.</span>
-  </div>
-</section>
+<div class="footer-wrap">
+    <div class="footer-main">
+        <div class="brand-block">
+            <a class="brand" routerLink="/home">Luz Violeta<span>Macramê</span></a>
+            <p>Feito à mão, com intenção.<br>Para um lar com mais natureza e afeto.</p>
+        </div>
+        <nav aria-label="Links do rodapé">
+            <h2>Explore</h2>
+            <a routerLink="/home">Início</a>
+            <a routerLink="/products">Nossas peças</a>
+            <a routerLink="/about">Nossa história</a>
+        </nav>
+        <div class="origin">
+            <h2>Do nosso ateliê</h2>
+            <p>Por Camila Ribeiro Pedroso<br>Itu, São Paulo</p>
+            <p>Entre fios, nós e significado.</p>
+        </div>
+    </div>
+    <div class="footer-bottom"><span>© Luz Violeta Macramê</span><span>Feito com cuidado. Para fazer parte da sua casa.</span></div>
+</div>

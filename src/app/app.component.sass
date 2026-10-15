@@ -1,7 +1,22 @@
 .app-container
-	display: grid
-	grid-template-rows: auto 1fr auto 
-	min-height: 100vh
+    display: grid
+    grid-template-rows: auto 1fr auto
+    min-height: 100vh
 
-	header
-		margin-bottom: 60px
+    > header
+        height: 76px
+
+    > main
+        min-width: 0
+
+.skip-link
+    position: fixed
+    top: -80px
+    left: 16px
+    z-index: 100
+    padding: 12px
+    background: #efebe6
+    color: #523a82
+
+    &:focus
+        top: 12px
