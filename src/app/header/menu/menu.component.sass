@@ -1,92 +1,69 @@
 @use '../../../assets/sass/colors'
-@use '../../../assets/sass/display'
 
 .menu-toggle
-    position: fixed
-    top: 16px
-    left: max(20px, calc((100% - 1160px) / 2))
-    z-index: 30
     width: 44px
     height: 44px
-    color: colors.$black
+    padding: 10px
+    color: colors.$brand-violet
+    --mdc-icon-button-state-layer-size: 44px
 
-    &:hover
-        .line
-            background-color: colors.$pourple
+    &:focus-visible
+        outline: 3px solid colors.$brand-violet
+        outline-offset: 2px
 
 .menu-icon
     position: relative
     display: block
-    width: 30px
-    height: 19px
-
-    @include display.hd
-        width: 28px
-        height: 17px
-
-    @include display.mobile
-        width: 26px
-        height: 16px
+    width: 24px
+    height: 18px
 
 .line
     position: absolute
     left: 0
     width: 100%
-    height: 3px
+    height: 2px
     border-radius: 2px
     background-color: currentColor
-    transition: top 300ms ease, transform 300ms ease, opacity 200ms ease, background-color 200ms ease
+    transition: transform 200ms ease, opacity 200ms ease
 
 .line-one
     top: 0
 
 .line-two
-    top: calc(50% - 1.5px)
+    top: 8px
 
 .line-three
-    top: calc(100% - 3px)
+    top: 16px
 
 .selected
-    .line-one,
-    .line-three
-        top: calc(50% - 1.5px)
-
     .line-one
-        transform: rotate(45deg)
+        transform: translateY(8px) rotate(45deg)
 
     .line-two
         opacity: 0
 
     .line-three
-        transform: rotate(-45deg)
+        transform: translateY(-8px) rotate(-45deg)
 
 .side-menu
     position: fixed
-    top: 0
-    bottom: 0
-    left: 0
-    z-index: 10
-    display: flex
-    justify-content: center
+    inset: 76px auto 0 0
     box-sizing: border-box
-    width: 0
-    padding-top: 76px
-    overflow-x: hidden
+    width: min(320px, 88vw)
     overflow-y: auto
     visibility: hidden
     pointer-events: none
-    background-color: colors.$white
-    transition: width 800ms ease, visibility 0s linear 800ms
+    background: colors.$brand-ivory
+    border-right: 1px solid colors.$brand-stone
+    transform: translateX(-100%)
+    transition: transform 200ms ease, visibility 200ms
 
 .menu-open
-    width: 260px
     visibility: visible
     pointer-events: auto
-    box-shadow: 1px 1px 0 0 colors.$pourple-gray
-    transition: width 800ms ease
+    transform: translateX(0)
+    box-shadow: 8px 0 24px rgba(52, 39, 72, .12)
 
-    @include display.hd
-        width: 210px
-
-    @include display.mobile
-        width: 190px
+@media (prefers-reduced-motion: reduce)
+    .side-menu, .line
+        transition: none

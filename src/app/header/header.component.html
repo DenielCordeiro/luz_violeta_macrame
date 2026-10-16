@@ -1,17 +1,19 @@
-<app-menu></app-menu>
 <div class="site-header">
+    <app-menu></app-menu>
     <a class="brand" routerLink="/home" fragment="top" aria-label="Luz Violeta Macramê — início">Luz Violeta <span>Macramê</span></a>
     <nav aria-label="Navegação principal">
-        <a routerLink="/products">Peças</a>
+        <a class="catalog-link" routerLink="/products">Peças</a>
         <a routerLink="/home" fragment="atelier">O ateliê</a>
         <a routerLink="/home" fragment="process">O processo</a>
         <a routerLink="/about">Nossa história</a>
     </nav>
-    <app-login></app-login>
-    <a mat-icon-button class="cart" routerLink="/cart" aria-label="Abrir carrinho">
-        <mat-icon class="material-symbols-outlined">shopping_bag</mat-icon>
-        @if (productsQuantity > 0) {
-            <span class="cart-count">{{ productsQuantity }}</span>
-        }
-    </a>
+    <div class="header-actions">
+        <app-login [iconOnly]="true"></app-login>
+        <a mat-icon-button class="cart" routerLink="/cart" aria-label="Abrir carrinho">
+            <mat-icon class="material-symbols-outlined">shopping_bag</mat-icon>
+            @if (productsQuantity > 0) {
+                <span class="cart-count">{{ productsQuantity }}</span>
+            }
+        </a>
+    </div>
 </div>

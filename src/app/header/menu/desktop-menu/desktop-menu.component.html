@@ -1,7 +1,7 @@
 <nav id="menu-desktop" aria-label="Menu principal">
     <div class="login"><app-login [showRegister]="true"></app-login></div>
     <a mat-button class="default-button item" routerLink="/home" fragment="top" (click)="menuService.closeMenu('noAction')">Início</a>
-    <a mat-button class="default-button item" routerLink="/products" (click)="menuService.closeMenu('noAction')">Peças</a>
+    <a mat-button class="default-button item catalog-link" routerLink="/products" (click)="menuService.closeMenu('noAction')">Peças</a>
     <a mat-button class="default-button item" routerLink="/home" fragment="atelier" (click)="menuService.closeMenu('noAction')">O ateliê</a>
     <a mat-button class="default-button item" routerLink="/home" fragment="process" (click)="menuService.closeMenu('noAction')">O processo</a>
     <a mat-button class="default-button item" routerLink="/about" (click)="menuService.closeMenu('noAction')">Nossa história</a>

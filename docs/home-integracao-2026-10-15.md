@@ -37,3 +37,11 @@ corepack pnpm exec ng test --watch=false --browsers=ChromeHeadless --ts-config=t
 - `git diff --check`, inspeção de arquivos novos e verificação de indentação nas linhas adicionadas. Sem dependências, imagens ou lockfiles novos nesta integração.
 
 Documentação consultada para a versão 20: [ViewportScroller](https://v20.angular.dev/api/common/ViewportScroller) e [takeUntilDestroyed](https://v20.angular.dev/api/core/rxjs-interop/takeUntilDestroyed). Confirmaram os padrões existentes, sem necessidade de nova regra durável no AGENTS.md.
+
+## Refinamento do cabeçalho — 16/10/2026
+
+Continuação da home na branch `cabecalho`, baseada em `home-integracao` (9c116b8). Desktop: marca à esquerda, navegação centralizada com Peças em destaque e ações de conta/sacola à direita; margens laterais fluidas de 16 a 48 px. Até 900 px, navegação migra para a lateral, hambúrguer fica à esquerda e a marca permanece centralizada na tela, com conta e sacola à direita. Ícones de 24 px em controles de 44 × 44 px. Conta conserva login/perfil e nome acessível, sem rótulo visual no cabeçalho.
+
+Menu lateral em marfim/violeta, com links existentes, conteúdo oculto fora da tabulação, animação reduzida conforme preferência do sistema, Escape com retorno de foco e fechamento ao voltar ao desktop. `BreakpointObserver` do CDK instalado acompanha a mesma media query do Sass; sem nova dependência. Referência conferida: https://material.angular.dev/cdk/layout/overview.
+
+Validação: typecheck, build e sete testes direcionados de menu/login aprovados; `git diff --check` aprovado. Chrome nas larguras 320, 360, 440, 768, 900, 901, 1000 e 1440 px: centralização, ausência de sobreposição/overflow, controles de 44 px, menu, Escape, redimensionamento, link para Sobre e diálogo de login. Capturas desktop/mobile e menu conferidas. Avisos anteriores de budget (home/produto/bundle inicial) e CommonJS permanecem. Esta entrega não revalida autenticação com a API real nem a suíte completa, cujos bloqueios anteriores estão descritos acima.

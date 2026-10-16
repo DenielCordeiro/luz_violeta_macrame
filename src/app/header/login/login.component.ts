@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, Input } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,12 +12,13 @@ import { StartComponent } from './start/start.component';
 @Component({
     selector: 'app-login',
     standalone: true,
-    imports: [RouterLink, MatIconModule, MatButtonModule],
+    imports: [RouterLink, MatIconModule, MatButtonModule, NgTemplateOutlet],
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent {
     @Input() public showRegister = false;
+    @Input() public iconOnly = false;
     public readonly authService = inject(AuthService);
     public readonly menuService = inject(MenuService);
     private readonly dialog = inject(MatDialog);
