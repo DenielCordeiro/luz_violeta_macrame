@@ -31,6 +31,22 @@ describe('Account entry points', () => {
         localStorage.removeItem('session');
     });
 
+    it('keeps icon-only account controls named and updates the profile destination', () => {
+        const fixture = TestBed.createComponent(LoginComponent);
+        fixture.componentInstance.iconOnly = true;
+        fixture.detectChanges();
+        const button = fixture.nativeElement.querySelector('button');
+        expect(button.getAttribute('aria-label')).toBe('Entrar');
+        expect(button.querySelector('svg').getAttribute('aria-hidden')).toBe('true');
+        button.click();
+        expect(dialog.open).toHaveBeenCalled();
+        localStorage.setItem('session', JSON.stringify({ name: 'Cliente de teste' }));
+        closed.next();
+        fixture.detectChanges();
+        const link = fixture.nativeElement.querySelector('a');
+        expect(link.getAttribute('aria-label')).toBe('Minha conta');
+        expect(link.getAttribute('href')).toBe('/profile');
+    });
     it('offers login and registration to visitors', () => {
         const fixture = TestBed.createComponent(LoginComponent);
         fixture.componentInstance.showRegister = true;

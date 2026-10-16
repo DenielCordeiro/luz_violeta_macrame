@@ -6,47 +6,57 @@ import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
 import { MenuComponent } from './menu.component';
 
 @Component({
-  selector: 'app-desktop-menu',
-  standalone: true,
-  template: '',
+    selector: 'app-desktop-menu',
+    standalone: true,
+    template: '',
 })
 class DesktopMenuStubComponent {}
 
 describe('MenuComponent', () => {
-  let fixture: ComponentFixture<MenuComponent>;
+    let fixture: ComponentFixture<MenuComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [MenuComponent],
-      providers: [provideRouter([])],
-    })
-      .overrideComponent(MenuComponent, {
-        remove: { imports: [DesktopMenuComponent] },
-        add: { imports: [DesktopMenuStubComponent] },
-      })
-      .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MenuComponent],
+            providers: [provideRouter([])],
+        })
+            .overrideComponent(MenuComponent, {
+                remove: { imports: [DesktopMenuComponent] },
+                add: { imports: [DesktopMenuStubComponent] },
+            })
+            .compileComponents();
 
-    fixture = TestBed.createComponent(MenuComponent);
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(MenuComponent);
+        fixture.detectChanges();
+    });
 
-  it('expõe um botão acessível para abrir e fechar o menu', () => {
-    const button = fixture.nativeElement.querySelector('.menu-toggle') as HTMLButtonElement;
-    const sideMenu = fixture.nativeElement.querySelector('#side-menu') as HTMLElement;
+    it('expõe um botão acessível para abrir e fechar o menu', () => {
+        const button = fixture.nativeElement.querySelector('.menu-toggle') as HTMLButtonElement;
+        const sideMenu = fixture.nativeElement.querySelector('#side-menu') as HTMLElement;
 
-    expect(button.tagName).toBe('BUTTON');
-    expect(button.getAttribute('aria-label')).toBe('Abrir menu');
-    expect(button.getAttribute('aria-expanded')).toBe('false');
-    expect(sideMenu.getAttribute('aria-hidden')).toBe('true');
-    expect(sideMenu.inert).toBeTrue();
+        expect(button.tagName).toBe('BUTTON');
+        expect(button.getAttribute('aria-label')).toBe('Abrir menu');
+        expect(button.getAttribute('aria-expanded')).toBe('false');
+        expect(sideMenu.getAttribute('aria-hidden')).toBe('true');
+        expect(sideMenu.inert).toBeTrue();
 
-    button.click();
-    fixture.detectChanges();
+        button.click();
+        fixture.detectChanges();
 
-    expect(button.getAttribute('aria-label')).toBe('Fechar menu');
-    expect(button.getAttribute('aria-expanded')).toBe('true');
-    expect(sideMenu.classList).toContain('menu-open');
-    expect(sideMenu.getAttribute('aria-hidden')).toBe('false');
-    expect(sideMenu.inert).toBeFalse();
-  });
+        expect(button.getAttribute('aria-label')).toBe('Fechar menu');
+        expect(button.getAttribute('aria-expanded')).toBe('true');
+        expect(sideMenu.classList).toContain('menu-open');
+        expect(sideMenu.getAttribute('aria-hidden')).toBe('false');
+        expect(sideMenu.inert).toBeFalse();
+    });
+    it('closes with Escape and returns focus to the toggle', () => {
+        const button = fixture.nativeElement.querySelector('.menu-toggle') as HTMLButtonElement;
+        button.click();
+        fixture.detectChanges();
+        const focus = spyOn(button, 'focus');
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+        fixture.detectChanges();
+        expect(fixture.componentInstance.menuService.menuOpen()).toBeFalse();
+        expect(focus).toHaveBeenCalled();
+    });
 });

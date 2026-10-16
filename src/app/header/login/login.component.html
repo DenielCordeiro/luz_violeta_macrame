@@ -1,12 +1,26 @@
-@if (authService.profile()) {
-    <a mat-button routerLink="/profile" (click)="menuService.closeMenu('noAction')">
-        <mat-icon class="material-symbols-outlined">account_circle</mat-icon>Minha conta
-    </a>
+<ng-template #personIcon>
+    <svg class="person-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="7" r="4"></circle>
+        <path d="M3 22v-2a9 9 0 0 1 18 0v2"></path>
+    </svg>
+</ng-template>
+@if (iconOnly) {
+    @if (authService.profile()) {
+        <a mat-icon-button routerLink="/profile" aria-label="Minha conta" (click)="menuService.closeMenu('noAction')">
+            <ng-container [ngTemplateOutlet]="personIcon"></ng-container>
+        </a>
+    } @else {
+        <button mat-icon-button type="button" aria-label="Entrar" (click)="loginDialog()">
+            <ng-container [ngTemplateOutlet]="personIcon"></ng-container>
+        </button>
+    }
 } @else {
-    <button mat-button type="button" (click)="loginDialog()">
-        <mat-icon class="material-symbols-outlined">login</mat-icon>Entrar
-    </button>
-    @if (showRegister) {
-        <a mat-button routerLink="/register" (click)="menuService.closeMenu('noAction')">Criar conta</a>
+    @if (authService.profile()) {
+        <a mat-button routerLink="/profile" (click)="menuService.closeMenu('noAction')">Minha conta</a>
+    } @else {
+        <button mat-button type="button" (click)="loginDialog()">Entrar</button>
+        @if (showRegister) {
+            <a mat-button routerLink="/register" (click)="menuService.closeMenu('noAction')">Criar conta</a>
+        }
     }
 }
