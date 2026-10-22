@@ -1,16 +1,78 @@
-.rating,
-.filled-stars,
-.stars,
-.creator-name
-  display: inline-flex
-  align-items: center
+@use '../../assets/sass/colors'
 
-.rating mat-icon
-  font-size: 1.25rem
-  width: 1.25rem
-  height: 1.25rem
+:host
+	display: block
+	background: #e5dfd6
+	color: #49433e
 
-.creator-name mat-icon
-  font-size: 1rem
-  width: 1rem
-  height: 1rem
+.footer-wrap
+	max-width: 1160px
+	margin: auto
+	padding: 56px 32px 24px
+
+	.footer-main
+		display: grid
+		grid-template-columns: 2fr 1fr 1fr
+		gap: 40px
+
+		.brand
+			font-family: Georgia, 'Times New Roman', serif
+			font-size: 2rem
+			text-decoration: none
+			color: colors.$brand-violet
+
+			span
+				display: block
+				text-transform: uppercase
+				letter-spacing: .3em
+				font-size: .65rem
+				margin-top: 8px
+
+		p, nav a
+			font-size: .85rem
+			line-height: 1.9
+
+		p
+			margin-top: 20px
+
+		h2
+			font-size: .75rem
+			font-weight: 600
+			color: colors.$brand-violet
+			margin-bottom: 20px
+
+		nav a
+			display: block
+			color: #49433e
+			text-decoration: none
+			padding-block: 4px
+
+		a:hover
+			text-decoration: underline
+
+		a:focus-visible
+			outline: 3px solid colors.$brand-violet
+			outline-offset: 4px
+
+	.footer-bottom
+		display: flex
+		justify-content: space-between
+		gap: 16px
+		border-top: 1px solid colors.$brand-stone
+		margin-top: 44px
+		padding-top: 24px
+		font-size: .7rem
+
+	@media (max-width: 600px)
+		.footer-wrap
+			padding-inline: 24px
+
+		.footer-main
+			grid-template-columns: 1fr 1fr
+			gap: 32px 20px
+
+		.brand-block
+			grid-column: span 2
+
+		.footer-bottom
+			flex-direction: column
