@@ -1,7 +1,24 @@
-<app-menu></app-menu>
+<div class="header-desktop">
+    <div class="login"></div>
+    
+    <div class="pages"></div>
 
-<header>
-    <div class="menu"></div>
+    <div class="cart">
+         <mat-icon class="material-symbols-outlined" routerLink="/cart">shopping_cart</mat-icon>
+
+         @if (this.productsQuantity != 0) {
+            <div class="productsQuantity">
+                <span>{{ this.productsQuantity }}</span>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="header-mobile">
+    <div class="menu">
+        <app-menu></app-menu>
+    </div>
 
     <div class="title">
         <span>LV</span>
@@ -16,4 +33,4 @@
             </div>
         }
     </div>
-</header>
+</div>
