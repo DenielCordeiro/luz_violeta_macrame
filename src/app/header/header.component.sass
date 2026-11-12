@@ -10,7 +10,7 @@
     @include display.mobile
         display: inline
 
-.header-desktop
+#header-desktop
     display: inline
 
     @include display.hd
@@ -18,3 +18,35 @@
 
     @include display.mobile
         display: none
+
+    .header-content
+        height: 10dvh
+        display: flex
+        align-items: center
+        justify-content: center
+
+
+    .login
+        cursor: pointer
+
+    .pages
+        display: flex
+        align-items: center
+        gap: 20px
+
+        div
+            margin-right: 7vw
+
+        span
+            text-decoration: none
+            cursor: pointer
+            font-size: 16px
+            font-weight: 500
+            transition: color 0.3s ease
+
+            &:hover
+                color: colors.$pourple
+    
+    .cart
+        cursor: pointer
+

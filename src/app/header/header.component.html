@@ -1,18 +1,33 @@
-<div class="header-desktop">
-    <div class="login"></div>
-    
-    <div class="pages"></div>
-
-    <div class="cart">
-         <mat-icon class="material-symbols-outlined" routerLink="/cart">shopping_cart</mat-icon>
-
-         @if (this.productsQuantity != 0) {
-            <div class="productsQuantity">
-                <span>{{ this.productsQuantity }}</span>
+<section id="header-desktop">
+    <div class="header-content">       
+        <div class="pages">
+            <div class="login">
+                <app-login></app-login>
             </div>
-        }
+            <div class="home" routerLink="/home">
+                <span>Início</span>
+            </div>
+
+            <div class="products" routerLink="/products">
+                <span>Produtos</span>
+            </div>
+
+            <div class="about" routerLink="/about">
+                <span>Sobre</span>
+            </div>
+        </div>
+
+        <div class="cart">
+            <mat-icon class="material-symbols-outlined" routerLink="/cart">shopping_cart</mat-icon>
+
+            @if (this.productsQuantity != 0) {
+                <div class="productsQuantity">
+                    <span>{{ this.productsQuantity }}</span>
+                </div>
+            }
+        </div>
     </div>
-</div>
+</section>
 
 
 <div class="header-mobile">

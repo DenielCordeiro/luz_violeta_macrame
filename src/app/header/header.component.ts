@@ -9,7 +9,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { Product } from '../interfaces/product.interface';
 import { User } from '../interfaces/user.interface';
 import { CartService } from '../services/cart/cart.service';
+
 import { MenuComponent } from './menu/menu.component';
+import { LoginComponent } from './login/login.component';
 
 @Component({
 	selector: 'app-header',
@@ -19,7 +21,8 @@ import { MenuComponent } from './menu/menu.component';
 		MatIconModule,
 		MatButtonModule,
 		RouterModule,
-		MenuComponent
+		MenuComponent,
+		LoginComponent,
 	],
 	templateUrl: './header.component.html',
 	styleUrls: ['./header.component.sass'],

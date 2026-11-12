@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuService } from 'src/app/services/menu/menu.service';
-import { DesktopMenuComponent } from './desktop-menu/desktop-menu.component';
+import { MobileMenuComponent } from './mobile/mobile-menu.component';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
   imports: [
-    DesktopMenuComponent,
+    MobileMenuComponent,
     MatButtonModule,
   ],
   templateUrl: './menu.component.html',

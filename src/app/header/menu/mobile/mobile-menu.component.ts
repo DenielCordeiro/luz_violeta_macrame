@@ -10,17 +10,17 @@ import { LoginComponent } from '../../login/login.component';
 
 
 @Component({
-    selector: 'app-desktop-menu',
+    selector: 'app-mobile-menu',
     standalone: true,
     imports: [
         LoginComponent,
         MatIconModule,
         MatButtonModule,
     ],
-    templateUrl: './desktop-menu.component.html',
-    styleUrls: ['./desktop-menu.component.sass'],
+    templateUrl: './mobile-menu.component.html',
+    styleUrls: ['./mobile-menu.component.sass'],
 })
-export class DesktopMenuComponent {
+export class MobileMenuComponent {
     authService: AuthService = inject(AuthService);
     menuService: MenuService = inject(MenuService);
     isOpen: boolean = false;
